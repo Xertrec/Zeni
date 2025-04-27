@@ -1,15 +1,11 @@
 package com.zeni.settings.presentation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.*
@@ -18,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,12 +39,12 @@ fun AboutScreen(navController: NavHostController) {
         listOf(
             DevsInfo(
                 name = context.getString(R.string.developer1_name),
-                image = R.raw.berto_image,
+                image = R.raw.alberto_image,
                 github = context.getString(R.string.developer1_github)
             ),
             DevsInfo(
                 name = context.getString(R.string.developer2_name),
-                image = R.raw.alex_image,
+                image = R.raw.may_image,
                 github = context.getString(R.string.developer2_github)
             )
         )

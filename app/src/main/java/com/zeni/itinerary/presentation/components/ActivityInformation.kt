@@ -122,11 +122,18 @@ fun ActivityInformation(
                     val minutes = duration.toMinutes() % 60
 
                     val timeRemaining = when {
+                        hours > 0 && minutes.toInt() == 1 -> {
+                            pluralStringResource(
+                                id = R.plurals.time_remaining_hour_one_minute,
+                                count = hours.toInt(),
+                                hours, minutes
+                            )
+                        }
                         hours > 0 -> {
                             pluralStringResource(
                                 id = R.plurals.time_remaining_hours,
                                 count = hours.toInt(),
-                                hours
+                                hours, minutes
                             )
                         }
                         else -> {
@@ -137,6 +144,7 @@ fun ActivityInformation(
                             )
                         }
                     }
+
 
                     Text(
                         text = timeRemaining,

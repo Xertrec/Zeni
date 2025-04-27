@@ -117,19 +117,23 @@ private fun TopBar(pagerState: PagerState) {
         }
     }
 
+    val isTripSelected = currentScreen == Screen.Trips
+    val isItinerarySelected = currentScreen == Screen.Itinerary
     TopAppBar(
         title = {
             Text(text = stringResource(currentScreen.top))
         },
         actions = {
-            // Search icon
-            IconButton(
-                onClick = { /*TODO()*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null
-                )
+            if(isTripSelected || isItinerarySelected){
+                // Search icon
+                IconButton(
+                    onClick = { /*TODO()*/ }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null
+                    )
+                }
             }
         }
     )

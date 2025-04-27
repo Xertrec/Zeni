@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.zeni.auth.presentation.register.components.RegisterViewModel
 import com.zeni.core.presentation.navigation.NavGraph
 import com.zeni.core.presentation.navigation.ScreenInitial
+import com.zeni.core.presentation.navigation.ScreenLogin
 import com.zeni.core.presentation.theme.ZeniTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking

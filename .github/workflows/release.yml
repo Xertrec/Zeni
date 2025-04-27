@@ -1,22 +1,22 @@
-name: Create release
+name: Release
 
+# When the workflow will run
 on:
   push:
     tags:
-      - "v*"
+    - 'v*'
 
-permissions:
-  contents: write
-
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
-    name: Release pushed tag
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+
     steps:
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
+          
         run: |
           gh release create "$tag" \
               --repo="$GITHUB_REPOSITORY" \
