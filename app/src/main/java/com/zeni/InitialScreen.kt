@@ -98,7 +98,10 @@ fun InitialScreen(
                     )
                 }
                 Screen.More.ordinal -> {
-                    MoreScreen(navController = navController)
+                    MoreScreen(
+                        viewModel = hiltViewModel(),
+                        navController = navController
+                    )
                 }
             }
         }

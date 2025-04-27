@@ -13,12 +13,16 @@ import com.zeni.auth.presentation.login.LoginScreen
 import com.zeni.auth.presentation.login.components.LoginViewModel
 import com.zeni.auth.presentation.register.RegisterScreen
 import com.zeni.auth.presentation.register.components.RegisterViewModel
+import com.zeni.auth.presentation.verifyEmail.VerifyEmailScreen
+import com.zeni.auth.presentation.verifyEmail.components.VerifyEmailViewModel
 import com.zeni.itinerary.presentation.UpsertItineraryScreen
 import com.zeni.itinerary.presentation.components.UpsertActivityViewModel
 import com.zeni.settings.presentation.ProfileScreen
 import com.zeni.settings.presentation.AboutScreen
+import com.zeni.settings.presentation.ChangePasswordScreen
 import com.zeni.settings.presentation.SettingsScreen
 import com.zeni.settings.presentation.TermsScreen
+import com.zeni.settings.presentation.components.ChangePasswordViewModel
 import com.zeni.settings.presentation.components.ProfileViewModel
 import com.zeni.settings.presentation.components.SettingsViewModel
 import com.zeni.trip.presentation.UpsertTripScreen
@@ -50,6 +54,14 @@ fun NavGraph(
             val viewModel = hiltViewModel<LoginViewModel>()
 
             LoginScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable<ScreenVerifyEmail> {
+            val viewModel = hiltViewModel<VerifyEmailViewModel>()
+
+            VerifyEmailScreen(
                 viewModel = viewModel,
                 navController = navController
             )
@@ -134,6 +146,14 @@ fun NavGraph(
             val viewModel = hiltViewModel<SettingsViewModel>()
 
             SettingsScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable<ScreenChangePassword> {
+            val viewModel = hiltViewModel<ChangePasswordViewModel>()
+
+            ChangePasswordScreen(
                 viewModel = viewModel,
                 navController = navController
             )

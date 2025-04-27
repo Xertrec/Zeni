@@ -7,5 +7,6 @@ data class Activity(
     val tripName: String,
     val title: String,
     val description: String,
-    val dateTime: ZonedDateTime
+    val dateTime: ZonedDateTime,
+    val userOwner: String
 )

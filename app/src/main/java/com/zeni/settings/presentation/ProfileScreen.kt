@@ -20,9 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zeni.R
 import com.zeni.core.domain.utils.extensions.navigateBack
+import com.zeni.core.presentation.navigation.ScreenLogin
 import com.zeni.settings.presentation.components.ProfileViewModel
 import com.zeni.settings.presentation.components.SettingsViewModel
 
@@ -41,13 +43,13 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .padding(contentPadding),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Button(
                     onClick = { /*todo*/ },
                     shape = RoundedCornerShape(25)

@@ -28,6 +28,10 @@ object RoomModule {
 
     @Provides
     @Singleton
+    fun provideUserDao(db: TripsDatabase) = db.userDao()
+
+    @Provides
+    @Singleton
     fun provideTripDao(db: TripsDatabase) = db.tripDao()
 
     @Provides

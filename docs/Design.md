@@ -11,12 +11,21 @@ This helps in organizing the code and making it more maintainable and reusable.
 The Model represents the data and business logic of the application. It is responsible for managing the data, whether it is from a local database or a remote server.
 
 **Entities:**
+- **User**
+  - `uid`: `String` - Unique identifier for the user.
+  - `email`: `String` - Email of the user.
+  - `phone`: `String` - Phone number of the user.
+  - `username`: `String` - Username of the user.
+  - `birthdate`: `ZonedDateTime` - Birthdate of the user.
+  - `address`: `String` - Address of the user.
+  - `country`: `String` - Country of the user.
+
 - **Trip**
   - `name`: `String` - Unique identifier for the trip.
   - `destination`: `String` - Destination of the trip.
   - `startDate`: `ZonedDateTime` - Start date of the trip.
   - `endDate`: `ZonedDateTime` - End date of the trip.
-  - `itinerary`: `List<Activity>` - List of activities that form a Itinerary for the trip.
+  - `itinerary`: `List<Activity>` - List of activities that form an Itinerary for the trip.
   - `images`: `List<Image>` - List of images for the trip.
 
 - **Activity**
@@ -46,7 +55,7 @@ The ViewModel acts as a bridge between the Model and the View. It holds the data
 - Managing the state of the UI components.
 
 ### Relationships
-- A `User` can have multiple `Trip`s.
+- A `User` can have multiple `Trip`s with their respective `Activity`s.
 - A `Trip` can have multiple `Activity`s.
 - A `Trip` can have multiple `Image`s.
 
@@ -55,6 +64,18 @@ The ViewModel acts as a bridge between the Model and the View. It holds the data
 classDiagram
 Trip --> Image
 Trip --> Activity
+User --> Trip
+User --> Activity
+
+class User {
+    String uid
+    String email
+    String phone
+    String username
+    ZonedDateTime birthdate
+    String address
+    String country
+}
 
 class Trip {
     String name
@@ -87,12 +108,23 @@ class Activity {
 ### Mermaid diagram
 ```mermaid
 classDiagram
+class user_table {
+    uid TEXT NOT NULL PRIMARY KEY
+    email TEXT NOT NULL
+    phone TEXT NOT NULL
+    username TEXT NOT NULL
+    birthdate INTEGER NOT NULL
+    address TEXT NOT NULL
+    country TEXT NOT NULL
+}
+
 class trip_table {
     name TEXT NOT NULL PRIMARY KEY
     destination TEXT NOT NULL
     start_date INTEGER NOT NULL
     end_date INTEGER NOT NULL
     cover_image_id INTEGER
+    user_owner TEXT NOT NULL
 }
 
 class trip_images_table {
@@ -108,14 +140,27 @@ class activity_table {
     title TEXT NOT NULL
     description TEXT NOT NULL
     date_time INTEGER NOT NULL
+    user_owner TEXT NOT NULL
 }
-
-trip_table "1" --o "*" trip_images_table : has
-trip_table "1" --o "*" activity_table : has
 ```
 
 
 ### SQL table creation
+
+ - user_table
+```
+  CREATE TABLE IF NOT EXISTS `trip_table`(
+      `name` TEXT NOT NULL,
+      `destination` TEXT NOT NULL,
+      `start_date` INTEGER NOT NULL,
+      `end_date` INTEGER NOT NULL,
+      `cover_image_id` INTEGER,
+      `user_owner` TEXT NOT NULL,
+      PRIMARY KEY(`name`),
+      FOREIGN KEY(`cover_image_id`) REFERENCES `trip_images_table`(`id`) ON DELETE SET NULL,
+      FOREIGN KEY(`user_owner`) REFERENCES `user_table`(`uid`) ON DELETE CASCADE
+  )
+```
 
  - trip_table
 ```
@@ -125,7 +170,9 @@ CREATE TABLE IF NOT EXISTS trip_table (
     start_date INTEGER NOT NULL,
     end_date INTEGER NOT NULL,
     cover_image_id INTEGER,
-    FOREIGN KEY(cover_image_id) REFERENCES trip_images_table(id) ON UPDATE NO ACTION ON DELETE SET NULL
+    user_owner TEXT NOT NULL,
+    FOREIGN KEY(cover_image_id) REFERENCES trip_images_table(id) ON UPDATE NO ACTION ON DELETE SET NULL,
+    FOREIGN KEY(user_owner) REFERENCES user_table(uid) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 ```
  - trip_images_table
@@ -147,7 +194,9 @@ CREATE TABLE IF NOT EXISTS activity_table (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     date_time INTEGER NOT NULL,
-    FOREIGN KEY(trip_name) REFERENCES trip_table(name) ON UPDATE NO ACTION ON DELETE CASCADE
+    user_owner TEXT NOT NULL,
+    FOREIGN KEY(trip_name) REFERENCES trip_table(name) ON UPDATE NO ACTION ON DELETE CASCADE,
+    FOREIGN KEY(user_owner) REFERENCES user_table(uid) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS index_activity_table_trip_name ON activity_table (trip_name);
 ```

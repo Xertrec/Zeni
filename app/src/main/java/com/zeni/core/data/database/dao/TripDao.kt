@@ -13,15 +13,24 @@ import kotlinx.coroutines.flow.Flow
 interface TripDao {
 
     @Transaction
-    @Query("SELECT * FROM trip_table ORDER BY start_date ASC")
-    fun getTrips(): Flow<List<TripRelation>>
+    @Query("""
+        SELECT * FROM trip_table 
+        WHERE user_owner = :ownerUid
+        ORDER BY start_date ASC
+    """)
+    fun getTrips(ownerUid: String): Flow<List<TripRelation>>
 
     @Transaction
     @Query("SELECT * FROM trip_table WHERE name = :tripName")
     fun getTrip(tripName: String): Flow<TripRelation>
 
-    @Query("SELECT EXISTS(SELECT 1 FROM trip_table WHERE name = :tripName)")
-    suspend fun existsTrip(tripName: String): Boolean
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 FROM trip_table 
+            WHERE name = :tripName AND user_owner = :ownerUid
+        )
+    """)
+    suspend fun existsTrip(tripName: String, ownerUid: String): Boolean
 
     @Upsert
     suspend fun addTrip(trip: TripEntity)

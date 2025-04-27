@@ -5,6 +5,7 @@ import com.zeni.core.data.mappers.toDomain
 import com.zeni.core.data.mappers.toEntity
 import com.zeni.core.domain.model.Trip
 import com.zeni.core.domain.repository.TripRepository
+import com.zeni.core.domain.utils.Authenticator
 import com.zeni.core.util.DatabaseLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -13,13 +14,14 @@ import javax.inject.Singleton
 
 @Singleton
 class TripRepositoryImpl @Inject constructor(
-    private val tripDao: TripDao
+    private val tripDao: TripDao,
+    private val authenticator: Authenticator
 ): TripRepository {
 
     override fun getTrips(): Flow<List<Trip>> {
         DatabaseLogger.dbOperation("Getting all trips from database")
         return try {
-            val tripsFlow = tripDao.getTrips()
+            val tripsFlow = tripDao.getTrips(authenticator.uid)
                 .map { trips -> trips.map { it.toDomain() } }
             DatabaseLogger.dbOperation("Trips retrieved successfully")
 
@@ -47,7 +49,7 @@ class TripRepositoryImpl @Inject constructor(
     override suspend fun addTrip(trip: Trip) {
         DatabaseLogger.dbOperation("Adding trip to ${trip.destination}")
         return try {
-            tripDao.addTrip(trip.toEntity())
+            tripDao.addTrip(trip.copy(userOwner = authenticator.uid).toEntity())
             DatabaseLogger.dbOperation("Trip added successfully")
         } catch (e: Exception) {
             DatabaseLogger.dbError("Error adding trip: ${e.message}", e)
@@ -58,7 +60,7 @@ class TripRepositoryImpl @Inject constructor(
     override suspend fun existsTrip(tripName: String): Boolean {
         DatabaseLogger.dbOperation("Checking if trip $tripName exists")
         return try {
-            tripDao.existsTrip(tripName)
+            tripDao.existsTrip(tripName, authenticator.uid)
         } catch (e: Exception) {
             DatabaseLogger.dbError("Error checking if trip exists: ${e.message}", e)
             throw e

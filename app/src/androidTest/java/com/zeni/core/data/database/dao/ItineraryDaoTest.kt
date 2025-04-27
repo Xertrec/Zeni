@@ -3,6 +3,7 @@ package com.zeni.core.data.database.dao
 import androidx.test.filters.SmallTest
 import com.zeni.core.data.database.entities.ActivityEntity
 import com.zeni.core.data.database.entities.TripEntity
+import com.zeni.core.data.database.entities.UserEntity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
@@ -21,17 +22,31 @@ class ItineraryDaoTest {
     val hiltRule = HiltAndroidRule(this)
 
     @Inject
+    lateinit var userDao: UserDao
+
+    @Inject
     lateinit var tripDao: TripDao
 
     @Inject
     lateinit var itineraryDao: ItineraryDao
 
+    var userUid = "test_user"
     var tripName = "Test Trip"
 
     @Before
     fun setup() {
         runBlocking {
             hiltRule.inject()
+
+            val user = UserEntity(
+                uid = userUid,
+                email = "",
+                phone = "",
+                username = "Test User",
+                birthdate = ZonedDateTime.now(),
+                address = "",
+                country = "",
+            )
 
             val trip = TripEntity(
                 name = tripName,
@@ -46,9 +61,11 @@ class ItineraryDaoTest {
                     0, 0, 0, 0,
                     ZonedDateTime.now().zone
                 ),
-                coverImageId = null
+                coverImageId = null,
+                userOwner = user.uid
             )
 
+            userDao.upsertUser(user)
             tripDao.addTrip(trip)
         }
     }
@@ -64,7 +81,8 @@ class ItineraryDaoTest {
                 2022, 1, 1,
                 0, 0, 0, 0,
                 ZonedDateTime.now().zone
-            )
+            ),
+            userOwner = userUid
         )
 
         val itineraryId = itineraryDao.addActivity(activity)
@@ -82,7 +100,8 @@ class ItineraryDaoTest {
                 2022, 1, 1,
                 0, 0, 0, 0,
                 ZonedDateTime.now().zone
-            )
+            ),
+            userOwner = userUid
         )
 
         val itineraryId = itineraryDao.addActivity(activity)
@@ -106,7 +125,8 @@ class ItineraryDaoTest {
                 2022, 1, 1,
                 0, 0, 0, 0,
                 ZonedDateTime.now().zone
-            )
+            ),
+            userOwner = userUid
         )
 
         val activityId = itineraryDao.addActivity(activity)

@@ -5,6 +5,7 @@ import com.zeni.core.data.mappers.toDomain
 import com.zeni.core.data.mappers.toEntity
 import com.zeni.core.domain.model.Activity
 import com.zeni.core.domain.repository.ItineraryRepository
+import com.zeni.core.domain.utils.Authenticator
 import com.zeni.core.util.DatabaseLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,13 +16,14 @@ import javax.inject.Singleton
 
 @Singleton
 class ItineraryRepositoryImpl @Inject constructor(
-    private val itineraryDao: ItineraryDao
+    private val itineraryDao: ItineraryDao,
+    private val authenticator: Authenticator,
 ): ItineraryRepository {
 
     override fun getActivitiesByTrip(tripName: String): Flow<List<Activity>> {
         DatabaseLogger.dbOperation("Getting activities for trip $tripName")
         return try {
-            val activitiesFlow = itineraryDao.getActivitiesByTrip(tripName)
+            val activitiesFlow = itineraryDao.getActivitiesByTrip(tripName, authenticator.uid)
                 .map { activities -> activities.map { it.toDomain() } }
             DatabaseLogger.dbOperation("Activities retrieved successfully")
 
@@ -39,7 +41,7 @@ class ItineraryRepositoryImpl @Inject constructor(
                 .toInstant().toEpochMilli()
             val endDateTime = date.withHour(23).withMinute(59).withSecond(59).withNano(999999999)
                 .toInstant().toEpochMilli()
-            val activitiesFlow = itineraryDao.getActivitiesByDate(startDateTime, endDateTime)
+            val activitiesFlow = itineraryDao.getActivitiesByDate(startDateTime, endDateTime, authenticator.uid)
                 .map { activities -> activities.map { it.toDomain() } }
             DatabaseLogger.dbOperation("Activities retrieved successfully")
 
@@ -80,7 +82,7 @@ class ItineraryRepositoryImpl @Inject constructor(
     override suspend fun existsActivity(tripName: String, activityId: Long): Boolean {
         DatabaseLogger.dbOperation("Checking if activity with id $activityId exists for trip $tripName")
         return try {
-            itineraryDao.existsActivity(tripName, activityId)
+            itineraryDao.existsActivity(tripName, activityId, authenticator.uid)
         } catch (e: Exception) {
             DatabaseLogger.dbError("Error checking if activity exists: ${e.message}", e)
             throw e

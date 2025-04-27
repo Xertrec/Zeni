@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Zeni</string>
     <string name="app_version_prefix">"Version "</string>
+
+    <string name="register_title">Créer un compte</string>
+    <string name="register_email_field_label">Adresse e-mail</string>
+    <string name="register_email_empty_error">L\'adresse e-mail ne peut pas être vide</string>
+    <string name="register_email_invalid_error">L\'adresse e-mail est invalide</string>
+    <string name="register_email_taken_error">L\'adresse e-mail est déjà enregistrée</string>
+    <string name="register_phone_field_label">Numéro de téléphone</string>
+    <string name="register_phone_empty_error">Le numéro de téléphone ne peut pas être vide</string>
+    <string name="register_phone_invalid_error">Le numéro de téléphone est invalide</string>
+    <string name="register_phone_taken_error">Le numéro de téléphone est déjà enregistré</string>
+    <string name="register_username_field_label">Nom d\'utilisateur</string>
+    <string name="register_username_empty_error">Le nom d\'utilisateur ne peut pas être vide</string>
+    <string name="register_username_taken_error">Le nom d\'utilisateur est déjà enregistré</string>
+    <string name="register_birthdate_field_label">Date de naissance</string>
+    <string name="register_birthdate_field_text">Date de naissance : %s</string>
+    <string name="register_birthdate_empty_error">La date de naissance ne peut pas être vide</string>
+    <string name="register_birthdate_invalid_error">La date de naissance ne peut pas être postérieure à aujourd\'hui</string>
+    <string name="register_address_field_label">Adresse</string>
+    <string name="register_address_empty_error">L\'adresse ne peut pas être vide</string>
+    <string name="register_country_field_label">Pays</string>
+    <string name="register_country_empty_error">Le pays ne peut pas être vide</string>
+    <string name="register_password_empty_error">Le mot de passe ne peut pas être vide</string>
+    <string name="register_password_short_error">Le mot de passe est trop court, le minimum de caractères est %d</string>
+    <string name="register_password_insecure_error">Le mot de passe n\'est pas sécurisé</string>
+    <string name="register_next_btn">Suivant</string>
+    <string name="register_btn">S\'inscrire</string>
+    <string name="i_have_account">Déjà un compte ?</string>
+    <string name="i_have_not_account">Pas encore de compte ?</string>
+
+    <string name="verify_email_title">Vérifiez votre adresse e-mail</string>
+    <string name="verify_email_explanation">Pour accéder à Zeni, vérifiez votre adresse e-mail dans votre application de messagerie</string>
+    <string name="open_email_btn">Ouvrir l\'e-mail</string>
 
     <!--    Écran de connexion -->
     <string name="login_title">Se connecter</string>
-    <string name="login_user">Utilisateur</string>
-    <string name="login_pass">Mot de passe</string>
+    <string name="login_user_field_label">Utilisateur</string>
     <string name="login_btn">Connexion</string>
 
     <!--    Boîte de dialogue d\'alerte -->
@@ -16,7 +46,6 @@
 
     <!-- Chaînes pour l\'écran d\'accueil -->
     <string name="home_title">Accueil</string>
-    <string name="home_sample" translatable="false">Home Screen</string>
 
     <!--  Écran des voyages  -->
     <string name="trips_title">Voyages</string>
@@ -27,6 +56,7 @@
     <!--  Écran d\'ajout/modification de voyage  -->
     <string name="add_trip_title">Ajouter un voyage</string>
     <string name="editing_trip_title">Modifier le voyage</string>
+    <string name="name_text_label">Nom</string>
     <string name="destination_text_label">Destination</string>
     <string name="select_start_date_text_label">Date de début</string>
     <string name="select_start_date_text">Date de début: %s</string>
@@ -35,6 +65,7 @@
     <string name="add_trip_button">Créer voyage</string>
     <string name="save_trip_button">Mettre à jour</string>
     <string name="delete_trip_button">Supprimer</string>
+    <string name="error_creating_trip_name_empty">Le champ nom ne peut pas être vide</string>
     <string name="error_creating_trip_destination_empty">
         Le champ de destination ne peut pas être vide
     </string>
@@ -44,6 +75,7 @@
     <string name="error_creating_trip_end_empty">
         La date de fin ne peut pas être vide
     </string>
+    <string name="error_creating_trip_name_already_exists">Le nom du voyage existe déjà</string>
     <string name="error_creating_trip_start_and_end_empty">
         Les dates de début et de fin sont obligatoires
     </string>
@@ -68,6 +100,7 @@
     <string name="trip_title">Voyage à %s</string>
     <string name="edit_trip">Modifier</string>
     <string name="add_activity">Ajouter activité</string>
+    <string name="trip_name">Nom: %s</string>
     <string name="trip_destiny">Destination: %s</string>
     <string name="trip_start_date">Date de début: %s</string>
     <string name="trip_end_date">Date de fin: %s</string>
@@ -77,15 +110,14 @@
         Créez une activité pour votre voyage à %s
     </string>
     <string name="trip_activity_name">Nom: %s</string>
+    <string name="trip_activity_trip_name">Fait partie de votre voyage : %s</string>
     <string name="trip_activity_description">Description: %s</string>
     <string name="trip_activity_date">Date: %s</string>
     <string name="trip_activity_time">Heure: %s</string>
-    <string name="trip_sample" translatable="false">Trip %s</string>
 
     <!-- Écran d\'itinéraire -->
     <string name="itinerary_title">Itinéraire du jour</string>
     <string name="itinerary_tab_text">Itinéraire</string>
-    <string name="itinerary_sample" translatable="false">Itinerary %s</string>
     <string name="edit_itinerary">Modifier</string>
     <string name="itinerary_activity_name">Nom</string>
     <string name="itinerary_activity_description">Description</string>
@@ -139,6 +171,8 @@
     </string>
 
     <!-- Écran Paramètres -->
+    <string name="change_password_current_password_not_match">Le mot de passe ne correspond pas à celui du compte</string>
+    <string name="change_password_new_password">Nouveau mot de passe</string>
     <string name="settings_title">Paramètres</string>
     <string name="settings_language">Langue</string>
     <string name="settings_language_selected">Langue: %s</string>
@@ -152,13 +186,14 @@
     <string name="dark_mode">Mode sombre</string>
 
     <!-- Informations développeurs -->
+    <string name="log_out_btn">Se déconnecter</string>
     <string name="developers_title">Développeurs:</string>
-    <string name="developer1_name" translatable="false">Alberto Martino</string>
-    <string name="developer1_github" translatable="false">https://github.com/xBlanco</string>
-    <string name="developer2_name" translatable="false">Alex Lillo</string>
-    <string name="developer2_github" translatable="false">https://github.com/Xertrec</string>
 
     <!-- Autres -->
     <string name="accept_button">Accepter</string>
     <string name="cancel_button">Annuler</string>
+    <string name="password_field_label">Mot de passe</string>
+    <string name="change_password_title">Changer le mot de passe</string>
+    <string name="change_password_email_not_match">L\\\'adresse e-mail ne correspond pas à celle du compte</string>
+    <string name="change_password_current_password">Mot de passe</string>
 </resources>

@@ -183,7 +183,8 @@ class UpsertActivityViewModel @AssistedInject constructor(
                 tripName = tripName,
                 title = title.value,
                 description = description.value,
-                dateTime = dateTime.value!!
+                dateTime = dateTime.value!!,
+                userOwner = trip.value!!.userOwner
             )
         )
 

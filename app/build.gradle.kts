@@ -2,12 +2,16 @@ import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.android.hilt)
+
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    id("kotlin-kapt")
-    alias(libs.plugins.android.hilt)
+
+    alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+
+    alias(libs.plugins.google.play.services)
 }
 
 android {
@@ -17,9 +21,9 @@ android {
     defaultConfig {
         applicationId = "com.zeni"
         minSdk = 27
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
-        versionName = "0.3.0"
+        versionName = "0.4.0"
 
         testInstrumentationRunner = "com.zeni.HiltTestRunner"
 
@@ -68,21 +72,13 @@ android {
 
 dependencies {
 
+    // Kotlin dependencies
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.coil.compose)
     implementation (libs.androidx.datastore.preferences)
-
-    // ROOM dependencies
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.runtime)
-    kapt(libs.androidx.room.compiler)
-    androidTestImplementation(libs.androidx.room.ktx)
-    androidTestImplementation(libs.androidx.room.runtime)
-    androidTestImplementation(libs.androidx.room.testing)
-    kaptAndroidTest(libs.androidx.room.compiler)
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
@@ -104,15 +100,23 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // Hilt dependencies
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     androidTestImplementation(libs.hilt.android.testing)
-    kaptAndroidTest(libs.hilt.compiler)
-}
+    kspAndroidTest(libs.hilt.compiler)
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}
+    // ROOM dependencies
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    androidTestImplementation(libs.androidx.room.ktx)
+    androidTestImplementation(libs.androidx.room.runtime)
+    androidTestImplementation(libs.androidx.room.testing)
+    kspAndroidTest(libs.androidx.room.compiler)
 
+    // Firebase dependencies
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+}

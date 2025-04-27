@@ -17,7 +17,7 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
     val username: StateFlow<String>
-        field = MutableStateFlow(value = "")
+        field = MutableStateFlow(value = DefaultCredentials.USERNAME)
     fun setUsername(value: String) {
         viewModelScope.launch {
             username.emit(value)
@@ -26,7 +26,7 @@ class LoginViewModel @Inject constructor(
     }
 
     val password: StateFlow<String>
-        field = MutableStateFlow(value = "")
+        field = MutableStateFlow(value = DefaultCredentials.PASSWORD)
     fun setPassword(value: String) {
         viewModelScope.launch {
             password.emit(value)
@@ -36,24 +36,17 @@ class LoginViewModel @Inject constructor(
 
     val loginError: StateFlow<LoginErrors?>
         field = MutableStateFlow(value = null)
-    fun login(): Boolean {
+    suspend fun login(): Boolean {
         // TODO: Move to a use case
         Log.i(LoginViewModel::class.java.simpleName, "Login attempt with username: ${username.value}")
-        return verifyCredentials()
-    }
-    fun verifyCredentials(): Boolean {
-        // TODO: Implement a real authentication mechanism with backend
-        val isValidCredentials = username.value == DefaultCredentials.USERNAME &&
-                password.value == DefaultCredentials.PASSWORD
-
-        // TODO: Plan if needed to show exactly where is the error
-        if (!isValidCredentials) {
+        val isLogged = loginUseCase(username.value, password.value)
+        if (!isLogged) {
             viewModelScope.launch {
                 loginError.emit(LoginErrors.INVALID_CREDENTIALS)
             }
         }
 
-        return isValidCredentials
+        return isLogged
     }
 
     private object DefaultCredentials {

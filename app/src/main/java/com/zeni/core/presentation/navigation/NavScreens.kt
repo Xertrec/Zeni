@@ -8,6 +8,9 @@ object ScreenRegister
 object ScreenLogin
 
 @Serializable
+object ScreenVerifyEmail
+
+@Serializable
 object ScreenInitial
 
 @Serializable
@@ -36,6 +39,9 @@ data class ScreenItinerary(
 
 @Serializable
 object ScreenMore
+
+@Serializable
+object ScreenChangePassword
 
 @Serializable
 object ScreenProfile

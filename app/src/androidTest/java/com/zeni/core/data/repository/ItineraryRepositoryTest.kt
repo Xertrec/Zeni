@@ -1,6 +1,8 @@
 package com.zeni.core.data.repository
 
 import androidx.test.filters.SmallTest
+import com.zeni.core.data.database.dao.UserDao
+import com.zeni.core.data.database.entities.UserEntity
 import com.zeni.core.domain.model.Activity
 import com.zeni.core.domain.model.Trip
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -21,19 +23,33 @@ class ItineraryRepositoryTest {
     val hiltRule = HiltAndroidRule(this)
 
     @Inject
+    lateinit var userDao: UserDao
+
+    @Inject
     lateinit var tripRepository: TripRepositoryImpl
 
     @Inject
     lateinit var itineraryRepository: ItineraryRepositoryImpl
 
-    var tripId = 0L
+    val userUid = "test_user"
+    val tripName = "name"
 
     @Before
     fun setup() = runBlocking {
         hiltRule.inject()
 
+        val user = UserEntity(
+            uid = userUid,
+            email = "",
+            phone = "",
+            username = "Test User",
+            birthdate = ZonedDateTime.now(),
+            address = "",
+            country = "",
+        )
+
         val trip = Trip(
-            id = 0,
+            name = tripName,
             destination = "Test Destination",
             startDate = ZonedDateTime.of(
                 2022, 1, 1,
@@ -44,70 +60,75 @@ class ItineraryRepositoryTest {
                 2022, 1, 2,
                 0, 0, 0, 0,
                 ZonedDateTime.now().zone
-            )
+            ),
+            userOwner = userUid,
         )
 
-        tripId = tripRepository.addTrip(trip)
+        userDao.upsertUser(user)
+        tripRepository.addTrip(trip)
     }
 
     @Test
     fun testAddItinerary() = runBlocking {
         val activity = Activity(
             id = 0,
-            tripId = tripId,
+            tripName = tripName,
             title = "Test Activity",
             description = "Test Description",
             dateTime = ZonedDateTime.of(
                 2022, 1, 1,
                 0, 0, 0, 0,
                 ZonedDateTime.now().zone
-            )
+            ),
+            userOwner = userUid
         )
 
         val itineraryId = itineraryRepository.addActivity(activity)
-        assert(activity.copy(id = itineraryId) == itineraryRepository.getActivity(tripId, itineraryId).first())
+        assert(activity.copy(id = itineraryId) == itineraryRepository.getActivity(tripName, itineraryId).first())
     }
 
     @Test
     fun testUpdateItinerary() = runBlocking {
         val activity = Activity(
             id = 0,
-            tripId = tripId,
+            tripName = tripName,
             title = "Test Activity",
             description = "Test Description",
             dateTime = ZonedDateTime.of(
                 2022, 1, 1,
                 0, 0, 0, 0,
                 ZonedDateTime.now().zone
-            )
+            ),
+            userOwner = userUid
         )
 
         val itineraryId = itineraryRepository.addActivity(activity)
-        val updatedActivity = itineraryRepository.getActivity(tripId, itineraryId).first()
+        val updatedActivity = itineraryRepository.getActivity(tripName, itineraryId).first()
             .copy(
                 title = "Updated Activity"
             )
 
         itineraryRepository.addActivity(updatedActivity)
-        assert(updatedActivity == itineraryRepository.getActivity(tripId, itineraryId).first())
+        assert(updatedActivity == itineraryRepository.getActivity(tripName, itineraryId).first())
     }
 
     @Test
     fun testDeleteItinerary() = runBlocking {
         val activity = Activity(
             id = 0,
-            tripId = tripId,
+            tripName = tripName,
             title = "Test Activity",
             description = "Test Description",
             dateTime = ZonedDateTime.of(
                 2022, 1, 1,
                 0, 0, 0, 0,
                 ZonedDateTime.now().zone
-            )
+            ),
+            userOwner = userUid
         )
 
         val activityId = itineraryRepository.addActivity(activity)
         itineraryRepository.deleteActivity(activity.copy(id = activityId))
-        assert(!itineraryRepository.existsActivity(tripId, activityId))
+        assert(!itineraryRepository.existsActivity(tripName, activityId))
     }
 }

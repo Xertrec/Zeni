@@ -2,10 +2,41 @@
 <resources>
     <string name="app_version_prefix">"Version "</string>
 
+    <string name="register_title">Create an account</string>
+    <string name="register_email_field_label">Email</string>
+    <string name="register_email_empty_error">Email cannot be empty</string>
+    <string name="register_email_invalid_error">Email is invalid</string>
+    <string name="register_email_taken_error">Email is already registered</string>
+    <string name="register_phone_field_label">Phone number</string>
+    <string name="register_phone_empty_error">Phone number cannot be empty</string>
+    <string name="register_phone_invalid_error">Phone number is invalid</string>
+    <string name="register_phone_taken_error">Phone number is already registered</string>
+    <string name="register_username_field_label">Username</string>
+    <string name="register_username_empty_error">Username cannot be empty</string>
+    <string name="register_username_taken_error">Username is already registered</string>
+    <string name="register_birthdate_field_label">Date of birth</string>
+    <string name="register_birthdate_field_text">Date of birth: %s</string>
+    <string name="register_birthdate_empty_error">Date of birth cannot be empty</string>
+    <string name="register_birthdate_invalid_error">Date of birth cannot be later than today</string>
+    <string name="register_address_field_label">Address</string>
+    <string name="register_address_empty_error">Address cannot be empty</string>
+    <string name="register_country_field_label">Country</string>
+    <string name="register_country_empty_error">Country cannot be empty</string>
+    <string name="register_password_empty_error">Password cannot be empty</string>
+    <string name="register_password_short_error">Password is too short, minimum characters is %d</string>
+    <string name="register_password_insecure_error">Password is not secure</string>
+    <string name="register_next_btn">Next</string>
+    <string name="register_btn">Register</string>
+    <string name="i_have_account">Already have an account?</string>
+    <string name="i_have_not_account">Don\'t have an account?</string>
+
+    <string name="verify_email_title">Verify your email</string>
+    <string name="verify_email_explanation">To access Zeni, verify your email in your email app</string>
+    <string name="open_email_btn">Open email</string>
+
     <!--    Login Screen-->
     <string name="login_title">Log In</string>
-    <string name="login_user">User</string>
-    <string name="login_pass">Password</string>
+    <string name="login_user_field_label">User</string>
     <string name="login_btn">Access</string>
 
     <!--    Alert Dialog-->
@@ -24,6 +55,7 @@
     <!--  UpsertTripScreen  -->
     <string name="add_trip_title">Add Trip</string>
     <string name="editing_trip_title">Editing Trip</string>
+    <string name="name_text_label">Name</string>
     <string name="destination_text_label">Destination</string>
     <string name="select_start_date_text_label">Start Date</string>
     <string name="select_start_date_text">Start Date: %s</string>
@@ -32,6 +64,7 @@
     <string name="add_trip_button">Create Trip</string>
     <string name="save_trip_button">Update Trip</string>
     <string name="delete_trip_button">Delete Trip</string>
+    <string name="error_creating_trip_name_empty">The name field cannot be empty</string>
     <string name="error_creating_trip_destination_empty">
         The destination field cannot be empty
     </string>
@@ -41,6 +74,7 @@
     <string name="error_creating_trip_end_empty">
         The end date field cannot be empty
     </string>
+    <string name="error_creating_trip_name_already_exists">The trip name already exists</string>
     <string name="error_creating_trip_start_and_end_empty">
         Start and end dates are mandatory
     </string>
@@ -64,6 +98,7 @@
     <string name="trip_title">Trip to %s</string>
     <string name="edit_trip">Edit Trip</string>
     <string name="add_activity">Add Activity</string>
+    <string name="trip_name">Name: %s</string>
     <string name="trip_destiny">Destination: %s</string>
     <string name="trip_start_date">Start Date: %s</string>
     <string name="trip_end_date">End Date: %s</string>
@@ -73,6 +108,7 @@
         Create an activity to do something during your trip to %s
     </string>
     <string name="trip_activity_name">Name: %s</string>
+    <string name="trip_activity_trip_name">Part of your trip: %s</string>
     <string name="trip_activity_description">Description: %s</string>
     <string name="trip_activity_date">Date: %s</string>
     <string name="trip_activity_time">Time: %s</string>
@@ -119,6 +155,8 @@
         <item quantity="other">Starts in %d minutes</item>
     </plurals>
 
+    <string name="change_password_current_password_not_match">The password does not match the account\\\'s password</string>
+    <string name="change_password_new_password">New password</string>
     <string name="settings_title">Settings</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_selected">Language: %s</string>
@@ -141,9 +179,14 @@
         ]]>
     </string>
     <string name="about_zeni">About Zeni</string>
+    <string name="log_out_btn">Log out</string>
     <string name="developers_title">Developers:</string>
 
     <!--  Others  -->
     <string name="accept_button">Accept</string>
     <string name="cancel_button">Cancel</string>
+    <string name="password_field_label">Password</string>
+    <string name="change_password_title">Change password</string>
+    <string name="change_password_email_not_match">The email does not match the account\\\'s email</string>
+    <string name="change_password_current_password">Password</string>
 </resources>

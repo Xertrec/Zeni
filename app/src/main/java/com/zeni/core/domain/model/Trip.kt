@@ -8,4 +8,5 @@ data class Trip(
     val startDate: ZonedDateTime,
     val endDate: ZonedDateTime,
     val coverImage: TripImage? = null,
+    val userOwner: String,
 )

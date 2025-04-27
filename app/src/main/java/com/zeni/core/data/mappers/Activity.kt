@@ -8,7 +8,8 @@ fun Activity.toEntity() = ActivityEntity(
     tripName = tripName,
     title = title,
     description = description,
-    dateTime = dateTime
+    dateTime = dateTime,
+    userOwner = userOwner
 )
 
 fun ActivityEntity.toDomain() = Activity(
@@ -16,5 +17,6 @@ fun ActivityEntity.toDomain() = Activity(
     tripName = tripName,
     title = title,
     description = description,
-    dateTime = dateTime
+    dateTime = dateTime,
+    userOwner = userOwner
 )

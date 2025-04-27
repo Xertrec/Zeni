@@ -169,6 +169,7 @@ class UpsertTripViewModel @AssistedInject constructor(
                 destination = destination.value,
                 startDate = startDate.value!!,
                 endDate = endDate.value!!,
+                userOwner = "" // This will be overwritten by the repository
             )
         )
 

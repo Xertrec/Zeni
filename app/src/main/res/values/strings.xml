@@ -3,13 +3,50 @@
     <string name="app_name" translatable="false">Zeni</string>
     <string name="app_version_prefix">"Versión "</string>
 
-    <!--    Login Screen-->
-    <string name="login_title">Iniciar Sesión</string>
-    <string name="login_user">Usuario</string>
-    <string name="login_pass">Contraseña</string>
-    <string name="login_btn">Acceder</string>
+    <!-- RegisterScreen and LoginScreen -->
+    <string name="password_field_label">Contraseña</string>
+    <!-- RegisterScreen -->
+    <string name="register_title">Crear una cuenta</string>
+    <string name="register_email_field_label">Correo electrónico</string>
+    <string name="register_email_empty_error">El correo electrónico no puede estar vacío</string>
+    <string name="register_email_invalid_error">El correo electrónico es inválido</string>
+    <string name="register_email_taken_error">El correo electrónico ya está registrado</string>
+    <string name="register_phone_field_label">Número de teléfono</string>
+    <string name="register_phone_empty_error">El número de teléfono no puede estar vacío</string>
+    <string name="register_phone_invalid_error">El número de teléfono es inválido</string>
+    <string name="register_phone_taken_error">El número de teléfono ya está registrado</string>
+    <string name="register_username_field_label">Nombre de usuario</string>
+    <string name="register_username_empty_error">El nombre de usuario no puede estar vacío</string>
+    <string name="register_username_taken_error">El nombre de usuario ya está registrado</string>
+    <string name="register_birthdate_field_label">Fecha de nacimiento</string>
+    <string name="register_birthdate_field_text">Fecha de nacimiento: %s</string>
+    <string name="register_birthdate_empty_error">La fecha de nacimiento no puede estar vacía</string>
+    <string name="register_birthdate_invalid_error">La fecha de nacimiento no puede ser superior al dia actual</string>
+    <string name="register_address_field_label">Dirección</string>
+    <string name="register_address_empty_error">La dirección no puede estar vacía</string>
+    <string name="register_country_field_label">País</string>
+    <string name="register_country_empty_error">El país no puede estar vacío</string>
+    <string name="register_password_empty_error">La contraseña no puede estar vacía</string>
+    <string name="register_password_short_error">La contraseña és demasiado corta, el mínimo de caracteres es %d</string>
+    <string name="register_password_insecure_error">La contraseña no es segura</string>
+    <string name="register_next_btn">Siguiente</string>
+    <string name="register_btn">Registrarse</string>
+    <string name="i_have_account">¿Ya tienes una cuenta?</string>
 
-    <!--    Alert Dialog-->
+    <!-- LoginScreen -->
+    <string name="login_title">Iniciar sesión</string>
+    <string name="login_user_field_label">Usuario</string>
+    <string name="login_btn">Acceder</string>
+    <string name="i_have_not_account">¿No tienes una cuenta?</string>
+
+    <!-- VerifyEmailScreen -->
+    <string name="verify_email_title">Verifica tu correo electrónico</string>
+    <string name="verify_email_explanation">
+        Para acceder a Zeni, verifica tu correo electrónico en tu app de correo
+    </string>
+    <string name="open_email_btn">Abrir correo</string>
+
+    <!-- Alert Dialog-->
     <string name="alert_title">Alerta</string>
     <string name="alert_message">Usuario o contraseña incorrectos</string>
     <string name="alert_btn">Vale</string>
@@ -150,6 +187,17 @@
     </string>
     <string name="about_zeni">Acerca de Zeni</string>
 
+    <!-- ChangePasswordScreen -->
+    <string name="change_password_title">Cambiar contraseña</string>
+    <string name="change_password_email_not_match">
+        El correo electrónico no coincide con el de la cuenta
+    </string>
+    <string name="change_password_current_password">Contraseña</string>
+    <string name="change_password_current_password_not_match">
+        La contraseña no coincide con la de la cuenta
+    </string>
+    <string name="change_password_new_password">Nueva contraseña</string>
+
     <!-- SettingsScreen -->
     <string name="settings_title">Configuración</string>
     <string name="settings_language">Idioma</string>
@@ -162,6 +210,8 @@
     <string name="portuguese_language">Portugués</string>
     <string name="auto_dark_mode">Modo oscuro automático</string>
     <string name="dark_mode">Modo oscuro</string>
+
+    <string name="log_out_btn">Cerrar sesión</string>
 
 
     <!-- Developers info -->

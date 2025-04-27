@@ -9,7 +9,8 @@ fun Trip.toEntity() = TripEntity(
     destination = destination,
     startDate = startDate,
     endDate = endDate,
-    coverImageId = coverImage?.id
+    coverImageId = coverImage?.id,
+    userOwner = userOwner
 )
 
 fun TripRelation.toDomain() = Trip(
@@ -17,5 +18,6 @@ fun TripRelation.toDomain() = Trip(
     destination = trip.destination,
     startDate = trip.startDate,
     endDate = trip.endDate,
-    coverImage = image?.toDomain()
+    coverImage = image?.toDomain(),
+    userOwner = trip.userOwner
 )

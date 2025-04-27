@@ -1,7 +1,6 @@
 # Zeni: The Travel Planner app
 
 ## Team
-- Alberto
 - Alex
 
 ## Project Description
@@ -56,3 +55,4 @@ This project is licensed under the Apache 2.0 License - see the `LICENSE` file f
 ## Acknowledgments
 - Thanks to the team members for their contributions.
 - Special thanks to the open-source community for providing valuable resources and tools.
+- And to Alberto, for being one of the members who conceived the idea.
