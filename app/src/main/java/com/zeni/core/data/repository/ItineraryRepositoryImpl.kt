@@ -1,6 +1,6 @@
 package com.zeni.core.data.repository
 
-import com.zeni.core.data.database.dao.ItineraryDao
+import com.zeni.core.data.local.database.dao.ItineraryDao
 import com.zeni.core.data.mappers.toDomain
 import com.zeni.core.data.mappers.toEntity
 import com.zeni.core.domain.model.Activity
@@ -9,7 +9,6 @@ import com.zeni.core.domain.utils.Authenticator
 import com.zeni.core.util.DatabaseLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.time.LocalDate
 import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton

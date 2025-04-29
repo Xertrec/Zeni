@@ -1,15 +1,15 @@
-package com.zeni.core.data.database
+package com.zeni.core.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.zeni.core.data.database.dao.ItineraryDao
-import com.zeni.core.data.database.dao.TripDao
-import com.zeni.core.data.database.dao.UserDao
-import com.zeni.core.data.database.entities.ActivityEntity
-import com.zeni.core.data.database.entities.TripEntity
-import com.zeni.core.data.database.entities.TripImageEntity
-import com.zeni.core.data.database.entities.UserEntity
+import com.zeni.core.data.local.database.dao.ItineraryDao
+import com.zeni.core.data.local.database.dao.TripDao
+import com.zeni.core.data.local.database.dao.UserDao
+import com.zeni.core.data.local.database.entities.ActivityEntity
+import com.zeni.core.data.local.database.entities.TripEntity
+import com.zeni.core.data.local.database.entities.TripImageEntity
+import com.zeni.core.data.local.database.entities.UserEntity
 
 @Database(
     entities = [

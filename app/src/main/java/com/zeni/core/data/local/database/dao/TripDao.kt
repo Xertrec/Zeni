@@ -1,12 +1,12 @@
-package com.zeni.core.data.database.dao
+package com.zeni.core.data.local.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.zeni.core.data.database.entities.TripEntity
-import com.zeni.core.data.database.relations.TripRelation
+import com.zeni.core.data.local.database.entities.TripEntity
+import com.zeni.core.data.local.database.relations.TripRelation
 import kotlinx.coroutines.flow.Flow
 
 @Dao

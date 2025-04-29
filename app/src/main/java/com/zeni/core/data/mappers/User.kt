@@ -1,6 +1,6 @@
 package com.zeni.core.data.mappers
 
-import com.zeni.core.data.database.entities.UserEntity
+import com.zeni.core.data.local.database.entities.UserEntity
 import com.zeni.core.domain.model.Country
 import com.zeni.core.domain.model.User
 

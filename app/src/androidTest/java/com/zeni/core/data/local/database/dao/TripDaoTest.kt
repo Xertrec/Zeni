@@ -1,11 +1,10 @@
-package com.zeni.core.data.database.dao
+package com.zeni.core.data.local.database.dao
 
 import androidx.test.filters.SmallTest
-import com.zeni.core.data.database.entities.TripEntity
-import com.zeni.core.data.database.entities.UserEntity
-import com.zeni.core.data.mappers.toEntity
-import com.zeni.core.data.repository.TripRepositoryImpl
-import com.zeni.core.domain.model.Trip
+import com.zeni.core.data.local.database.dao.TripDao
+import com.zeni.core.data.local.database.dao.UserDao
+import com.zeni.core.data.local.database.entities.TripEntity
+import com.zeni.core.data.local.database.entities.UserEntity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
@@ -123,6 +122,6 @@ class TripDaoTest {
 
         tripDao.addTrip(trip)
         tripDao.deleteTrip(trip)
-        assert(!tripDao.existsTrip(trip.name))
+        assert(!tripDao.existsTrip(trip.name, userUid))
     }
 }

@@ -1,10 +1,10 @@
-package com.zeni.core.data.database.dao
+package com.zeni.core.data.local.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.zeni.core.data.database.entities.UserEntity
+import com.zeni.core.data.local.database.entities.UserEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

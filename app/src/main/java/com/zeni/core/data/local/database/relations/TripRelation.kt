@@ -1,9 +1,9 @@
-package com.zeni.core.data.database.relations
+package com.zeni.core.data.local.database.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.zeni.core.data.database.entities.TripEntity
-import com.zeni.core.data.database.entities.TripImageEntity
+import com.zeni.core.data.local.database.entities.TripEntity
+import com.zeni.core.data.local.database.entities.TripImageEntity
 
 data class TripRelation(
     @Embedded val trip: TripEntity,

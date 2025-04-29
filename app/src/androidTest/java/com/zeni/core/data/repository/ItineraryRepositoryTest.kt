@@ -1,8 +1,8 @@
 package com.zeni.core.data.repository
 
 import androidx.test.filters.SmallTest
-import com.zeni.core.data.database.dao.UserDao
-import com.zeni.core.data.database.entities.UserEntity
+import com.zeni.core.data.local.database.dao.UserDao
+import com.zeni.core.data.local.database.entities.UserEntity
 import com.zeni.core.domain.model.Activity
 import com.zeni.core.domain.model.Trip
 import dagger.hilt.android.testing.HiltAndroidRule

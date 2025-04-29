@@ -1,7 +1,7 @@
 package com.zeni.core.data.mappers
 
-import com.zeni.core.data.database.entities.TripEntity
-import com.zeni.core.data.database.relations.TripRelation
+import com.zeni.core.data.local.database.entities.TripEntity
+import com.zeni.core.data.local.database.relations.TripRelation
 import com.zeni.core.domain.model.Trip
 
 fun Trip.toEntity() = TripEntity(

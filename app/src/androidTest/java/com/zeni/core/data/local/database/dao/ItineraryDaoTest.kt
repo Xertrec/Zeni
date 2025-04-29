@@ -1,9 +1,12 @@
-package com.zeni.core.data.database.dao
+package com.zeni.core.data.local.database.dao
 
 import androidx.test.filters.SmallTest
-import com.zeni.core.data.database.entities.ActivityEntity
-import com.zeni.core.data.database.entities.TripEntity
-import com.zeni.core.data.database.entities.UserEntity
+import com.zeni.core.data.local.database.dao.ItineraryDao
+import com.zeni.core.data.local.database.dao.TripDao
+import com.zeni.core.data.local.database.dao.UserDao
+import com.zeni.core.data.local.database.entities.ActivityEntity
+import com.zeni.core.data.local.database.entities.TripEntity
+import com.zeni.core.data.local.database.entities.UserEntity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
@@ -131,6 +134,6 @@ class ItineraryDaoTest {
 
         val activityId = itineraryDao.addActivity(activity)
         itineraryDao.deleteActivity(activity.copy(id = activityId))
-        assert(!itineraryDao.existsActivity(tripName, activityId))
+        assert(!itineraryDao.existsActivity(tripName, activityId, userUid))
     }
 }

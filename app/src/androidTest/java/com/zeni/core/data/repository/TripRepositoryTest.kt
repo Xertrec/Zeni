@@ -1,19 +1,16 @@
 package com.zeni.core.data.repository
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.zeni.core.data.database.dao.UserDao
-import com.zeni.core.data.database.entities.UserEntity
+import com.zeni.core.data.local.database.dao.UserDao
+import com.zeni.core.data.local.database.entities.UserEntity
 import com.zeni.core.domain.model.Trip
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.time.ZonedDateTime
 import javax.inject.Inject
 

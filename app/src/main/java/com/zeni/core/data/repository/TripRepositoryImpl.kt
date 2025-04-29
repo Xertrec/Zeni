@@ -1,6 +1,6 @@
 package com.zeni.core.data.repository
 
-import com.zeni.core.data.database.dao.TripDao
+import com.zeni.core.data.local.database.dao.TripDao
 import com.zeni.core.data.mappers.toDomain
 import com.zeni.core.data.mappers.toEntity
 import com.zeni.core.domain.model.Trip

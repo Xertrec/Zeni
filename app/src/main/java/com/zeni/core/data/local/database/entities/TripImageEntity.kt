@@ -1,4 +1,4 @@
-package com.zeni.core.data.database.entities
+package com.zeni.core.data.local.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

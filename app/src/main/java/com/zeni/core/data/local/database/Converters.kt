@@ -1,4 +1,4 @@
-package com.zeni.core.data.database
+package com.zeni.core.data.local.database
 
 import androidx.room.TypeConverter
 import com.zeni.core.domain.utils.ZonedDateTimeUtils

@@ -1,4 +1,4 @@
-package com.zeni.core.data.database
+package com.zeni.core.data.local.database
 
 import android.R.attr.description
 import android.R.attr.name

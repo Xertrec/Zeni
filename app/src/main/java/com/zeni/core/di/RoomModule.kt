@@ -2,9 +2,8 @@ package com.zeni.core.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.migration.Migration
-import com.zeni.core.data.database.Migrations
-import com.zeni.core.data.database.TripsDatabase
+import com.zeni.core.data.local.database.Migrations
+import com.zeni.core.data.local.database.TripsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

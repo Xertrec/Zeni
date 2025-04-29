@@ -1,11 +1,12 @@
-package com.zeni.core.data.database
+package com.zeni.core.data.local.database
 
 import androidx.room.Room
-import androidx.room.migration.Migration
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.filters.SmallTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.perfect.you.utils.Constants.DATABASE_NAME
+import com.zeni.core.data.local.database.Migrations
+import com.zeni.core.data.local.database.TripsDatabase
 import org.junit.Rule
 import org.junit.Test
 import kotlin.apply
