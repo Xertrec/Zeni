@@ -51,9 +51,12 @@
     <string name="alert_message">Usuario o contraseña incorrectos</string>
     <string name="alert_btn">Vale</string>
 
-    <!-- Strings for the home screen -->
+    <!-- HomeScreen -->
     <string name="home_title">Inicio</string>
     <string name="home_sample" translatable="false">Home Screen</string>
+
+    <!-- HotelsListScreen -->
+    <string name="hotels_title">Hoteles</string>
 
     <!--  TripsScreen  -->
     <string name="trips_title">Viajes</string>

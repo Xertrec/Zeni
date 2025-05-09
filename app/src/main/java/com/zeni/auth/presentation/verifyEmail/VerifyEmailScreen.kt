@@ -1,16 +1,12 @@
 package com.zeni.auth.presentation.verifyEmail
 
 import android.content.Intent
-import android.net.Uri
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
@@ -18,7 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,9 +32,8 @@ import androidx.compose.ui.unit.sp
 import com.zeni.R
 import com.zeni.auth.presentation.verifyEmail.components.VerifyEmailViewModel
 import com.zeni.core.domain.utils.extensions.warning
-import androidx.core.net.toUri
 import androidx.navigation.NavController
-import com.zeni.core.presentation.navigation.ScreenHome
+import com.zeni.core.presentation.navigation.ScreenInitial
 import kotlinx.coroutines.launch
 
 @Composable
@@ -122,7 +116,7 @@ fun VerifyEmailScreen(
                     onClick = {
                         scope.launch {
                             if (viewModel.isEmailVerifiedWithReload()) {
-                                navController.navigate(ScreenHome)
+                                navController.navigate(ScreenInitial)
                             }
                         }
                     },

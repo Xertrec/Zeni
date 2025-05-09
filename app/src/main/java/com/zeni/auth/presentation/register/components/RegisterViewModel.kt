@@ -7,7 +7,6 @@ import com.zeni.auth.domain.use_cases.RegisterUseCase
 import com.zeni.auth.domain.utils.LoginErrors
 import com.zeni.auth.domain.utils.RegisterErrors
 import com.zeni.auth.domain.utils.RegisterResult
-import com.zeni.auth.presentation.login.components.LoginViewModel.DefaultCredentials
 import com.zeni.core.data.repository.UserRepositoryImpl
 import com.zeni.core.domain.model.Country
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -6,11 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.zeni.core.data.SharedPrefsManager
 import com.zeni.core.domain.utils.Authenticator
-import com.zeni.core.presentation.navigation.ScreenHome
+import com.zeni.core.presentation.navigation.ScreenInitial
 import com.zeni.core.presentation.navigation.ScreenLogin
 import com.zeni.core.presentation.navigation.ScreenVerifyEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
@@ -23,7 +22,7 @@ class MainViewModel @Inject constructor(
     suspend fun getInitialScreen(): KClass<*> {
         return if (!authenticator.isLogged) ScreenLogin::class
         else if (!authenticator.isEmailVerifiedWithReload()) ScreenVerifyEmail::class
-        else ScreenHome::class
+        else ScreenInitial::class
     }
 
     var isManualDarkTheme by mutableStateOf(sharedPrefsManager.autoDarkTheme)

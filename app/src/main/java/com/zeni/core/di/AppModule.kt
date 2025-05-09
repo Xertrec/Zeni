@@ -27,6 +27,5 @@ object AppModule {
     fun provideSharedPrefsManager(
         @ApplicationContext appContext: Context,
         sharedPreferences: SharedPreferences
-    ): SharedPrefsManager =
-        SharedPrefsManager(appContext = appContext, preferences = sharedPreferences)
+    ): SharedPrefsManager = SharedPrefsManager(appContext, sharedPreferences)
 }

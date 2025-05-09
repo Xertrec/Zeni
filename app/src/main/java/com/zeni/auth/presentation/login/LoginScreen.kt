@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.zeni.R
 import com.zeni.core.presentation.components.AppIcon
-import com.zeni.core.presentation.navigation.ScreenHome
+import com.zeni.core.presentation.navigation.ScreenInitial
 import com.zeni.auth.domain.utils.LoginErrors
 import com.zeni.auth.presentation.login.components.LoginViewModel
 import com.zeni.core.presentation.navigation.ScreenLogin
@@ -56,7 +56,7 @@ fun LoginScreen(
                 onClick = {
                     scope.launch {
                         if (viewModel.login()) {
-                            navController.navigate(ScreenHome)
+                            navController.navigate(ScreenInitial)
                         } else {
                             showAlert = true
                         }
@@ -133,7 +133,7 @@ fun LoginScreen(
                     keyboardActions = KeyboardActions {
                         scope.launch {
                             if (viewModel.login()) {
-                                navController.navigate(ScreenHome)
+                                navController.navigate(ScreenInitial)
                             } else {
                                 showAlert = true
                             }

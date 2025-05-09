@@ -18,6 +18,7 @@ class LoginUseCase @Inject constructor(
         username: String,
         password: String
     ): Boolean {
+        // TODO: Login with username or email directly
         if (!userRepository.existsUserWithUsername(username)) {
             return false
         }

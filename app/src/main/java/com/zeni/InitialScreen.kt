@@ -8,7 +8,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -29,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.zeni.core.presentation.navigation.ScreenUpsertTrip
-import com.zeni.home.presentation.HomeScreen
+import com.zeni.hotel.presentation.HotelsScreen
 import com.zeni.itinerary.presentation.ItineraryScreen
 import com.zeni.itinerary.presentation.components.ItineraryViewModel
 import com.zeni.settings.presentation.MoreScreen
@@ -39,7 +38,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun InitialScreen(
     navController: NavHostController,
-    initialScreen: Int = Screen.Home.ordinal
+    initialScreen: Int = Screen.Hotels.ordinal
 ) {
     val pagerState = rememberPagerState(
         initialPage = initialScreen,
@@ -77,8 +76,8 @@ fun InitialScreen(
         ) { currentIndex ->
 
             when (currentIndex) {
-                Screen.Home.ordinal -> {
-                    HomeScreen(
+                Screen.Hotels.ordinal -> {
+                    HotelsScreen(
                         viewModel = hiltViewModel(),
                         navController = navController
                     )
@@ -145,92 +144,30 @@ private fun BottomBar(pagerState: PagerState) {
     }
 
     NavigationBar {
-        val isHomeSelected = currentScreen == Screen.Home
-        NavigationBarItem(
-            selected = isHomeSelected,
-            onClick = {
-                if (!isHomeSelected) {
-                    scope.launch {
-                        pagerState.scrollToPage(Screen.Home.ordinal)
-                    }
-                }
-            },
-            icon = {
-                Icon(
-                    painter = if (isHomeSelected) painterResource(R.drawable.icon_home_fill)
-                    else painterResource(R.drawable.icon_home_empty),
-                    contentDescription = null
-                )
-            },
-            label = {
-                Text(text = stringResource(Screen.Home.bottom))
-            }
-        )
+        Screen.entries.forEach { screen ->
+            val isSelected = currentScreen == screen
 
-        val isTripsSelected = currentScreen == Screen.Trips
-        NavigationBarItem(
-            selected = isTripsSelected,
-            onClick = {
-                if (!isTripsSelected) {
-                    scope.launch {
-                        pagerState.scrollToPage(Screen.Trips.ordinal)
+            NavigationBarItem(
+                selected = isSelected,
+                onClick = {
+                    if (!isSelected) {
+                        scope.launch {
+                            pagerState.scrollToPage(screen.ordinal)
+                        }
                     }
+                },
+                icon = {
+                    Icon(
+                        painter = if (isSelected) painterResource(screen.selectedIcon)
+                        else painterResource(screen.unselectedIcon),
+                        contentDescription = null
+                    )
+                },
+                label = {
+                    Text(text = stringResource(screen.bottom))
                 }
-            },
-            icon = {
-                Icon(
-                    painter = if (isTripsSelected) painterResource(R.drawable.icon_trip_fill)
-                    else painterResource(R.drawable.icon_trip_empty),
-                    contentDescription = null
-                )
-            },
-            label = {
-                Text(text = stringResource(Screen.Trips.bottom))
-            }
-        )
-
-        val isItinerarySelected = currentScreen == Screen.Itinerary
-        NavigationBarItem(
-            selected = isItinerarySelected,
-            onClick = {
-                if (!isItinerarySelected) {
-                    scope.launch {
-                        pagerState.scrollToPage(Screen.Itinerary.ordinal)
-                    }
-                }
-            },
-            icon = {
-                Icon(
-                    painter = if (isItinerarySelected) painterResource(R.drawable.icon_itinerary_fill)
-                    else painterResource(R.drawable.icon_itinerary_empty),
-                    contentDescription = null
-                )
-            },
-            label = {
-                Text(text = stringResource(Screen.Itinerary.bottom))
-            }
-        )
-
-        val isMoreSelected = currentScreen == Screen.More
-        NavigationBarItem(
-            selected = isMoreSelected,
-            onClick = {
-                if (!isMoreSelected) {
-                    scope.launch {
-                        pagerState.scrollToPage(Screen.More.ordinal)
-                    }
-                }
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Rounded.Menu,
-                    contentDescription = null
-                )
-            },
-            label = {
-                Text(text = stringResource(Screen.More.bottom))
-            }
-        )
+            )
+        }
     }
 }
 
@@ -260,12 +197,31 @@ private fun FloatingButton(
 /**
  * Screens represented in the initial screen.
  */
-enum class Screen(val top: Int, val bottom: Int = top) {
-    Home(R.string.home_title),
-    Trips(R.string.trips_title),
+enum class Screen(
+    val top: Int,
+    val bottom: Int = top,
+    val unselectedIcon: Int,
+    val selectedIcon: Int = unselectedIcon
+) {
+//    Home(R.string.home_title),
+    Hotels(
+        top = R.string.hotels_title,
+        unselectedIcon = R.drawable.icon_hotel_empty,
+        selectedIcon = R.drawable.icon_hotel_fill
+    ),
+    Trips(
+        top = R.string.trips_title,
+        unselectedIcon = R.drawable.icon_trip_empty,
+        selectedIcon = R.drawable.icon_trip_fill
+    ),
     Itinerary(
         top = R.string.itinerary_title,
-        bottom = R.string.itinerary_tab_text
+        bottom = R.string.itinerary_tab_text,
+        unselectedIcon = R.drawable.icon_itinerary_empty,
+        selectedIcon = R.drawable.icon_itinerary_fill
     ),
-    More(R.string.more_title)
+    More(
+        top = R.string.more_title,
+        unselectedIcon = R.drawable.icon_more
+    )
 }

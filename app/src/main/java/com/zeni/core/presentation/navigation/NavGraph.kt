@@ -15,6 +15,8 @@ import com.zeni.auth.presentation.register.RegisterScreen
 import com.zeni.auth.presentation.register.components.RegisterViewModel
 import com.zeni.auth.presentation.verifyEmail.VerifyEmailScreen
 import com.zeni.auth.presentation.verifyEmail.components.VerifyEmailViewModel
+import com.zeni.hotel.presentation.HotelScreen
+import com.zeni.hotel.presentation.components.HotelViewModel
 import com.zeni.itinerary.presentation.UpsertItineraryScreen
 import com.zeni.itinerary.presentation.components.UpsertActivityViewModel
 import com.zeni.settings.presentation.ProfileScreen
@@ -73,10 +75,22 @@ fun NavGraph(
             )
         }
 
-        composable<ScreenHome> {
+        composable<ScreenHotels> {
             InitialScreen(
                 navController = navController,
-                initialScreen = Screen.Home.ordinal
+                initialScreen = Screen.Hotels.ordinal
+            )
+        }
+
+        composable<ScreenHotel> {
+            val args = it.toRoute<ScreenHotel>()
+            val viewModel = hiltViewModel<HotelViewModel, HotelViewModel.HotelViewModelFactory> { factory ->
+                factory.create(args.hotelId)
+            }
+
+            HotelScreen(
+                viewModel = viewModel,
+                navController = navController
             )
         }
 

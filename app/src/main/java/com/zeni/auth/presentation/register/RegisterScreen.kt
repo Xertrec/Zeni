@@ -1,6 +1,5 @@
 package com.zeni.auth.presentation.register
 
-import android.R.attr.name
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,13 +24,11 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,7 +52,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -68,18 +63,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.zeni.R
-import com.zeni.auth.domain.utils.RegisterErrors
 import com.zeni.auth.domain.utils.RegisterResult
 import com.zeni.auth.presentation.register.components.RegisterViewModel
 import com.zeni.core.domain.model.Country
-import com.zeni.core.domain.utils.SelectableDatesNotPast
 import com.zeni.core.domain.utils.SelectableDatesOnlyPast
 import com.zeni.core.presentation.components.AppIcon
-import com.zeni.core.presentation.navigation.ScreenHome
+import com.zeni.core.presentation.navigation.ScreenInitial
 import com.zeni.core.presentation.navigation.ScreenLogin
 import com.zeni.core.presentation.navigation.ScreenRegister
 import com.zeni.core.presentation.navigation.ScreenVerifyEmail
@@ -138,7 +130,7 @@ fun RegisterScreen(
         suspend {
             val result = viewModel.register()
             if (result is RegisterResult.Success) {
-                navController.navigate(ScreenHome)
+                navController.navigate(ScreenInitial)
             } else if (result is RegisterResult.CodeSent) {
                 navController.navigate(ScreenVerifyEmail)
             } else {

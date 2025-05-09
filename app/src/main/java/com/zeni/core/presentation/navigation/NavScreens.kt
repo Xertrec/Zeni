@@ -14,7 +14,12 @@ object ScreenVerifyEmail
 object ScreenInitial
 
 @Serializable
-object ScreenHome
+object ScreenHotels
+
+@Serializable
+data class ScreenHotel(
+    val hotelId: String
+)
 
 @Serializable
 object ScreenTrips
