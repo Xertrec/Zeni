@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.zeni.core.presentation.navigation.ScreenHotel
 import com.zeni.hotel.presentation.components.HotelCard
 import com.zeni.hotel.presentation.components.HotelsViewModel
 
@@ -33,7 +34,7 @@ fun HotelsScreen(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(
-                space = 8.dp,
+                space = 16.dp,
                 alignment = Alignment.Top
             ),
             horizontalAlignment = Alignment.Start
@@ -47,7 +48,10 @@ fun HotelsScreen(
                     hotel = hotel,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(height = 128.dp)
+                        .height(height = 128.dp),
+                    onClick = {
+                        navController.navigate(ScreenHotel(hotelId = hotel.id))
+                    }
                 )
             }
         }

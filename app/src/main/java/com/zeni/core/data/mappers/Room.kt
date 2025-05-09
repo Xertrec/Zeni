@@ -4,18 +4,20 @@ import android.R.attr.description
 import android.R.attr.name
 import androidx.core.net.toUri
 import com.zeni.core.data.remote.dto.RoomDto
+import com.zeni.core.di.NetworkModule
 import com.zeni.core.domain.model.Room
+import com.zeni.core.domain.model.RoomType
 
 fun RoomDto.toDomain() = Room(
     id = id,
-    roomType = roomType,
+    roomType = RoomType.valueOf(roomType.uppercase()),
     price = price,
-    images = images.map { it.toUri() },
+    images = images.map { (NetworkModule.BASE_URL + it).toUri() },
 )
 
-fun Room.toDto() = RoomDto(
-    id = id,
-    roomType = roomType,
-    price = price,
-    images = ArrayList(images.map { it.toString() })
-)
+//fun Room.toDto() = RoomDto(
+//    id = id,
+//    roomType = roomType,
+//    price = price,
+//    images = TODO("Is saved with the prefix of the base url, so we need to remove it")
+//)

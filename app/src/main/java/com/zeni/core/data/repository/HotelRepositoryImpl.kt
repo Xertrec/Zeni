@@ -1,5 +1,6 @@
 package com.zeni.core.data.repository
 
+import android.util.Log.e
 import com.zeni.core.data.mappers.toDomain
 import com.zeni.core.data.mappers.toDto
 import com.zeni.core.data.remote.api.HotelApiService
@@ -7,6 +8,8 @@ import com.zeni.core.domain.model.Hotel
 import com.zeni.core.domain.model.Reservation
 import com.zeni.core.domain.repository.HotelRepository
 import com.zeni.core.util.HotelApiLogger
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,36 +18,6 @@ class HotelRepositoryImpl @Inject constructor(
     private val hotelApiService: HotelApiService
 ): HotelRepository {
     private val gid = "G07"
-
-    override suspend fun reserveHotel(reservation: Reservation) {
-        HotelApiLogger.apiOperation("Reserving hotel with id ${reservation.hotelId}")
-        try {
-            hotelApiService.reserveHotel(
-                groupId = gid,
-                reservation = reservation.toDto()
-            )
-            HotelApiLogger.apiOperation("Hotel reserved successfully")
-
-            // TODO: Save in local db
-        } catch (e: Exception) {
-            HotelApiLogger.apiError("Error reserving hotel: ${e.message}", e)
-            throw e
-        }
-    }
-
-    override suspend fun cancelReservation(reservation: Reservation) {
-        HotelApiLogger.apiOperation("Cancelling reservation in room ${reservation.roomId} for hotel ${reservation.hotelId}")
-        try {
-            hotelApiService.cancelReservation(
-                groupId = gid,
-                reservation = reservation.toDto()
-            )
-            HotelApiLogger.apiOperation("Reservation cancelled successfully")
-        } catch (e: Exception) {
-            HotelApiLogger.apiError("Error cancelling reservation: ${e.message}", e)
-            throw e
-        }
-    }
 
     override suspend fun getHotels(): List<Hotel> {
         HotelApiLogger.apiOperation("Getting hotels")
@@ -55,6 +28,21 @@ class HotelRepositoryImpl @Inject constructor(
             hotels.map { it.toDomain() }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting hotels: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override fun getHotelById(hotelId: String): Flow<Hotel?> {
+        HotelApiLogger.apiOperation("Getting hotel with id $hotelId")
+        return try {
+            flow {
+                val hotel = hotelApiService.getHotels(gid).find { it.id == hotelId }
+                HotelApiLogger.apiOperation("Hotel retrieved successfully")
+
+                emit(hotel?.toDomain())
+            }
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error getting hotel by id: ${e.message}", e)
             throw e
         }
     }
@@ -122,7 +110,37 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteReservationById(reservationId: String) {
+    override suspend fun reserveHotel(reservation: Reservation) {
+        HotelApiLogger.apiOperation("Reserving hotel with id ${reservation.hotelId}")
+        try {
+            hotelApiService.reserveHotel(
+                groupId = gid,
+                reservation = reservation.toDto()
+            )
+            HotelApiLogger.apiOperation("Hotel reserved successfully")
+
+            // TODO: Save in local db
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error reserving hotel: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override suspend fun cancelReservation(reservation: Reservation) {
+        HotelApiLogger.apiOperation("Cancelling reservation in room ${reservation.roomId} for hotel ${reservation.hotelId}")
+        try {
+            hotelApiService.cancelReservation(
+                groupId = gid,
+                reservation = reservation.toDto()
+            )
+            HotelApiLogger.apiOperation("Reservation cancelled successfully")
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error cancelling reservation: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override suspend fun cancelReservationById(reservationId: String) {
         HotelApiLogger.apiOperation("Deleting reservation with id $reservationId")
         try {
             hotelApiService.deleteReservationById(reservationId)

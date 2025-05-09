@@ -100,9 +100,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
-    implementation(libs.coil.compose)
-    implementation (libs.androidx.datastore.preferences)
-
     // Hilt dependencies
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
@@ -126,5 +123,12 @@ dependencies {
     // Retrofit dependencies
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation (libs.logging.interceptor)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.datastore.preferences)
+
+    // Telephoto dependencies
+    implementation(libs.telephoto.zoomable)
+    implementation(libs.telephoto.zoomable.peek.overlay)
 }
