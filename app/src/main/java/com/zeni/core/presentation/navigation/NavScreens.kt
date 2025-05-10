@@ -15,10 +15,14 @@ object ScreenInitial
 
 @Serializable
 object ScreenHotels
-
 @Serializable
 data class ScreenHotel(
     val hotelId: String
+)
+@Serializable
+data class ScreenRoom(
+    val hotelId: String,
+    val roomId: String
 )
 
 @Serializable

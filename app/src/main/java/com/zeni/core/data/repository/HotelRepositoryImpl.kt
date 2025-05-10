@@ -6,6 +6,7 @@ import com.zeni.core.data.mappers.toDto
 import com.zeni.core.data.remote.api.HotelApiService
 import com.zeni.core.domain.model.Hotel
 import com.zeni.core.domain.model.Reservation
+import com.zeni.core.domain.model.Room
 import com.zeni.core.domain.repository.HotelRepository
 import com.zeni.core.util.HotelApiLogger
 import kotlinx.coroutines.flow.Flow
@@ -67,6 +68,37 @@ class HotelRepositoryImpl @Inject constructor(
             hotels.map { it.toDomain() }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting hotel availability: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override fun getRoomsByHotelId(hotelId: String): Flow<List<Room>> {
+        HotelApiLogger.apiOperation("Getting rooms with hotelId $hotelId")
+        return try {
+            flow {
+                val hotel = hotelApiService.getHotels(gid).find { it.id == hotelId }
+                HotelApiLogger.apiOperation("Rooms retrieved successfully")
+
+                emit(hotel?.rooms?.map { it.toDomain() } ?: emptyList())
+            }
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error getting rooms by hotelId: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override fun getRoomById(hotelId: String, roomId: String): Flow<Room?> {
+        HotelApiLogger.apiOperation("Getting room with id $roomId")
+        return try {
+            flow {
+                val hotel = hotelApiService.getHotels(gid).find { it.id == hotelId }
+                val room = hotel?.rooms?.find { it.id == roomId }
+                HotelApiLogger.apiOperation("Room retrieved successfully")
+
+                emit(room?.toDomain())
+            }
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error getting room by id: ${e.message}", e)
             throw e
         }
     }

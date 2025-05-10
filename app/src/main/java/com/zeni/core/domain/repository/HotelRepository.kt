@@ -2,6 +2,7 @@ package com.zeni.core.domain.repository
 
 import com.zeni.core.domain.model.Hotel
 import com.zeni.core.domain.model.Reservation
+import com.zeni.core.domain.model.Room
 import kotlinx.coroutines.flow.Flow
 
 interface HotelRepository {
@@ -16,6 +17,10 @@ interface HotelRepository {
         hotelId: String? = null,
         city: String? = null
     ): List<Hotel>
+
+    fun getRoomsByHotelId(hotelId: String): Flow<List<Room>>
+
+    fun getRoomById(hotelId: String, roomId: String): Flow<Room?>
 
     suspend fun getReservations(): List<Reservation>
 

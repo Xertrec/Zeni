@@ -57,19 +57,25 @@
 
     <!-- HotelsListScreen -->
     <string name="hotels_title">Hoteles</string>
+    <string name="hotel_address">Dirección:</string>
+    <string name="hotel_rating">Valoración:</string>
+    <string name="room_min_price_prefix">Noche desde:</string>
 
     <!-- HotelScreen -->
-    <string name="hotel_rating">Valoración:</string>
-    <string name="hotel_address">Dirección:</string>
-    <string name="see_in_maps">Ver en Google Maps</string>
-    <string name="room_price_prefix">Precio mínimo:</string>
-    <string name="room_min_price_prefix">Noche desde:</string>
-    <string name="room_price_value">%.2f €</string>
-    <string name="hotel_info_title">Información del hotel</string>
+    <string name="hotel_info_title">Información del hotel:</string>
+    <string name="see_in_maps_button">Ver en Google Maps</string>
     <string name="hotel_rooms_title">Habitaciones</string>
     <string name="single_room_text">Individual</string>
     <string name="double_room_text">Doble</string>
     <string name="suite_room_text">Suite</string>
+
+    <!-- RoomScreen -->
+    <string name="room_price_prefix">1 noche por:</string>
+    <string name="room_price_value">%.2f €</string>
+    <string name="room_type">Habitación:</string>
+    <string name="room_hotel_name">Hotel:</string>
+    <string name="room_image_description">Imagen de la habitación</string>
+    <string name="reserve_room_button">Reservar</string>
 
     <!--  TripsScreen  -->
     <string name="trips_title">Viajes</string>

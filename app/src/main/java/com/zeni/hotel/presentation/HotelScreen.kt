@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -56,8 +55,8 @@ import me.saket.telephoto.zoomable.zoomablePeekOverlay
 import androidx.core.net.toUri
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.exclude
@@ -67,10 +66,9 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.ui.draw.clipToBounds
-import coil.compose.rememberAsyncImagePainter
 import com.zeni.core.domain.model.Room
+import com.zeni.core.presentation.navigation.ScreenRoom
 
 @Composable
 fun HotelScreen(
@@ -144,12 +142,18 @@ fun HotelScreen(
             items(
                 items = hotel!!.rooms,
                 key = { room -> room.id },
-            ) {
+                contentType = { Room::class }
+            ) { room ->
                 RoomInfo(
-                    room = it,
+                    room = room,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+                        .padding(horizontal = 8.dp),
+                    onClick = {
+                        navController.navigate(
+                            route = ScreenRoom(hotelId = hotel!!.id, roomId = room.id)
+                        )
+                    }
                 )
             }
         }
@@ -252,12 +256,17 @@ private fun HotelInfo(
                 shape = MaterialTheme.shapes.extraLarge
             )
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            space = 8.dp,
+            alignment = Alignment.Top
+        )
     ) {
         Text(
             text = stringResource(id = R.string.hotel_info_title),
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier
+                .padding(bottom = 8.dp),
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleLarge
         )
 
         Row(
@@ -266,7 +275,8 @@ private fun HotelInfo(
         ) {
             Text(
                 text = stringResource(id = R.string.hotel_address),
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyLarge
             )
             Text(
                 text = " " + hotel.address,
@@ -320,7 +330,7 @@ private fun HotelInfo(
                     containerColor = MaterialTheme.colorScheme.secondary
                 )
             ) {
-                Text(text = stringResource(id = R.string.see_in_maps))
+                Text(text = stringResource(id = R.string.see_in_maps_button))
             }
         }
     }
@@ -336,19 +346,23 @@ private fun RoomsHeader(
             .background(color = MaterialTheme.colorScheme.background)
             .then(afterModifier)
             .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 16.dp,
+            alignment = Alignment.Start
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = stringResource(id = R.string.hotel_rooms_title),
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier
-                .padding(end = 4.dp)
+            fontSize = MaterialTheme.typography.titleLarge.fontSize * 0.9,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge
         )
 
         HorizontalDivider(
             modifier = Modifier
                 .weight(weight = 1f),
-            thickness = 1.dp,
+            thickness = 2.dp,
             color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
         )
     }
@@ -357,7 +371,8 @@ private fun RoomsHeader(
 @Composable
 private fun RoomInfo(
     room: Room,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     Column(
         modifier = modifier
@@ -365,22 +380,24 @@ private fun RoomInfo(
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = MaterialTheme.shapes.extraLarge
             )
+            .clickable(
+                enabled = onClick != null,
+                onClick = { onClick?.invoke() }
+            )
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            text = stringResource(id = room.roomType.text),
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-        )
 
         Row {
             Text(
-                text = stringResource(id = R.string.room_price_prefix),
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                text = stringResource(id = R.string.room_type),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = " " + stringResource(id = R.string.room_price_value, room.price),
-                style = MaterialTheme.typography.bodyLarge
+                text = " " + stringResource(id = room.roomType.text),
+                fontWeight = FontWeight.Normal,
+                style = MaterialTheme.typography.titleMedium
             )
         }
 
@@ -395,8 +412,10 @@ private fun RoomInfo(
             ) {
                 HorizontalPager(
                     state = pagerState,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    pageSpacing = 16.dp,
                 ) { page ->
+
                     SubcomposeAsyncImage(
                         model = room.images[page],
                         contentDescription = "Room Image",
@@ -435,6 +454,38 @@ private fun RoomInfo(
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = stringResource(id = R.string.room_price_prefix),
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = stringResource(id = R.string.room_price_value, room.price),
+                    fontWeight = FontWeight.ExtraBold,
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+
+            Button(
+                onClick = {
+                    TODO("Navigate to reservation details")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary
+                )
+            ) {
+                Text(text = stringResource(id = R.string.reserve_room_button))
             }
         }
     }
