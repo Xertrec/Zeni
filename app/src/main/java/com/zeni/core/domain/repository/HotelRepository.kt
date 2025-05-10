@@ -11,12 +11,18 @@ interface HotelRepository {
 
     fun getHotelById(hotelId: String): Flow<Hotel?>
 
+    suspend fun getHotelsAvailable(
+        startDate: String,
+        endDate: String,
+        city: String? = null
+    ): List<Hotel>
+
     suspend fun getHotelAvailability(
         startDate: String,
         endDate: String,
-        hotelId: String? = null,
+        hotelId: String,
         city: String? = null
-    ): List<Hotel>
+    ): Flow<Hotel?>
 
     fun getRoomsByHotelId(hotelId: String): Flow<List<Room>>
 

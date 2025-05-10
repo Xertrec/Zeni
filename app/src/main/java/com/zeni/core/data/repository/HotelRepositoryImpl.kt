@@ -1,6 +1,5 @@
 package com.zeni.core.data.repository
 
-import android.util.Log.e
 import com.zeni.core.data.mappers.toDomain
 import com.zeni.core.data.mappers.toDto
 import com.zeni.core.data.remote.api.HotelApiService
@@ -48,24 +47,48 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getHotelAvailability(
+    override suspend fun getHotelsAvailable(
         startDate: String,
         endDate: String,
-        hotelId: String?,
         city: String?
     ): List<Hotel> {
-        HotelApiLogger.apiOperation("Getting hotel availability from $startDate to $endDate")
+        HotelApiLogger.apiOperation("Getting hotels available from $startDate to $endDate")
         return try {
             val hotels = hotelApiService.getHotelAvailability(
                 groupId = gid,
                 startDate = startDate,
                 endDate = endDate,
-                hotelId = hotelId,
                 city = city
-            )
-            HotelApiLogger.apiOperation("Hotel availability retrieved successfully")
+            ).availableHotels
+            HotelApiLogger.apiOperation("Hotels available retrieved successfully")
 
             hotels.map { it.toDomain() }
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error getting hotels available: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override suspend fun getHotelAvailability(
+        startDate: String,
+        endDate: String,
+        hotelId: String,
+        city: String?
+    ): Flow<Hotel?> {
+        HotelApiLogger.apiOperation("Getting hotel availability from $startDate to $endDate")
+        return try {
+            flow {
+                val hotel = hotelApiService.getHotelAvailability(
+                    groupId = gid,
+                    startDate = startDate,
+                    endDate = endDate,
+                    hotelId = hotelId,
+                    city = city
+                ).availableHotels.first()
+                HotelApiLogger.apiOperation("Hotel availability retrieved successfully")
+
+                emit(hotel.toDomain())
+            }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting hotel availability: ${e.message}", e)
             throw e

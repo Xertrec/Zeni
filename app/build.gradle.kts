@@ -23,13 +23,9 @@ android {
         minSdk = 27
         targetSdk = 36
         versionCode = 1
-        versionName = "0.4.0"
+        versionName = "0.5.0"
 
         testInstrumentationRunner = "com.zeni.HiltTestRunner"
-
-        room {
-            schemaDirectory("$projectDir/schemas")
-        }
     }
 
     buildTypes {
@@ -68,6 +64,10 @@ android {
     sourceSets {
         getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {

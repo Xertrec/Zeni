@@ -21,6 +21,8 @@ import com.zeni.hotel.presentation.components.HotelViewModel
 import com.zeni.hotel.presentation.components.RoomViewModel
 import com.zeni.itinerary.presentation.UpsertItineraryScreen
 import com.zeni.itinerary.presentation.components.UpsertActivityViewModel
+import com.zeni.reservation.presentation.ReservationScreen
+import com.zeni.reservation.presentation.components.ReservationViewModel
 import com.zeni.settings.presentation.ProfileScreen
 import com.zeni.settings.presentation.AboutScreen
 import com.zeni.settings.presentation.ChangePasswordScreen
@@ -86,7 +88,7 @@ fun NavGraph(
         composable<ScreenHotel> {
             val args = it.toRoute<ScreenHotel>()
             val viewModel = hiltViewModel<HotelViewModel, HotelViewModel.HotelViewModelFactory> { factory ->
-                factory.create(args.hotelId)
+                factory.create(args.hotelId, args.startDate, args.endDate)
             }
 
             HotelScreen(
@@ -97,7 +99,7 @@ fun NavGraph(
         composable<ScreenRoom> {
             val args = it.toRoute<ScreenRoom>()
             val viewModel = hiltViewModel<RoomViewModel, RoomViewModel.RoomViewModelFactory> { factory ->
-                factory.create(hotelId = args.hotelId, roomId = args.roomId)
+                factory.create(args.hotelId, args.roomId, args.startDate, args.endDate)
             }
 
             RoomScreen(
@@ -130,6 +132,18 @@ fun NavGraph(
             }
 
             TripScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+
+        composable<ScreenReservation> {
+            val args = it.toRoute<ScreenReservation>()
+            val viewModel = hiltViewModel<ReservationViewModel, ReservationViewModel.ReservationViewModelFactory> { factory ->
+                factory.create(args.hotelId, args.roomId, args.startDate, args.endDate)
+            }
+
+            ReservationScreen(
                 viewModel = viewModel,
                 navController = navController
             )

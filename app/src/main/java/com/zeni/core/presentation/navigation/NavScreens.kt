@@ -17,12 +17,16 @@ object ScreenInitial
 object ScreenHotels
 @Serializable
 data class ScreenHotel(
-    val hotelId: String
+    val hotelId: String,
+    val startDate: String? = null, // TODO: Remove the default parameter
+    val endDate: String? = null
 )
 @Serializable
 data class ScreenRoom(
     val hotelId: String,
-    val roomId: String
+    val roomId: String,
+    val startDate: String? = null, // TODO: Remove the default parameter
+    val endDate: String? = null
 )
 
 @Serializable
@@ -34,6 +38,14 @@ data class ScreenUpsertTrip(
 @Serializable
 data class ScreenTrip(
     val tripName: String
+)
+
+@Serializable
+data class ScreenReservation(
+    val hotelId: String,
+    val roomId: String,
+    val startDate: String,
+    val endDate: String
 )
 
 @Serializable

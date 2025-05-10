@@ -1,5 +1,6 @@
 package com.zeni.core.data.remote.api
 
+import com.zeni.core.data.remote.dto.AvailabilityDto
 import com.zeni.core.data.remote.dto.HotelDto
 import com.zeni.core.data.remote.dto.ReservationDto
 import com.zeni.core.data.remote.dto.ResponseBodyDto
@@ -34,7 +35,7 @@ interface HotelApiService {
         @Query("end_date") endDate: String,
         @Query("hotel_id") hotelId: String? = null,
         @Query("city") city: String? = null
-    ): List<HotelDto>
+    ): AvailabilityDto
 
     @GET("hotels/{group_id}/reservations")
     suspend fun getReservations(
