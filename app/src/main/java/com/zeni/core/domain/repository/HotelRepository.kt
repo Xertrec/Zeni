@@ -28,6 +28,13 @@ interface HotelRepository {
 
     fun getRoomById(hotelId: String, roomId: String): Flow<Room?>
 
+    fun isRoomAvailable(
+        hotelId: String,
+        roomId: String,
+        startDate: String,
+        endDate: String
+    ): Flow<Boolean>
+
     suspend fun getReservations(): List<Reservation>
 
     suspend fun getReservations(guestEmail: String? = null): List<Reservation>

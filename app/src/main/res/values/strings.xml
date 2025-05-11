@@ -87,6 +87,7 @@
     <string name="room_hotel_name">Hotel:</string>
     <string name="room_image_description">Imagen de la habitación</string>
     <string name="reserve_room_button">Reservar</string>
+    <string name="room_not_available">Habitación no disponible para las fechas seleccionadas</string>
 
     <!--  TripsScreen  -->
     <string name="trips_title">Viajes</string>

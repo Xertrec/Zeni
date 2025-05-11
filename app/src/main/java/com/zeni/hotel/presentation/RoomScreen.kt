@@ -58,6 +58,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.zeni.core.domain.utils.SelectableDatesNotPast
 import me.saket.telephoto.zoomable.rememberZoomablePeekOverlayState
 import me.saket.telephoto.zoomable.zoomablePeekOverlay
@@ -79,6 +80,7 @@ fun RoomScreen(
 
     val startDate by viewModel.startDateTime.collectAsStateWithLifecycle()
     val endDate by viewModel.endDateTime.collectAsStateWithLifecycle()
+    val isRoomAvailable by viewModel.isRoomAvailable.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier
@@ -97,7 +99,8 @@ fun RoomScreen(
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min),
                 startDate = startDate,
-                endDate = endDate
+                endDate = endDate,
+                isRoomAvailable = isRoomAvailable
             )
         }
     ) { contentPadding ->
@@ -190,7 +193,8 @@ private fun BottomBar(
     navController: NavController,
     modifier: Modifier = Modifier,
     startDate: ZonedDateTime? = null,
-    endDate: ZonedDateTime? = null
+    endDate: ZonedDateTime? = null,
+    isRoomAvailable: Boolean = true
 ) {
     val daysCount = if (startDate != null && endDate != null) {
         ChronoUnit.DAYS.between(startDate.toLocalDate(), endDate.toLocalDate()).toInt()
@@ -208,20 +212,41 @@ private fun BottomBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column {
+        if (isRoomAvailable) {
+            Column {
+                Text(
+                    text = pluralStringResource(
+                        id = R.plurals.room_price_prefix,
+                        count = daysCount,
+                        daysCount
+                    ),
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = stringResource(id = R.string.room_price_value, totalPrice),
+                    fontWeight = FontWeight.ExtraBold,
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+        } else {
             Text(
-                text = pluralStringResource(
-                    id = R.plurals.room_price_prefix,
-                    count = daysCount,
-                    daysCount
-                ),
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = stringResource(id = R.string.room_price_value, totalPrice),
-                fontWeight = FontWeight.ExtraBold,
-                style = MaterialTheme.typography.titleLarge
+                text = stringResource(id = R.string.room_not_available),
+                modifier = Modifier
+                    .weight(weight = 1f)
+                    .padding(end = 8.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.errorContainer,
+                        shape = MaterialTheme.shapes.extraLarge
+                    )
+                    .padding(
+                        horizontal = 12.dp,
+                        vertical = 8.dp
+                    ),
+                color = MaterialTheme.colorScheme.onErrorContainer,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
             )
         }
 
@@ -231,7 +256,8 @@ private fun BottomBar(
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary
-            )
+            ),
+            enabled = isRoomAvailable
         ) {
             Text(text = stringResource(id = R.string.reserve_room_button))
         }
@@ -503,3 +529,4 @@ private fun RoomInfo(
         TODO("Add room info here when available")
     }
 }
+
