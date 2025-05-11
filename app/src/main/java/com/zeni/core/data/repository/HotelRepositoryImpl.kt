@@ -19,13 +19,15 @@ class HotelRepositoryImpl @Inject constructor(
 ): HotelRepository {
     private val gid = "G07"
 
-    override suspend fun getHotels(): List<Hotel> {
+    override fun getHotels(): Flow<List<Hotel>> {
         HotelApiLogger.apiOperation("Getting hotels")
         return try {
-            val hotels = hotelApiService.getHotels(gid)
-            HotelApiLogger.apiOperation("Hotels retrieved successfully")
+            flow {
+                val hotels = hotelApiService.getHotels(gid)
+                HotelApiLogger.apiOperation("Hotels retrieved successfully")
 
-            hotels.map { it.toDomain() }
+                emit(hotels.map { it.toDomain() })
+            }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting hotels: ${e.message}", e)
             throw e
@@ -47,29 +49,31 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getHotelsAvailable(
+    override fun getHotelsAvailable(
         startDate: String,
         endDate: String,
         city: String?
-    ): List<Hotel> {
+    ): Flow<List<Hotel>> {
         HotelApiLogger.apiOperation("Getting hotels available from $startDate to $endDate")
         return try {
-            val hotels = hotelApiService.getHotelAvailability(
-                groupId = gid,
-                startDate = startDate,
-                endDate = endDate,
-                city = city
-            ).availableHotels
-            HotelApiLogger.apiOperation("Hotels available retrieved successfully")
+            flow {
+                val hotels = hotelApiService.getHotelAvailability(
+                    groupId = gid,
+                    startDate = startDate,
+                    endDate = endDate,
+                    city = city
+                ).availableHotels
+                HotelApiLogger.apiOperation("Hotels available retrieved successfully")
 
-            hotels.map { it.toDomain() }
+                emit(hotels.map { it.toDomain() })
+            }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting hotels available: ${e.message}", e)
             throw e
         }
     }
 
-    override suspend fun getHotelAvailability(
+    override fun getHotelAvailability(
         startDate: String,
         endDate: String,
         hotelId: String,
@@ -147,39 +151,45 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getReservations(guestEmail: String?): List<Reservation> {
+    override fun getReservations(guestEmail: String?): Flow<List<Reservation>> {
         HotelApiLogger.apiOperation("Getting reservations for guest $guestEmail")
         return try {
-            val reservations = hotelApiService.getReservations(gid, guestEmail)
-            HotelApiLogger.apiOperation("Reservations retrieved successfully")
+            flow {
+                val reservations = hotelApiService.getReservations(gid, guestEmail)
+                HotelApiLogger.apiOperation("Reservations retrieved successfully")
 
-            reservations.map { it.toDomain() }
+                emit(reservations.map { it.toDomain() })
+            }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting reservations: ${e.message}", e)
             throw e
         }
     }
 
-    override suspend fun getReservations(): List<Reservation> {
+    override fun getReservations(): Flow<List<Reservation>> {
         HotelApiLogger.apiOperation("Getting all reservations")
         return try {
-            val reservations = hotelApiService.getReservations()
-            HotelApiLogger.apiOperation("All reservations retrieved successfully")
+            flow {
+                val reservations = hotelApiService.getReservations()
+                HotelApiLogger.apiOperation("All reservations retrieved successfully")
 
-            reservations.map { it.toDomain() }
+                emit(reservations.map { it.toDomain() })
+            }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting all reservations: ${e.message}", e)
             throw e
         }
     }
 
-    override suspend fun getReservationById(reservationId: String): Reservation {
+    override fun getReservationById(reservationId: String): Flow<Reservation> {
         HotelApiLogger.apiOperation("Getting reservation with id $reservationId")
         return try {
-            val reservation = hotelApiService.getReservationById(reservationId)
-            HotelApiLogger.apiOperation("Reservation retrieved successfully")
+            flow {
+                val reservation = hotelApiService.getReservationById(reservationId)
+                HotelApiLogger.apiOperation("Reservation retrieved successfully")
 
-            reservation.toDomain()
+                emit(reservation.toDomain())
+            }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting reservation by id: ${e.message}", e)
             throw e

@@ -1,11 +1,21 @@
 package com.zeni
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,7 +28,9 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -28,13 +40,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.zeni.core.presentation.navigation.ScreenUpsertTrip
+import com.zeni.hotel.domain.utils.EndSelectableDate
+import com.zeni.hotel.domain.utils.StartSelectableDate
+import com.zeni.hotel.presentation.HotelDatePickerDialog
 import com.zeni.hotel.presentation.HotelsScreen
+import com.zeni.hotel.presentation.SearchHotelBar
+import com.zeni.hotel.presentation.components.HotelsViewModel
 import com.zeni.itinerary.presentation.ItineraryScreen
 import com.zeni.itinerary.presentation.components.ItineraryViewModel
 import com.zeni.settings.presentation.MoreScreen
 import com.zeni.trip.presentation.TripsScreen
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InitialScreen(
     navController: NavHostController,
@@ -45,11 +63,51 @@ fun InitialScreen(
         pageCount = { Screen.entries.size }
     )
 
+    val currentScreen by remember {
+        derivedStateOf {
+            Screen.entries[pagerState.targetPage]
+        }
+    }
+
+    val hotelsViewModel: HotelsViewModel = hiltViewModel()
+    var isSearchVisible by remember { mutableStateOf(value = false) }
+
+    var showStartDatePicker by remember { mutableStateOf(value = false) }
+    var showEndDatePicker by remember { mutableStateOf(value = false) }
+    val startDate by hotelsViewModel.startDate.collectAsState()
+    val endDate by hotelsViewModel.endDate.collectAsState()
+
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBar(pagerState = pagerState)
+            AnimatedContent(
+                targetState = currentScreen == Screen.Hotels && isSearchVisible,
+                transitionSpec = {
+                    (slideInVertically(animationSpec = tween(300)) { height -> -height } + 
+                    fadeIn(animationSpec = tween(300)))
+                        .togetherWith(
+                            slideOutVertically(animationSpec = tween(300)) { height -> -height } +
+                            fadeOut(animationSpec = tween(300))
+                        )
+                },
+                label = "TopBarAnimation"
+            ) { isSearchBarVisible ->
+                if (isSearchBarVisible) {
+                    val cityQuery by hotelsViewModel.cityQuery.collectAsState()
+
+                    SearchHotelBar(
+                        cityQuery = cityQuery,
+                        onCityQueryChange = hotelsViewModel::setCity,
+                        startDate = startDate,
+                        endDate = endDate,
+                        onStartDateClick = { showStartDatePicker = true },
+                        onEndDateClick = { showEndDatePicker = true },
+                        onCloseSearch = { isSearchVisible = false }
+                    )
+                } else {
+                    TopBar(currentScreen = currentScreen)
+                }
+            }
         },
         bottomBar = {
             BottomBar(
@@ -59,7 +117,9 @@ fun InitialScreen(
         floatingActionButton = {
             FloatingButton(
                 navController = navController,
-                pagerState = pagerState
+                pagerState = pagerState,
+                onSearchClick = if (!isSearchVisible) { { isSearchVisible = !isSearchVisible } }
+                else null
             )
         },
         containerColor = MaterialTheme.colorScheme.background
@@ -78,7 +138,7 @@ fun InitialScreen(
             when (currentIndex) {
                 Screen.Hotels.ordinal -> {
                     HotelsScreen(
-                        viewModel = hiltViewModel(),
+                        viewModel = hotelsViewModel,
                         navController = navController
                     )
                 }
@@ -104,32 +164,53 @@ fun InitialScreen(
                 }
             }
         }
+
+        if (showStartDatePicker && currentScreen == Screen.Hotels) {
+            val startDatePickerState = rememberDatePickerState(
+                initialSelectedDateMillis = startDate?.toInstant()?.toEpochMilli()
+                    ?: System.currentTimeMillis(),
+                selectableDates = StartSelectableDate.createSelectableDates(endDate)
+            )
+
+            HotelDatePickerDialog(
+                state = startDatePickerState,
+                onDateSelected = {
+                    hotelsViewModel.setStartDate(it)
+                    showStartDatePicker = false
+                },
+                onDismiss = { showStartDatePicker = false }
+            )
+        }
+        if (showEndDatePicker && currentScreen == Screen.Hotels) {
+            val endDatePickerState = rememberDatePickerState(
+                initialSelectedDateMillis = endDate?.toInstant()?.toEpochMilli()
+                    ?: (startDate?.toInstant()?.toEpochMilli()?.plus(86400000L)
+                        ?: (System.currentTimeMillis() + 86400000L)),
+                selectableDates = EndSelectableDate.createSelectableDates(startDate)
+            )
+
+            HotelDatePickerDialog(
+                state = endDatePickerState,
+                onDateSelected = {
+                    hotelsViewModel.setEndDate(it)
+                    showEndDatePicker = false
+                },
+                onDismiss = { showEndDatePicker = false }
+            )
+        }
+    }
+
+    LaunchedEffect(isSearchVisible) {
+        if (!isSearchVisible) hotelsViewModel.clearSearch()
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(pagerState: PagerState) {
-    val currentScreen by remember {
-        derivedStateOf {
-            Screen.entries[pagerState.targetPage]
-        }
-    }
-
+private fun TopBar(currentScreen: Screen) {
     TopAppBar(
         title = {
-            Text(text = stringResource(currentScreen.top))
-        },
-        actions = {
-            // Search icon
-            IconButton(
-                onClick = { /*TODO()*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null
-                )
-            }
+            Text(text = stringResource(currentScreen.topText))
         }
     )
 }
@@ -164,7 +245,7 @@ private fun BottomBar(pagerState: PagerState) {
                     )
                 },
                 label = {
-                    Text(text = stringResource(screen.bottom))
+                    Text(text = stringResource(screen.bottomText))
                 }
             )
         }
@@ -174,7 +255,8 @@ private fun BottomBar(pagerState: PagerState) {
 @Composable
 private fun FloatingButton(
     navController: NavController,
-    pagerState: PagerState
+    pagerState: PagerState,
+    onSearchClick: (() -> Unit)? = null
 ) {
     val currentScreen by remember {
         derivedStateOf {
@@ -182,15 +264,30 @@ private fun FloatingButton(
         }
     }
 
-    if (currentScreen == Screen.Trips) {
-        FloatingActionButton(
-            onClick = { navController.navigate(ScreenUpsertTrip()) }
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Add,
-                contentDescription = null
-            )
+    when (currentScreen) {
+        Screen.Trips -> {
+            FloatingActionButton(
+                onClick = { navController.navigate(ScreenUpsertTrip()) }
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Add,
+                    contentDescription = null
+                )
+            }
         }
+        Screen.Hotels -> {
+            if (onSearchClick != null) {
+                FloatingActionButton(
+                    onClick = onSearchClick
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null
+                    )
+                }
+            }
+        }
+        else -> {}
     }
 }
 
@@ -198,30 +295,30 @@ private fun FloatingButton(
  * Screens represented in the initial screen.
  */
 enum class Screen(
-    val top: Int,
-    val bottom: Int = top,
+    val topText: Int,
+    val bottomText: Int = topText,
     val unselectedIcon: Int,
     val selectedIcon: Int = unselectedIcon
 ) {
 //    Home(R.string.home_title),
     Hotels(
-        top = R.string.hotels_title,
+        topText = R.string.hotels_title,
         unselectedIcon = R.drawable.icon_hotel_empty,
         selectedIcon = R.drawable.icon_hotel_fill
     ),
     Trips(
-        top = R.string.trips_title,
+        topText = R.string.trips_title,
         unselectedIcon = R.drawable.icon_trip_empty,
         selectedIcon = R.drawable.icon_trip_fill
     ),
     Itinerary(
-        top = R.string.itinerary_title,
-        bottom = R.string.itinerary_tab_text,
+        topText = R.string.itinerary_title,
+        bottomText = R.string.itinerary_tab_text,
         unselectedIcon = R.drawable.icon_itinerary_empty,
         selectedIcon = R.drawable.icon_itinerary_fill
     ),
     More(
-        top = R.string.more_title,
+        topText = R.string.more_title,
         unselectedIcon = R.drawable.icon_more
     )
 }

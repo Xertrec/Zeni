@@ -60,6 +60,14 @@
     <string name="hotel_address">Dirección:</string>
     <string name="hotel_rating">Valoración:</string>
     <string name="room_min_price_prefix">Noche desde:</string>
+    <!-- Search -->
+    <string name="start_date_default_text">Fecha inicial</string>
+    <string name="end_date_default_text">Fecha final</string>
+    <string name="confirm_button">Confirmar</string>
+    <string name="select_city">Seleccionar ciudad</string>
+    <string name="city_barcelona">Barcelona</string>
+    <string name="city_paris">Paris</string>
+    <string name="city_londres">Londres</string>
 
     <!-- HotelScreen -->
     <string name="hotel_info_title">Información del hotel:</string>

@@ -7,17 +7,17 @@ import kotlinx.coroutines.flow.Flow
 
 interface HotelRepository {
 
-    suspend fun getHotels(): List<Hotel>
+    fun getHotels(): Flow<List<Hotel>>
 
     fun getHotelById(hotelId: String): Flow<Hotel?>
 
-    suspend fun getHotelsAvailable(
+    fun getHotelsAvailable(
         startDate: String,
         endDate: String,
         city: String? = null
-    ): List<Hotel>
+    ): Flow<List<Hotel>>
 
-    suspend fun getHotelAvailability(
+    fun getHotelAvailability(
         startDate: String,
         endDate: String,
         hotelId: String,
@@ -35,11 +35,11 @@ interface HotelRepository {
         endDate: String
     ): Flow<Boolean>
 
-    suspend fun getReservations(): List<Reservation>
+    fun getReservations(): Flow<List<Reservation>>
 
-    suspend fun getReservations(guestEmail: String? = null): List<Reservation>
+    fun getReservations(guestEmail: String? = null): Flow<List<Reservation>>
 
-    suspend fun getReservationById(reservationId: String): Reservation
+    fun getReservationById(reservationId: String): Flow<Reservation>
 
     suspend fun reserveHotel(reservation: Reservation)
 
