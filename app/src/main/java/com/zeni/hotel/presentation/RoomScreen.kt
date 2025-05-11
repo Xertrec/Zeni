@@ -47,10 +47,26 @@ import com.zeni.hotel.presentation.components.RoomViewModel
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.pluralStringResource
+import com.zeni.core.domain.utils.SelectableDatesNotPast
 import me.saket.telephoto.zoomable.rememberZoomablePeekOverlayState
 import me.saket.telephoto.zoomable.zoomablePeekOverlay
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.time.temporal.ChronoUnit
 
 @Composable
 fun RoomScreen(
@@ -60,6 +76,9 @@ fun RoomScreen(
     val hotel by viewModel.hotel.collectAsStateWithLifecycle()
     val room by viewModel.room.collectAsStateWithLifecycle()
     if (room == null || hotel == null) return
+
+    val startDate by viewModel.startDateTime.collectAsStateWithLifecycle()
+    val endDate by viewModel.endDateTime.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier
@@ -76,7 +95,9 @@ fun RoomScreen(
                 navController = navController,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(IntrinsicSize.Min)
+                    .height(IntrinsicSize.Min),
+                startDate = startDate,
+                endDate = endDate
             )
         }
     ) { contentPadding ->
@@ -118,6 +139,18 @@ fun RoomScreen(
                 )
             }
 
+            item {
+                ReservationDate(
+                    startDate = startDate,
+                    setStartDate = viewModel::setStartDate,
+                    endDate = endDate,
+                    setEndDate = viewModel::setEndDate,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
+
 //            item {
 //                RoomInfo(
 //                    room = room!!,
@@ -155,8 +188,17 @@ private fun TopBar(
 private fun BottomBar(
     room: Room,
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    startDate: ZonedDateTime? = null,
+    endDate: ZonedDateTime? = null
 ) {
+    val daysCount = if (startDate != null && endDate != null) {
+        ChronoUnit.DAYS.between(startDate.toLocalDate(), endDate.toLocalDate()).toInt()
+    } else {
+        1
+    }
+    val totalPrice = room.price * daysCount
+
     Row(
         modifier = modifier
             .background(color = MaterialTheme.colorScheme.background)
@@ -168,12 +210,16 @@ private fun BottomBar(
     ) {
         Column {
             Text(
-                text = stringResource(id = R.string.room_price_prefix),
+                text = pluralStringResource(
+                    id = R.plurals.room_price_prefix,
+                    count = daysCount,
+                    daysCount
+                ),
                 fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = stringResource(id = R.string.room_price_value, room.price),
+                text = stringResource(id = R.string.room_price_value, totalPrice),
                 fontWeight = FontWeight.ExtraBold,
                 style = MaterialTheme.typography.titleLarge
             )
@@ -297,6 +343,145 @@ private fun RoomImageSection(
                     )
                 }
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ReservationDate(
+    startDate: ZonedDateTime?,
+    setStartDate: (ZonedDateTime) -> Unit,
+    endDate: ZonedDateTime?,
+    setEndDate: (ZonedDateTime) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+    var showStartDatePicker by remember { mutableStateOf(value = false) }
+    var showEndDatePicker by remember { mutableStateOf(value = false) }
+
+    Column(
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                shape = MaterialTheme.shapes.extraLarge
+            )
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(
+            space = 8.dp,
+            alignment = Alignment.Top
+        )
+    ) {
+        Text(
+            text = stringResource(id = R.string.reservation_dates_title),
+            modifier = Modifier
+                .padding(bottom = 8.dp),
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleLarge
+        )
+
+        Button(
+            onClick = { showStartDatePicker = true },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondary
+            )
+        ) {
+            Text(
+                text = if (startDate != null) {
+                    stringResource(
+                        id = R.string.start_date_label,
+                        startDate.format(dateFormatter)
+                    )
+                } else {
+                    stringResource(id = R.string.select_start_date_button)
+                }
+            )
+        }
+
+        Button(
+            onClick = { showEndDatePicker = true },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondary
+            )
+        ) {
+            Text(
+                text = if (endDate != null) {
+                    stringResource(
+                        id = R.string.end_date_label,
+                        endDate.format(dateFormatter)
+                    )
+                } else {
+                    stringResource(id = R.string.select_end_date_button)
+                }
+            )
+        }
+    }
+
+    if (showStartDatePicker) {
+        val startDatePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = startDate?.toInstant()?.toEpochMilli()
+                ?: System.currentTimeMillis(),
+            selectableDates = SelectableDatesNotPast
+        )
+
+        DatePickerDialog(
+            onDismissRequest = { showStartDatePicker = false },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        startDatePickerState.selectedDateMillis?.let { millis ->
+                            val selectedDate = Instant.ofEpochMilli(millis)
+                                .atZone(ZoneId.systemDefault())
+                            setStartDate(selectedDate)
+                        }
+                        showStartDatePicker = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.accept_button))
+                }
+            },
+            dismissButton = {
+                OutlinedButton(onClick = { showStartDatePicker = false }) {
+                    Text(text = stringResource(id = R.string.cancel_button))
+                }
+            }
+        ) {
+            DatePicker(state = startDatePickerState)
+        }
+    }
+
+    if (showEndDatePicker) {
+        val endDatePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = endDate?.toInstant()?.toEpochMilli()
+                ?: (System.currentTimeMillis() + 86400000L),
+            selectableDates = SelectableDatesNotPast
+        )
+
+        DatePickerDialog(
+            onDismissRequest = { showEndDatePicker = false },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        endDatePickerState.selectedDateMillis?.let { millis ->
+                            val selectedDate = Instant.ofEpochMilli(millis)
+                                .atZone(ZoneId.systemDefault())
+                            setEndDate(selectedDate)
+                        }
+                        showEndDatePicker = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.accept_button))
+                }
+            },
+            dismissButton = {
+                OutlinedButton(onClick = { showEndDatePicker = false }) {
+                    Text(text = stringResource(id = R.string.cancel_button))
+                }
+            }
+        ) {
+            DatePicker(state = endDatePickerState)
         }
     }
 }

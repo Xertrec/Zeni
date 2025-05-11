@@ -25,8 +25,8 @@ data class ScreenHotel(
 data class ScreenRoom(
     val hotelId: String,
     val roomId: String,
-    val startDate: String? = null, // TODO: Remove the default parameter
-    val endDate: String? = null
+    val startDate: String?,
+    val endDate: String?
 )
 
 @Serializable

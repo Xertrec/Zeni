@@ -64,13 +64,24 @@
     <!-- HotelScreen -->
     <string name="hotel_info_title">Información del hotel:</string>
     <string name="see_in_maps_button">Ver en Google Maps</string>
+    <string name="reservation_dates_title">Fechas de la reserva:</string>
+    <string name="select_start_date_button">Seleccionar fecha de inicio</string>
+    <string name="select_end_date_button">Seleccionar fecha de fin</string>
+    <string name="start_date_label">Fecha de inicio: %s</string>
+    <string name="end_date_label">Fecha de fin: %s</string>
     <string name="hotel_rooms_title">Habitaciones</string>
     <string name="single_room_text">Individual</string>
     <string name="double_room_text">Doble</string>
     <string name="suite_room_text">Suite</string>
+    <string name="rooms_dates_required">
+        Para ver las habitaciones disponibles, selecciona las fechas de reserva
+    </string>
 
     <!-- RoomScreen -->
-    <string name="room_price_prefix">1 noche por:</string>
+    <plurals name="room_price_prefix">
+        <item quantity="one">1 noche por:</item>
+        <item quantity="other">%d noches por:</item>
+    </plurals>
     <string name="room_price_value">%.2f €</string>
     <string name="room_type">Habitación:</string>
     <string name="room_hotel_name">Hotel:</string>
