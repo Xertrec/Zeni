@@ -59,7 +59,8 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.zeni.core.domain.utils.SelectableDatesNotPast
+import com.zeni.hotel.domain.utils.EndSelectableDate
+import com.zeni.hotel.domain.utils.StartSelectableDate
 import me.saket.telephoto.zoomable.rememberZoomablePeekOverlayState
 import me.saket.telephoto.zoomable.zoomablePeekOverlay
 import java.time.Instant
@@ -449,7 +450,7 @@ private fun ReservationDate(
         val startDatePickerState = rememberDatePickerState(
             initialSelectedDateMillis = startDate?.toInstant()?.toEpochMilli()
                 ?: System.currentTimeMillis(),
-            selectableDates = SelectableDatesNotPast
+            selectableDates = StartSelectableDate.createSelectableDates(endDate)
         )
 
         DatePickerDialog(
@@ -481,8 +482,9 @@ private fun ReservationDate(
     if (showEndDatePicker) {
         val endDatePickerState = rememberDatePickerState(
             initialSelectedDateMillis = endDate?.toInstant()?.toEpochMilli()
-                ?: (System.currentTimeMillis() + 86400000L),
-            selectableDates = SelectableDatesNotPast
+                ?: (startDate?.toInstant()?.toEpochMilli()?.plus(86400000L) 
+                ?: (System.currentTimeMillis() + 86400000L)),
+            selectableDates = EndSelectableDate.createSelectableDates(startDate)
         )
 
         DatePickerDialog(

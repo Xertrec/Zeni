@@ -86,6 +86,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zeni.core.domain.utils.SelectableDatesNotPast
 import com.zeni.core.domain.utils.ZonedDateTimeUtils
+import com.zeni.hotel.domain.utils.EndSelectableDate
+import com.zeni.hotel.domain.utils.StartSelectableDate
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -417,7 +419,7 @@ private fun ReservationDate(
     val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     var showStartDatePicker by remember { mutableStateOf(value = false) }
     var showEndDatePicker by remember { mutableStateOf(value = false) }
-    
+
     Column(
         modifier = modifier
             .background(
@@ -481,7 +483,7 @@ private fun ReservationDate(
         val startDatePickerState = rememberDatePickerState(
             initialSelectedDateMillis = startDate?.toInstant()?.toEpochMilli()
                 ?: System.currentTimeMillis(),
-            selectableDates = SelectableDatesNotPast
+            selectableDates = StartSelectableDate.createSelectableDates(endDate)
         )
 
         DatePickerDialog(
@@ -509,12 +511,12 @@ private fun ReservationDate(
             DatePicker(state = startDatePickerState)
         }
     }
-
     if (showEndDatePicker) {
         val endDatePickerState = rememberDatePickerState(
             initialSelectedDateMillis = endDate?.toInstant()?.toEpochMilli()
-                ?: (System.currentTimeMillis() + 86400000L),
-            selectableDates = SelectableDatesNotPast
+                ?: (startDate?.toInstant()?.toEpochMilli()?.plus(86400000L)
+                ?: (System.currentTimeMillis() + 86400000L)),
+            selectableDates = EndSelectableDate.createSelectableDates(startDate)
         )
 
         DatePickerDialog(
