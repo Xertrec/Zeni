@@ -36,4 +36,8 @@ object RoomModule {
     @Provides
     @Singleton
     fun provideItineraryDao(db: TripsDatabase) = db.itineraryDao()
+
+    @Provides
+    @Singleton
+    fun provideReservationDao(db: TripsDatabase) = db.reservationDao()
 }

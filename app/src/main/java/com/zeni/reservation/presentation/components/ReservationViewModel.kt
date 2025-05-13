@@ -1,22 +1,17 @@
 package com.zeni.reservation.presentation.components
 
-import android.R.attr.end
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zeni.core.data.repository.HotelRepositoryImpl
+import com.zeni.core.data.repository.UserRepositoryImpl
+import com.zeni.core.domain.model.Reservation
 import com.zeni.core.domain.utils.ZonedDateTimeUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = ReservationViewModel.ReservationViewModelFactory::class)
 class ReservationViewModel @AssistedInject constructor(
@@ -24,8 +19,16 @@ class ReservationViewModel @AssistedInject constructor(
     @Assisted("roomId") private val roomId: String,
     @Assisted("startDate") private val startDate: String,
     @Assisted("endDate") private val endDate: String,
-    hotelRepository: HotelRepositoryImpl
+    userRepository: UserRepositoryImpl,
+    private val hotelRepository: HotelRepositoryImpl
 ): ViewModel() {
+
+    val user = userRepository.getCurrentUser()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
+            initialValue = null
+        )
 
     val hotel = hotelRepository.getHotelById(hotelId)
         .stateIn(
@@ -41,10 +44,20 @@ class ReservationViewModel @AssistedInject constructor(
             initialValue = null
         )
 
-    val reservationStartDateTime = startDate.let { ZonedDateTimeUtils.toZonedDateTime(it) }
-    val reservationEndDateTime = endDate.let { ZonedDateTimeUtils.toZonedDateTime(it) }
+    val reservationStartDateTime = startDate.let { ZonedDateTimeUtils.fromString(it) }
+    val reservationEndDateTime = endDate.let { ZonedDateTimeUtils.fromString(it) }
 
-    suspend fun confirmReservation() {
+    suspend fun confirmReservation(): Long {
+        return hotelRepository.reserveRoom(
+            Reservation(
+                hotelId = hotelId,
+                roomId = roomId,
+                startDate = reservationStartDateTime,
+                endDate = reservationEndDateTime,
+                guestName = user.value!!.username,
+                guestEmail = user.value!!.email
+            )
+        )
     }
 
     @AssistedFactory

@@ -29,9 +29,9 @@ class RoomViewModel @AssistedInject constructor(
 ): ViewModel() {
 
     val startDateTime: StateFlow<ZonedDateTime?>
-        field = MutableStateFlow(value = startDate?.let { ZonedDateTimeUtils.toZonedDateTime(it) })
+        field = MutableStateFlow(value = startDate?.let { ZonedDateTimeUtils.fromString(it) })
     val endDateTime: StateFlow<ZonedDateTime?>
-        field = MutableStateFlow(value = endDate?.let { ZonedDateTimeUtils.toZonedDateTime(it) })
+        field = MutableStateFlow(value = endDate?.let { ZonedDateTimeUtils.fromString(it) })
 
     val hotel = hotelRepository.getHotelById(hotelId)
         .stateIn(

@@ -35,9 +35,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -57,8 +61,9 @@ import coil.compose.SubcomposeAsyncImage
 import com.zeni.R
 import com.zeni.core.domain.model.Hotel
 import com.zeni.core.domain.model.Room
-import com.zeni.core.domain.utils.ZonedDateTimeUtils
+import com.zeni.core.domain.model.User
 import com.zeni.core.domain.utils.extensions.navigateBack
+import com.zeni.core.presentation.components.CheckmarkAnimation
 import com.zeni.core.presentation.components.shimmerEffect
 import com.zeni.reservation.presentation.components.ReservationViewModel
 import kotlinx.coroutines.launch
@@ -75,9 +80,12 @@ fun ReservationScreen(
 ) {
     val scope = rememberCoroutineScope()
 
+    val user by viewModel.user.collectAsStateWithLifecycle()
     val hotel by viewModel.hotel.collectAsStateWithLifecycle()
     val room by viewModel.room.collectAsStateWithLifecycle()
-    if (hotel == null || room == null) return
+    if (user == null || hotel == null || room == null) return
+
+    var showReservationConfirmation by remember { mutableStateOf(value = false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -92,7 +100,8 @@ fun ReservationScreen(
                 room = room!!,
                 onConfirmClick = {
                     scope.launch {
-                        viewModel.confirmReservation()
+//                        val reservationId = viewModel.confirmReservation()
+                        showReservationConfirmation = true
                     }
                 },
                 modifier = Modifier
@@ -153,16 +162,8 @@ fun ReservationScreen(
             }
 
             item {
-                RoomInfoSection(
-                    room = room!!,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
-                )
-            }
-
-            item {
-                ReservationDatesSection(
+                ReservationData(
+                    user = user!!,
                     startDate = viewModel.reservationStartDateTime,
                     endDate = viewModel.reservationEndDateTime,
                     modifier = Modifier
@@ -170,7 +171,71 @@ fun ReservationScreen(
                         .padding(horizontal = 8.dp)
                 )
             }
+
+            item {
+                RoomInfoSection(
+                    room = room!!,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
         }
+    }
+    
+    if (showReservationConfirmation) {
+        AlertDialog(
+            onDismissRequest = { 
+                showReservationConfirmation = false
+                navController.navigateBack()
+            },
+            title = { 
+                Text(
+                    text = stringResource(R.string.reservation_success_title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) 
+            },
+            text = { 
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    CheckmarkAnimation(
+                        modifier = Modifier
+                            .padding(vertical = 16.dp)
+                            .align(Alignment.CenterHorizontally),
+                        circleColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                        checkmarkColor = Color(0xFF4CAF50) // Color verde para el símbolo de verificación
+                    )
+                    
+                    Text(
+                        text = stringResource(R.string.reservation_success_message),
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center
+                    ) 
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showReservationConfirmation = false
+                        // TODO: Navigate to the reservation details screen
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(R.string.accept_button))
+                }
+            },
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        )
     }
 }
 
@@ -337,6 +402,79 @@ private fun HotelDetailsSection(
                         else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ReservationData(
+    user: User,
+    startDate: ZonedDateTime,
+    endDate: ZonedDateTime,
+    modifier: Modifier = Modifier
+) {
+    val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+    Column(
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                shape = MaterialTheme.shapes.extraLarge
+            )
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.reservation_data_title),
+            modifier = Modifier.padding(bottom = 8.dp),
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleLarge
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                text = stringResource(R.string.check_in_at_name_of),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = " " + user.username,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(
+                    text = stringResource(R.string.check_in_date_label),
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = startDate.format(dateFormatter),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+
+            Column {
+                Text(
+                    text = stringResource(R.string.check_out_date_label),
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = endDate.format(dateFormatter),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium
+                )
             }
         }
     }
@@ -522,59 +660,3 @@ private fun RoomImageSection(
     }
 }
 
-@Composable
-private fun ReservationDatesSection(
-    startDate: ZonedDateTime,
-    endDate: ZonedDateTime,
-    modifier: Modifier = Modifier
-) {
-    val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-
-    Column(
-        modifier = modifier
-            .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = MaterialTheme.shapes.extraLarge
-            )
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.reservation_dates_title),
-            modifier = Modifier.padding(bottom = 8.dp),
-            fontWeight = FontWeight.SemiBold,
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column {
-                Text(
-                    text = stringResource(R.string.check_in_date_label),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = startDate.format(dateFormatter),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            Column {
-                Text(
-                    text = stringResource(R.string.check_out_date_label),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = endDate.format(dateFormatter),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-        }
-    }
-}

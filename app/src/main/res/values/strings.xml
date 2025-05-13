@@ -63,7 +63,6 @@
     <!-- Search -->
     <string name="start_date_default_text">Fecha inicial</string>
     <string name="end_date_default_text">Fecha final</string>
-    <string name="confirm_button">Confirmar</string>
     <string name="select_city">Seleccionar ciudad</string>
     <string name="city_barcelona">Barcelona</string>
     <string name="city_paris">Paris</string>
@@ -107,8 +106,12 @@
     <string name="room_price_label">Precio:</string>
     <string name="room_price_value_format">%1$.2f€ por noche</string>
     <string name="room_image_title">Imágenes de la habitación:</string>
+    <string name="reservation_data_title">Datos de la reserva:</string>
     <string name="check_in_date_label">Fecha de entrada:</string>
     <string name="check_out_date_label">Fecha de salida:</string>
+    <string name="check_in_at_name_of">A nombre de:</string>
+    <string name="reservation_success_title">Reserva confirmada</string>
+    <string name="reservation_success_message">Tu reserva se ha completado con éxito. Puedes ver los detalles en la sección de viajes.</string>
 
     <!--  TripsScreen  -->
     <string name="trips_title">Viajes</string>

@@ -7,6 +7,7 @@ import com.zeni.core.domain.model.User
 import com.zeni.core.domain.repository.UserRepository
 import com.zeni.core.domain.utils.Authenticator
 import com.zeni.core.util.DatabaseLogger
+import dagger.Lazy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Singleton
@@ -14,9 +15,23 @@ import javax.inject.Inject
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
-    private val userDao: UserDao,
-    private val authenticator: Authenticator
+    private val authenticator: Lazy<Authenticator>,
+    private val userDao: UserDao
 ): UserRepository {
+
+    override fun getCurrentUser(): Flow<User> {
+        DatabaseLogger.dbOperation("Getting current user")
+        return try {
+            val user = userDao.getUserByUid(authenticator.get().uid)
+                .map { userEntity -> userEntity.toDomain() }
+            DatabaseLogger.dbOperation("Current user retrieved successfully")
+
+            user
+        } catch (e: Exception) {
+            DatabaseLogger.dbError("Error getting current user: ${e.message}", e)
+            throw e
+        }
+    }
 
     override fun getUserByUsername(username: String): Flow<User> {
         DatabaseLogger.dbOperation("Getting user by username $username")
@@ -35,7 +50,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun existsUser(): Boolean {
         DatabaseLogger.dbOperation("Checking if user exists")
         return try {
-            val exists = userDao.existsUser(authenticator.uid)
+            val exists = userDao.existsUser(authenticator.get().uid)
             DatabaseLogger.dbOperation("User exists: $exists")
 
             exists

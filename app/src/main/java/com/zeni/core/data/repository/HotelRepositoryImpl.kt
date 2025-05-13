@@ -1,13 +1,17 @@
 package com.zeni.core.data.repository
 
+import com.zeni.core.data.local.database.dao.ReservationDao
 import com.zeni.core.data.mappers.toDomain
 import com.zeni.core.data.mappers.toDto
+import com.zeni.core.data.mappers.toEntity
 import com.zeni.core.data.remote.api.HotelApiService
 import com.zeni.core.domain.model.Hotel
 import com.zeni.core.domain.model.Reservation
 import com.zeni.core.domain.model.Room
 import com.zeni.core.domain.repository.HotelRepository
+import com.zeni.core.domain.utils.Authenticator
 import com.zeni.core.util.HotelApiLogger
+import dagger.Lazy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -15,6 +19,8 @@ import javax.inject.Singleton
 
 @Singleton
 class HotelRepositoryImpl @Inject constructor(
+    private val authenticator: Lazy<Authenticator>,
+    private val reservationDao: ReservationDao,
     private val hotelApiService: HotelApiService
 ): HotelRepository {
     private val gid = "G07"
@@ -151,6 +157,25 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun reserveRoom(reservation: Reservation): Long {
+        HotelApiLogger.apiOperation("Reserving room with id ${reservation.roomId}")
+        return try {
+            hotelApiService.reserveHotel(
+                groupId = gid,
+                reservation = reservation.toDto()
+            )
+            val reservationId = reservationDao.upsertReservation(
+                reservation = reservation.toEntity(userUid = authenticator.get().uid)
+            )
+            HotelApiLogger.apiOperation("Room reserved successfully")
+
+            reservationId
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error reserving room: ${e.message}", e)
+            throw e
+        }
+    }
+
     override fun getReservations(guestEmail: String?): Flow<List<Reservation>> {
         HotelApiLogger.apiOperation("Getting reservations for guest $guestEmail")
         return try {
@@ -192,22 +217,6 @@ class HotelRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting reservation by id: ${e.message}", e)
-            throw e
-        }
-    }
-
-    override suspend fun reserveHotel(reservation: Reservation) {
-        HotelApiLogger.apiOperation("Reserving hotel with id ${reservation.hotelId}")
-        try {
-            hotelApiService.reserveHotel(
-                groupId = gid,
-                reservation = reservation.toDto()
-            )
-            HotelApiLogger.apiOperation("Hotel reserved successfully")
-
-            // TODO: Save in local db
-        } catch (e: Exception) {
-            HotelApiLogger.apiError("Error reserving hotel: ${e.message}", e)
             throw e
         }
     }

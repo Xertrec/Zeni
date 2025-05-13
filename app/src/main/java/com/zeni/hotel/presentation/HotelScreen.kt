@@ -69,29 +69,21 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.draw.clipToBounds
 import com.zeni.core.domain.model.Room
 import com.zeni.core.presentation.navigation.ScreenRoom
-import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import android.app.DatePickerDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.SelectableDates
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.zeni.core.domain.utils.SelectableDatesNotPast
 import com.zeni.core.domain.utils.ZonedDateTimeUtils
 import com.zeni.core.presentation.navigation.ScreenReservation
 import com.zeni.hotel.domain.utils.EndSelectableDate
 import com.zeni.hotel.domain.utils.StartSelectableDate
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
 
 @Composable
