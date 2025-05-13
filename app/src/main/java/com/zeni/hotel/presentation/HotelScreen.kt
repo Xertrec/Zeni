@@ -86,6 +86,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zeni.core.domain.utils.SelectableDatesNotPast
 import com.zeni.core.domain.utils.ZonedDateTimeUtils
+import com.zeni.core.presentation.navigation.ScreenReservation
 import com.zeni.hotel.domain.utils.EndSelectableDate
 import com.zeni.hotel.domain.utils.StartSelectableDate
 import java.time.Instant
@@ -185,6 +186,16 @@ fun HotelScreen(
                 ) { room ->
                     RoomInfo(
                         room = room,
+                        onReserveClick = {
+                            navController.navigate(
+                                route = ScreenReservation(
+                                    hotelId = hotel!!.id,
+                                    roomId = room.id,
+                                    startDate = startDate?.let { ZonedDateTimeUtils.toString(it) }!!,
+                                    endDate = endDate?.let { ZonedDateTimeUtils.toString(it) }!!
+                                )
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItem()
@@ -581,6 +592,7 @@ private fun RoomsHeader(
 @Composable
 private fun RoomInfo(
     room: Room,
+    onReserveClick: () -> Unit,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     startDate: ZonedDateTime? = null,
@@ -701,9 +713,7 @@ private fun RoomInfo(
             }
 
             Button(
-                onClick = {
-                    TODO("Navigate to reservation details")
-                },
+                onClick = onReserveClick,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondary
                 )

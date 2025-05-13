@@ -59,6 +59,8 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.zeni.core.domain.utils.ZonedDateTimeUtils
+import com.zeni.core.presentation.navigation.ScreenReservation
 import com.zeni.hotel.domain.utils.EndSelectableDate
 import com.zeni.hotel.domain.utils.StartSelectableDate
 import me.saket.telephoto.zoomable.rememberZoomablePeekOverlayState
@@ -95,7 +97,16 @@ fun RoomScreen(
         bottomBar = {
             BottomBar(
                 room = room!!,
-                navController = navController,
+                onReserveClick = {
+                    navController.navigate(
+                        route = ScreenReservation(
+                            hotelId = hotel!!.id,
+                            roomId = room!!.id,
+                            startDate = startDate?.let { ZonedDateTimeUtils.toString(it) }!!,
+                            endDate = endDate?.let { ZonedDateTimeUtils.toString(it) }!!
+                        )
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min),
@@ -191,7 +202,7 @@ private fun TopBar(
 @Composable
 private fun BottomBar(
     room: Room,
-    navController: NavController,
+    onReserveClick: () -> Unit,
     modifier: Modifier = Modifier,
     startDate: ZonedDateTime? = null,
     endDate: ZonedDateTime? = null,
@@ -252,9 +263,7 @@ private fun BottomBar(
         }
 
         Button(
-            onClick = {
-                TODO("Navigate to reservation details")
-            },
+            onClick = onReserveClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary
             ),

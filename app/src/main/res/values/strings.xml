@@ -97,6 +97,19 @@
     <string name="reserve_room_button">Reservar</string>
     <string name="room_not_available">Habitación no disponible para las fechas seleccionadas</string>
 
+    <!-- ReservationScreen-->
+    <string name="reservation_title">Confirma reserva</string>
+    <string name="hotel_information_title">Información del hotel:</string>
+    <string name="hotel_address_label">Dirección: </string>
+    <string name="hotel_rating_label">Calificación:</string>
+    <string name="room_details_title">Detalles de la habitación:</string>
+    <string name="room_type_label">Tipo:</string>
+    <string name="room_price_label">Precio:</string>
+    <string name="room_price_value_format">%1$.2f€ por noche</string>
+    <string name="room_image_title">Imágenes de la habitación:</string>
+    <string name="check_in_date_label">Fecha de entrada:</string>
+    <string name="check_out_date_label">Fecha de salida:</string>
+
     <!--  TripsScreen  -->
     <string name="trips_title">Viajes</string>
     <string name="empty_trips">No tienes viajes pendientes</string>
@@ -258,5 +271,6 @@
 
     <!--  Others  -->
     <string name="accept_button">Aceptar</string>
+    <string name="confirm_button">Confirmar</string>
     <string name="cancel_button">Cancelar</string>
 </resources>
