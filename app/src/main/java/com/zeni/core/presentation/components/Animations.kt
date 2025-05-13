@@ -46,6 +46,6 @@ fun Modifier.horizontalAnimationAppearance(): Modifier = composed {
     )
 
     this
-        .onSizeChanged { size -> itemWidth = size.width*2 }
+        .onSizeChanged { size -> itemWidth = size.width * 2 }
         .offset { IntOffset(offsetX.roundToInt(), 0) }
 }
