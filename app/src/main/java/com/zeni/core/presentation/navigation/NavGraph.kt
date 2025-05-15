@@ -31,8 +31,10 @@ import com.zeni.settings.presentation.TermsScreen
 import com.zeni.settings.presentation.components.ChangePasswordViewModel
 import com.zeni.settings.presentation.components.ProfileViewModel
 import com.zeni.settings.presentation.components.SettingsViewModel
+import com.zeni.trip.presentation.SelectTripScreen
 import com.zeni.trip.presentation.UpsertTripScreen
 import com.zeni.trip.presentation.TripScreen
+import com.zeni.trip.presentation.components.SelectTripViewModel
 import com.zeni.trip.presentation.components.UpsertTripViewModel
 import com.zeni.trip.presentation.components.TripViewModel
 import kotlin.reflect.KClass
@@ -117,10 +119,18 @@ fun NavGraph(
         composable<ScreenUpsertTrip> {
             val args = it.toRoute<ScreenUpsertTrip>()
             val viewModel = hiltViewModel<UpsertTripViewModel, UpsertTripViewModel.UpsertTripViewModelFactory> { factory ->
-                factory.create(args.tripName)
+                factory.create(args.tripName, args.toReserve)
             }
 
             UpsertTripScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable<ScreenSelectTrip> {
+            val viewModel = hiltViewModel<SelectTripViewModel>()
+
+            SelectTripScreen(
                 viewModel = viewModel,
                 navController = navController
             )

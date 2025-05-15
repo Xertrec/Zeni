@@ -217,12 +217,20 @@ fun UpsertTripScreen(
                     onClick = {
                         scope.launch {
                             if (viewModel.addTrip()) {
-                                navController.popBackStack()
-                                navController.navigate(ScreenTrip(tripName = name)) {
-                                    popUpTo<ScreenTrip> {
-                                        inclusive = true
+                                if (viewModel.toReserve) {
+                                    navController.previousBackStackEntry
+                                        ?.savedStateHandle
+                                        ?.set<String>("selected_trip", name)
+                                    navController.navigateBack()
+                                } else {
+                                    navController.popBackStack()
+                                    navController.navigate(ScreenTrip(tripName = name)) {
+                                        popUpTo<ScreenTrip> {
+                                            inclusive = true
+                                        }
                                     }
                                 }
+
                             }
                         }
                     },

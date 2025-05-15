@@ -22,6 +22,7 @@ import java.time.temporal.ChronoUnit
 @HiltViewModel(assistedFactory = UpsertTripViewModel.UpsertTripViewModelFactory::class)
 class UpsertTripViewModel @AssistedInject constructor(
     @Assisted private val tripName: String? = null,
+    @Assisted val toReserve: Boolean = false,
     private val tripRepository: TripRepositoryImpl,
     private val upsertTripUseCase: UpsertTripUseCase,
     private val deleteTripUseCase: DeleteTripUseCase
@@ -182,6 +183,6 @@ class UpsertTripViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface UpsertTripViewModelFactory {
-        fun create(tripName: String?): UpsertTripViewModel
+        fun create(tripName: String?, toReserve: Boolean): UpsertTripViewModel
     }
 }

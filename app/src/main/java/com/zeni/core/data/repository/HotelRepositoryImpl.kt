@@ -1,6 +1,8 @@
 package com.zeni.core.data.repository
 
+import com.zeni.core.data.local.database.dao.HotelDao
 import com.zeni.core.data.local.database.dao.ReservationDao
+import com.zeni.core.data.local.database.entities.RoomImageEntity
 import com.zeni.core.data.mappers.toDomain
 import com.zeni.core.data.mappers.toDto
 import com.zeni.core.data.mappers.toEntity
@@ -13,6 +15,7 @@ import com.zeni.core.domain.utils.Authenticator
 import com.zeni.core.util.HotelApiLogger
 import dagger.Lazy
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,6 +23,7 @@ import javax.inject.Singleton
 @Singleton
 class HotelRepositoryImpl @Inject constructor(
     private val authenticator: Lazy<Authenticator>,
+    private val hotelDao: HotelDao,
     private val reservationDao: ReservationDao,
     private val hotelApiService: HotelApiService
 ): HotelRepository {
@@ -157,15 +161,30 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun reserveRoom(reservation: Reservation): Long {
+    override suspend fun reserveRoom(reservation: Reservation, tripName: String): Long {
         HotelApiLogger.apiOperation("Reserving room with id ${reservation.roomId}")
         return try {
             hotelApiService.reserveHotel(
                 groupId = gid,
                 reservation = reservation.toDto()
             )
+            hotelDao.upsertHotel(
+                hotel = getHotelById(reservation.hotelId).first()!!.toEntity()
+            )
+
+            val room = getRoomById(reservation.hotelId, reservation.roomId).first()!!
+            hotelDao.upsertRoom(room = room.toEntity(hotelId = reservation.hotelId))
+            hotelDao.upsertRoomImages(
+                images = room.images.map {
+                    RoomImageEntity(
+                        roomId = room.id,
+                        imageUrl = it.toString()
+                    )
+                }
+            )
+
             val reservationId = reservationDao.upsertReservation(
-                reservation = reservation.toEntity(userUid = authenticator.get().uid)
+                reservation = reservation.toEntity(userUid = authenticator.get().uid, tripName)
             )
             HotelApiLogger.apiOperation("Room reserved successfully")
 

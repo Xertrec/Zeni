@@ -39,5 +39,9 @@ object RoomModule {
 
     @Provides
     @Singleton
+    fun provideHotelDao(db: TripsDatabase) = db.hotelDao()
+
+    @Provides
+    @Singleton
     fun provideReservationDao(db: TripsDatabase) = db.reservationDao()
 }

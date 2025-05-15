@@ -33,8 +33,11 @@ data class ScreenRoom(
 object ScreenTrips
 @Serializable
 data class ScreenUpsertTrip(
-    val tripName: String? = null
+    val tripName: String? = null,
+    val toReserve: Boolean = false
 )
+@Serializable
+object ScreenSelectTrip
 @Serializable
 data class ScreenTrip(
     val tripName: String

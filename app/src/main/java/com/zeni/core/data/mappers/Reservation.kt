@@ -39,7 +39,7 @@ fun ReservationEntity.toDomain(): Reservation {
     )
 }
 
-fun Reservation.toEntity(userUid: String): ReservationEntity {
+fun Reservation.toEntity(userUid: String, tripName: String): ReservationEntity {
     return ReservationEntity(
         hotelId = hotelId,
         roomId = roomId,
@@ -47,6 +47,7 @@ fun Reservation.toEntity(userUid: String): ReservationEntity {
         endDate = ZonedDateTimeUtils.toString(endDate),
         guestName = guestName,
         guestEmail = guestEmail,
-        userReservation = userUid
+        userReservation = userUid,
+        tripName = tripName
     )
 }

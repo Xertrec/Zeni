@@ -5,7 +5,6 @@ import androidx.room.Relation
 import com.zeni.core.data.local.database.entities.HotelEntity
 import com.zeni.core.data.local.database.entities.ReservationEntity
 import com.zeni.core.data.local.database.entities.RoomEntity
-import com.zeni.core.data.local.database.entities.RoomImagesEntity
 
 data class ReservationRelation(
     @Embedded val reservation: ReservationEntity,

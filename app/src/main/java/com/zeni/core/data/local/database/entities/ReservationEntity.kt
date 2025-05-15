@@ -27,6 +27,12 @@ import com.google.gson.annotations.SerializedName
             parentColumns = ["id"],
             childColumns = ["room_id"],
             onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = TripEntity::class,
+            parentColumns = ["name"],
+            childColumns = ["trip_name"],
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )
@@ -55,4 +61,7 @@ data class ReservationEntity(
 
     @ColumnInfo(name = "user_reservation")
     val userReservation: String,
+
+    @ColumnInfo(name = "trip_name")
+    val tripName: String
 )

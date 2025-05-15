@@ -1,6 +1,7 @@
 package com.zeni.reservation.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -36,7 +38,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,10 +66,13 @@ import coil.compose.SubcomposeAsyncImage
 import com.zeni.R
 import com.zeni.core.domain.model.Hotel
 import com.zeni.core.domain.model.Room
+import com.zeni.core.domain.model.Trip
 import com.zeni.core.domain.model.User
 import com.zeni.core.domain.utils.extensions.navigateBack
 import com.zeni.core.presentation.components.CheckmarkAnimation
 import com.zeni.core.presentation.components.shimmerEffect
+import com.zeni.core.presentation.navigation.ScreenSelectTrip
+import com.zeni.core.presentation.navigation.ScreenUpsertTrip
 import com.zeni.reservation.presentation.components.ReservationViewModel
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
@@ -85,6 +93,7 @@ fun ReservationScreen(
     val room by viewModel.room.collectAsStateWithLifecycle()
     if (user == null || hotel == null || room == null) return
 
+    var reservationId by remember { mutableStateOf<Long?>(value = null) }
     var showReservationConfirmation by remember { mutableStateOf(value = false) }
 
     Scaffold(
@@ -100,7 +109,7 @@ fun ReservationScreen(
                 room = room!!,
                 onConfirmClick = {
                     scope.launch {
-//                        val reservationId = viewModel.confirmReservation()
+                        reservationId = viewModel.confirmReservation()
                         showReservationConfirmation = true
                     }
                 },
@@ -173,6 +182,16 @@ fun ReservationScreen(
             }
 
             item {
+                TripAssigned(
+                    viewModel = viewModel,
+                    navController = navController,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
+
+            item {
                 RoomInfoSection(
                     room = room!!,
                     modifier = Modifier
@@ -208,7 +227,7 @@ fun ReservationScreen(
                             .padding(vertical = 16.dp)
                             .align(Alignment.CenterHorizontally),
                         circleColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-                        checkmarkColor = Color(0xFF4CAF50) // Color verde para el símbolo de verificación
+                        checkmarkColor = Color(0xFF4CAF50)
                     )
                     
                     Text(
@@ -404,6 +423,68 @@ private fun HotelDetailsSection(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun TripAssigned(
+    viewModel: ReservationViewModel,
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
+    val trips by viewModel.trips.collectAsStateWithLifecycle()
+    val selectedTrip by viewModel.selectedTrip.collectAsStateWithLifecycle()
+    
+    Column(
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                shape = MaterialTheme.shapes.extraLarge
+            )
+            .padding(all = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.trip_assignment_title),
+            modifier = Modifier.padding(bottom = 8.dp),
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleLarge
+        )
+        
+        Button(
+            onClick = {
+                if (trips.isEmpty()) navController.navigate(ScreenUpsertTrip)
+                else navController.navigate(ScreenSelectTrip)
+            },
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.large,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary
+            )
+        ) {
+            Text(
+                text = when {
+                    trips.isEmpty() -> stringResource(R.string.no_trips_create_new)
+                    selectedTrip == null -> stringResource(R.string.no_trip_selected)
+                    else -> stringResource(R.string.trip_selected, selectedTrip?.name!!)
+                },
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.get<String>("selected_trip")
+            ?.let { tripName ->
+                viewModel.selectTrip(trip = trips.first { it.name == tripName })
+            }
+
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.remove<String>("selected_trip")
     }
 }
 
@@ -659,4 +740,3 @@ private fun RoomImageSection(
         }
     }
 }
-

@@ -55,7 +55,6 @@ object Migrations {
     }
     val migration2To3 = object : Migration(startVersion = 2, endVersion = 3) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            // Crear tabla de hoteles
             db.execSQL("""
                 CREATE TABLE IF NOT EXISTS `hotel_table` (
                     `id` TEXT NOT NULL,
@@ -67,7 +66,6 @@ object Migrations {
                 )
             """.trimIndent())
             
-            // Crear tabla de habitaciones
             db.execSQL("""
                 CREATE TABLE IF NOT EXISTS `room_table` (
                     `id` TEXT NOT NULL,
@@ -79,7 +77,6 @@ object Migrations {
                 )
             """.trimIndent())
             
-            // Crear tabla de imágenes de habitaciones
             db.execSQL("""
                 CREATE TABLE IF NOT EXISTS `room_images_table` (
                     `room_id` TEXT NOT NULL,
@@ -89,7 +86,6 @@ object Migrations {
                 )
             """.trimIndent())
             
-            // Crear tabla de reservas
             db.execSQL("""
                 CREATE TABLE IF NOT EXISTS `reservation_table` (
                     `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -107,9 +103,42 @@ object Migrations {
             """.trimIndent())
         }
     }
+    val migration3To4 = object : Migration(startVersion = 3, endVersion = 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE `reservation_table_temp` (
+                    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    `hotel_id` TEXT NOT NULL,
+                    `room_id` TEXT NOT NULL,
+                    `start_date` TEXT NOT NULL,
+                    `end_date` TEXT NOT NULL,
+                    `guest_name` TEXT NOT NULL,
+                    `guest_email` TEXT NOT NULL,
+                    `user_reservation` TEXT NOT NULL,
+                    `trip_name` TEXT NOT NULL,
+                    FOREIGN KEY(`user_reservation`) REFERENCES `user_table`(`uid`) ON DELETE CASCADE,
+                    FOREIGN KEY(`hotel_id`) REFERENCES `hotel_table`(`id`) ON DELETE CASCADE,
+                    FOREIGN KEY(`room_id`) REFERENCES `room_table`(`id`) ON DELETE CASCADE,
+                    FOREIGN KEY(`trip_name`) REFERENCES `trip_table`(`name`) ON DELETE CASCADE
+                )
+            """.trimIndent())
+
+            db.execSQL("""
+                INSERT INTO reservation_table_temp 
+                SELECT id, hotel_id, room_id, start_date, end_date, guest_name, guest_email, 
+                       user_reservation, '' AS trip_name
+                FROM reservation_table
+            """.trimIndent())
+
+            db.execSQL("DROP TABLE reservation_table")
+            db.execSQL("ALTER TABLE reservation_table_temp RENAME TO reservation_table")
+        }
+    }
 
     val migrations = arrayOf<Migration>(
         migration1To2,
-        migration2To3
+        migration2To3,
+        migration3To4
     )
 }
+

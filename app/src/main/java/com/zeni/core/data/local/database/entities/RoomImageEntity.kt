@@ -3,7 +3,6 @@ package com.zeni.core.data.local.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.Index
 
 @Entity(
     tableName = "room_images_table",
@@ -17,7 +16,7 @@ import androidx.room.Index
         )
     ]
 )
-data class RoomImagesEntity(
+data class RoomImageEntity(
     @ColumnInfo(name = "room_id")
     val roomId: String,
 

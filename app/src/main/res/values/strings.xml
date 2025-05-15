@@ -112,6 +112,14 @@
     <string name="check_in_at_name_of">A nombre de:</string>
     <string name="reservation_success_title">Reserva confirmada</string>
     <string name="reservation_success_message">Tu reserva se ha completado con éxito. Puedes ver los detalles en la sección de viajes.</string>
+    <string name="trip_assignment_title">Asignar viaje</string>
+    <string name="no_trips_create_new">Se creará un viaje nuevo</string>
+    <string name="no_trip_selected">No hay ningún viaje seleccionado</string>
+    <string name="trip_selected">Viaje: %s</string>
+    <string name="select_trip_dialog_title">Selecciona un viaje</string>
+    <string name="trip_destination_format">Destino: %s</string>
+    <string name="trip_from_date_format">Desde: %s</string>
+    <string name="trip_to_date_format">Hasta: %s</string>
 
     <!--  TripsScreen  -->
     <string name="trips_title">Viajes</string>
@@ -164,6 +172,8 @@
         Una vez borrado, no podrás recuperarlo
     </string>
     <string name="confirm_delete">Estoy seguro</string>
+    <!-- SelectTripScreen -->
+    <string name="select_trip_title">Seleccionar viaje</string>
     <!--  TripScreen  -->
     <string name="trip_title">Viaje a %s</string>
     <string name="edit_trip">Editar viaje</string>
