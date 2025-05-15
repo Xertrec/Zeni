@@ -18,7 +18,7 @@ interface ReservationDao {
     fun getReservationById(reservationId: Long): Flow<ReservationEntity?>
 
     @Upsert
-    suspend fun upsertReservation(reservation: ReservationEntity): Long
+    suspend fun upsertReservation(reservation: ReservationEntity)
 
     @Delete
     suspend fun deleteReservation(reservation: ReservationEntity)

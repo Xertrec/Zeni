@@ -15,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -66,12 +67,22 @@ class ReservationViewModel @AssistedInject constructor(
         }
     }
 
+    val isReservationValid = selectedTrip.map { trip ->
+        trip != null
+    }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
+            initialValue = false
+        )
+
     val reservationStartDateTime = startDate.let { ZonedDateTimeUtils.fromString(it) }
     val reservationEndDateTime = endDate.let { ZonedDateTimeUtils.fromString(it) }
 
-    suspend fun confirmReservation(): Long {
+    suspend fun confirmReservation(): String {
         return hotelRepository.reserveRoom(
             Reservation(
+                id = "",
                 hotelId = hotelId,
                 roomId = roomId,
                 startDate = reservationStartDateTime,

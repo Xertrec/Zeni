@@ -113,9 +113,9 @@
     <string name="reservation_success_title">Reserva confirmada</string>
     <string name="reservation_success_message">Tu reserva se ha completado con éxito. Puedes ver los detalles en la sección de viajes.</string>
     <string name="trip_assignment_title">Asignar viaje</string>
-    <string name="no_trips_create_new">Se creará un viaje nuevo</string>
-    <string name="no_trip_selected">No hay ningún viaje seleccionado</string>
-    <string name="trip_selected">Viaje: %s</string>
+    <string name="no_trips_create_new">Crear viaje</string>
+    <string name="no_trip_selected">Selecciona un viaje</string>
+    <string name="trip_selected">Viaje a %s</string>
     <string name="select_trip_dialog_title">Selecciona un viaje</string>
     <string name="trip_destination_format">Destino: %s</string>
     <string name="trip_from_date_format">Desde: %s</string>
@@ -171,6 +171,9 @@
     <string name="advert_text_deleting_trip">
         Una vez borrado, no podrás recuperarlo
     </string>
+    <string name="advert_text_deleting_trip_with_reservations">
+        Una vez borrado, no podrás recuperarlo y todas sus reservas se cancelarán
+    </string>
     <string name="confirm_delete">Estoy seguro</string>
     <!-- SelectTripScreen -->
     <string name="select_trip_title">Seleccionar viaje</string>
@@ -192,7 +195,18 @@
     <string name="trip_activity_description">Descripción: %s</string>
     <string name="trip_activity_date">Fecha: %s</string>
     <string name="trip_activity_time">Hora: %s</string>
-    <string name="trip_sample" translatable="false">Trip %s</string>
+
+    <!-- TripScreen Hotel Reservations -->
+    <string name="hotel_reservation_title">Reserva de hotel</string>
+    <string name="hotel_reservation_id">ID: %s</string>
+    <string name="hotel_check_in_date">Fecha de entrada: %s</string>
+    <string name="hotel_check_in_time">Hora de entrada: %s</string>
+    <string name="hotel_check_out_date">Fecha de salida: %s</string>
+    <string name="hotel_check_out_time">Hora de salida: %s</string>
+    <plurals name="hotel_duration_nights">
+        <item quantity="one">Duración: %d noche</item>
+        <item quantity="other">Duración: %d noches</item>
+    </plurals>
 
     <!-- ItineraryScreen -->
     <string name="itinerary_title">Itinerario de hoy</string>

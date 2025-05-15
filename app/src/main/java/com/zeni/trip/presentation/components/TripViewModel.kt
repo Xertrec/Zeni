@@ -2,6 +2,7 @@ package com.zeni.trip.presentation.components
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zeni.core.data.repository.HotelRepositoryImpl
 import com.zeni.core.data.repository.ItineraryRepositoryImpl
 import com.zeni.core.data.repository.TripRepositoryImpl
 import dagger.assisted.Assisted
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.stateIn
 class TripViewModel @AssistedInject constructor(
     @Assisted private val tripName: String,
     tripRepository: TripRepositoryImpl,
-    itineraryRepository: ItineraryRepositoryImpl,
+    itineraryRepository: ItineraryRepositoryImpl
 ) : ViewModel() {
 
     val trip = tripRepository.getTrip(tripName)

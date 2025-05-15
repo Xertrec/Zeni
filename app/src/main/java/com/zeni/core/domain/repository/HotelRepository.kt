@@ -35,7 +35,7 @@ interface HotelRepository {
         endDate: String
     ): Flow<Boolean>
 
-    suspend fun reserveRoom(reservation: Reservation, tripName: String): Long
+    suspend fun reserveRoom(reservation: Reservation, tripName: String): String
 
     fun getReservations(): Flow<List<Reservation>>
 

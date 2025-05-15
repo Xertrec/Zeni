@@ -3,6 +3,8 @@ package com.zeni.core.data.remote.dto
 import com.google.gson.annotations.SerializedName
 
 data class ReservationDto(
+    @SerializedName("id")
+    val id: String? = null,
     @SerializedName("hotel_id")
     val hotelId: String,
     @SerializedName("room_id")

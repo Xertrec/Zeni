@@ -161,13 +161,13 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun reserveRoom(reservation: Reservation, tripName: String): Long {
+    override suspend fun reserveRoom(reservation: Reservation, tripName: String): String {
         HotelApiLogger.apiOperation("Reserving room with id ${reservation.roomId}")
         return try {
-            hotelApiService.reserveHotel(
+            val reservationEntity = hotelApiService.reserveHotel(
                 groupId = gid,
                 reservation = reservation.toDto()
-            )
+            ).reservation.toDomain().toEntity(userUid = authenticator.get().uid, tripName)
             hotelDao.upsertHotel(
                 hotel = getHotelById(reservation.hotelId).first()!!.toEntity()
             )
@@ -183,12 +183,12 @@ class HotelRepositoryImpl @Inject constructor(
                 }
             )
 
-            val reservationId = reservationDao.upsertReservation(
-                reservation = reservation.toEntity(userUid = authenticator.get().uid, tripName)
+            reservationDao.upsertReservation(
+                reservation = reservationEntity
             )
             HotelApiLogger.apiOperation("Room reserved successfully")
 
-            reservationId
+            reservationEntity.id
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error reserving room: ${e.message}", e)
             throw e

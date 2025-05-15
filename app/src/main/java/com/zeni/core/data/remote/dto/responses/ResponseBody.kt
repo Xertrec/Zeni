@@ -1,6 +1,6 @@
-package com.zeni.core.data.remote.dto
+package com.zeni.core.data.remote.dto.responses
 
-data class ResponseBodyDto(
+data class ResponseBody(
     val loc: Array<Any>,
     val message: String,
     val type: String?

@@ -19,5 +19,6 @@ fun TripRelation.toDomain() = Trip(
     startDate = trip.startDate,
     endDate = trip.endDate,
     coverImage = image?.toDomain(),
-    userOwner = trip.userOwner
+    userOwner = trip.userOwner,
+    reservations = reservations.map { it.toDomain() }
 )

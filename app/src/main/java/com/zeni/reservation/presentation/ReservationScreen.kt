@@ -71,7 +71,11 @@ import com.zeni.core.domain.model.User
 import com.zeni.core.domain.utils.extensions.navigateBack
 import com.zeni.core.presentation.components.CheckmarkAnimation
 import com.zeni.core.presentation.components.shimmerEffect
+import com.zeni.core.presentation.navigation.ScreenHotels
+import com.zeni.core.presentation.navigation.ScreenInitial
 import com.zeni.core.presentation.navigation.ScreenSelectTrip
+import com.zeni.core.presentation.navigation.ScreenTrip
+import com.zeni.core.presentation.navigation.ScreenTrips
 import com.zeni.core.presentation.navigation.ScreenUpsertTrip
 import com.zeni.reservation.presentation.components.ReservationViewModel
 import kotlinx.coroutines.launch
@@ -93,7 +97,8 @@ fun ReservationScreen(
     val room by viewModel.room.collectAsStateWithLifecycle()
     if (user == null || hotel == null || room == null) return
 
-    var reservationId by remember { mutableStateOf<Long?>(value = null) }
+    val isButtonEnabled by viewModel.isReservationValid.collectAsStateWithLifecycle()
+    val selectedTrip by viewModel.selectedTrip.collectAsStateWithLifecycle()
     var showReservationConfirmation by remember { mutableStateOf(value = false) }
 
     Scaffold(
@@ -109,10 +114,11 @@ fun ReservationScreen(
                 room = room!!,
                 onConfirmClick = {
                     scope.launch {
-                        reservationId = viewModel.confirmReservation()
+                        viewModel.confirmReservation()
                         showReservationConfirmation = true
                     }
                 },
+                enabled = isButtonEnabled,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min),
@@ -206,7 +212,11 @@ fun ReservationScreen(
         AlertDialog(
             onDismissRequest = { 
                 showReservationConfirmation = false
-                navController.navigateBack()
+                navController.navigate(ScreenHotels) {
+                    popUpTo<ScreenInitial> {
+                        inclusive = true
+                    }
+                }
             },
             title = { 
                 Text(
@@ -241,7 +251,11 @@ fun ReservationScreen(
                 Button(
                     onClick = {
                         showReservationConfirmation = false
-                        // TODO: Navigate to the reservation details screen
+                        navController.navigate(ScreenTrip(tripName = selectedTrip!!.name)) {
+                            popUpTo<ScreenInitial> {
+                                inclusive = false
+                            }
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary
@@ -283,6 +297,7 @@ private fun TopBar(
 private fun BottomBar(
     room: Room,
     onConfirmClick: () -> Unit,
+    enabled: Boolean,
     modifier: Modifier = Modifier,
     startDate: ZonedDateTime? = null,
     endDate: ZonedDateTime? = null
@@ -321,6 +336,7 @@ private fun BottomBar(
 
         Button(
             onClick = onConfirmClick,
+            enabled = enabled,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary
             )
@@ -466,7 +482,7 @@ private fun TripAssigned(
                 text = when {
                     trips.isEmpty() -> stringResource(R.string.no_trips_create_new)
                     selectedTrip == null -> stringResource(R.string.no_trip_selected)
-                    else -> stringResource(R.string.trip_selected, selectedTrip?.name!!)
+                    else -> stringResource(R.string.trip_selected, selectedTrip?.destination!!)
                 },
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium

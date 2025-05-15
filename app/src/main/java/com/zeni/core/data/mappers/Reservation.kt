@@ -8,6 +8,7 @@ import com.zeni.core.domain.utils.ZonedDateTimeUtils
 
 fun ReservationDto.toDomain(): Reservation {
     return Reservation(
+        id = id!!,
         hotelId = hotelId,
         roomId = roomId,
         startDate = ZonedDateTimeUtils.fromString(startDate),
@@ -19,6 +20,7 @@ fun ReservationDto.toDomain(): Reservation {
 
 fun Reservation.toDto(): ReservationDto {
     return ReservationDto(
+        id = id,
         hotelId = hotelId,
         roomId = roomId,
         startDate = ZonedDateTimeUtils.toString(startDate),
@@ -30,6 +32,7 @@ fun Reservation.toDto(): ReservationDto {
 
 fun ReservationEntity.toDomain(): Reservation {
     return Reservation(
+        id = id,
         hotelId = hotelId,
         roomId = roomId,
         startDate = ZonedDateTimeUtils.fromString(startDate),
@@ -41,6 +44,7 @@ fun ReservationEntity.toDomain(): Reservation {
 
 fun Reservation.toEntity(userUid: String, tripName: String): ReservationEntity {
     return ReservationEntity(
+        id = id,
         hotelId = hotelId,
         roomId = roomId,
         startDate = ZonedDateTimeUtils.toString(startDate),

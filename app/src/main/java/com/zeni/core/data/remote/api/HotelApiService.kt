@@ -3,7 +3,8 @@ package com.zeni.core.data.remote.api
 import com.zeni.core.data.remote.dto.AvailabilityDto
 import com.zeni.core.data.remote.dto.HotelDto
 import com.zeni.core.data.remote.dto.ReservationDto
-import com.zeni.core.data.remote.dto.ResponseBodyDto
+import com.zeni.core.data.remote.dto.responses.ReservationResponseBody
+import com.zeni.core.data.remote.dto.responses.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -17,13 +18,13 @@ interface HotelApiService {
     suspend fun reserveHotel(
         @Path("group_id") groupId: String,
         @Body reservation: ReservationDto
-    ): ResponseBodyDto
+    ): ReservationResponseBody
 
     @POST("hotels/{group_id}/cancel")
     suspend fun cancelReservation(
         @Path("group_id") groupId: String,
         @Body reservation: ReservationDto
-    ): ResponseBodyDto
+    ): ResponseBody
 
     @GET("hotels/{group_id}/hotels")
     suspend fun getHotels(@Path("group_id") groupId: String): List<HotelDto>
@@ -50,5 +51,5 @@ interface HotelApiService {
     suspend fun getReservationById(@Path("res_id") reservationId: String): ReservationDto
 
     @DELETE("reservations/{res_id}")
-    suspend fun deleteReservationById(@Path("res_id") reservationId: String): ResponseBodyDto
+    suspend fun deleteReservationById(@Path("res_id") reservationId: String): ResponseBody
 }

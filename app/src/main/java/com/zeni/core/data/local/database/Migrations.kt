@@ -134,11 +134,44 @@ object Migrations {
             db.execSQL("ALTER TABLE reservation_table_temp RENAME TO reservation_table")
         }
     }
+    val migration4To5 = object : Migration(startVersion = 4, endVersion = 5) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS `reservation_table_temp` (
+                    `id` TEXT NOT NULL,
+                    `hotel_id` TEXT NOT NULL,
+                    `room_id` TEXT NOT NULL,
+                    `start_date` TEXT NOT NULL,
+                    `end_date` TEXT NOT NULL,
+                    `guest_name` TEXT NOT NULL,
+                    `guest_email` TEXT NOT NULL,
+                    `user_reservation` TEXT NOT NULL,
+                    `trip_name` TEXT NOT NULL,
+                    PRIMARY KEY(`id`),
+                    FOREIGN KEY(`user_reservation`) REFERENCES `user_table`(`uid`) ON DELETE CASCADE,
+                    FOREIGN KEY(`hotel_id`) REFERENCES `hotel_table`(`id`) ON DELETE CASCADE,
+                    FOREIGN KEY(`room_id`) REFERENCES `room_table`(`id`) ON DELETE CASCADE,
+                    FOREIGN KEY(`trip_name`) REFERENCES `trip_table`(`name`) ON DELETE CASCADE
+                )
+            """.trimIndent())
+
+            db.execSQL("""
+                INSERT INTO reservation_table_temp 
+                SELECT CAST(id AS TEXT) as id, hotel_id, room_id, start_date, end_date, 
+                       guest_name, guest_email, user_reservation, trip_name
+                FROM reservation_table
+            """.trimIndent())
+
+            db.execSQL("DROP TABLE reservation_table")
+            db.execSQL("ALTER TABLE reservation_table_temp RENAME TO reservation_table")
+        }
+    }
 
     val migrations = arrayOf<Migration>(
         migration1To2,
         migration2To3,
-        migration3To4
+        migration3To4,
+        migration4To5
     )
 }
 

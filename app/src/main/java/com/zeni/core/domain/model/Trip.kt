@@ -9,4 +9,5 @@ data class Trip(
     val endDate: ZonedDateTime,
     val coverImage: TripImage? = null,
     val userOwner: String,
+    val reservations: List<Reservation> = emptyList()
 )
