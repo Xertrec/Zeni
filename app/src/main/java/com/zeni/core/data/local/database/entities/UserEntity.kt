@@ -2,10 +2,17 @@ package com.zeni.core.data.local.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.time.ZonedDateTime
 
-@Entity(tableName = "user_table")
+@Entity(
+    tableName = "user_table",
+    indices = [
+        Index(value = ["email"]),
+        Index(value = ["username"]),
+    ]
+)
 data class UserEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "uid")

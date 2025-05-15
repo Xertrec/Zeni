@@ -167,11 +167,29 @@ object Migrations {
         }
     }
 
+    val migration5To6 = object : Migration(startVersion = 5, endVersion = 6) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_activity_table_user_owner ON activity_table(user_owner)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_hotel_table_name ON hotel_table(name)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_reservation_table_user_reservation ON reservation_table(user_reservation)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_reservation_table_hotel_id ON reservation_table(hotel_id)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_reservation_table_room_id ON reservation_table(room_id)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_reservation_table_trip_name ON reservation_table(trip_name)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_room_table_hotel_id ON room_table(hotel_id)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_room_images_table_room_id ON room_images_table(room_id)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_trip_table_cover_image_id ON trip_table(cover_image_id)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_trip_table_user_owner ON trip_table(user_owner)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_user_table_email ON user_table(email)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_user_table_username ON user_table(username)")
+        }
+    }
+
     val migrations = arrayOf<Migration>(
         migration1To2,
         migration2To3,
         migration3To4,
-        migration4To5
+        migration4To5,
+        migration5To6
     )
 }
 

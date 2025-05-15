@@ -9,6 +9,12 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(
     tableName = "reservation_table",
+    indices = [
+        Index(value = ["user_reservation"]),
+        Index(value = ["hotel_id"]),
+        Index(value = ["room_id"]),
+        Index(value = ["trip_name"])
+    ],
     foreignKeys = [
         ForeignKey(
             entity = UserEntity::class,

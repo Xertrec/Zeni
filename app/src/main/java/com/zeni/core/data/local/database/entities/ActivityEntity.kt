@@ -11,6 +11,7 @@ import java.time.ZonedDateTime
     tableName = "activity_table",
     indices = [
         Index(value = ["trip_name"]),
+        Index(value = ["user_owner"])
     ],
     foreignKeys = [
         ForeignKey(
