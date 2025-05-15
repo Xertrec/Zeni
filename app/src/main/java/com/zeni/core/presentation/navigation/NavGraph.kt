@@ -21,8 +21,10 @@ import com.zeni.hotel.presentation.components.HotelViewModel
 import com.zeni.hotel.presentation.components.RoomViewModel
 import com.zeni.itinerary.presentation.UpsertItineraryScreen
 import com.zeni.itinerary.presentation.components.UpsertActivityViewModel
-import com.zeni.reservation.presentation.ReservationScreen
-import com.zeni.reservation.presentation.components.ReservationViewModel
+import com.zeni.reservation.presentation.ConfirmReservationScreen
+import com.zeni.reservation.presentation.ReservationInfoScreen
+import com.zeni.reservation.presentation.components.ConfirmReservationViewModel
+import com.zeni.reservation.presentation.components.ReservationInfoViewModel
 import com.zeni.settings.presentation.ProfileScreen
 import com.zeni.settings.presentation.AboutScreen
 import com.zeni.settings.presentation.ChangePasswordScreen
@@ -147,13 +149,24 @@ fun NavGraph(
             )
         }
 
-        composable<ScreenReservation> {
-            val args = it.toRoute<ScreenReservation>()
-            val viewModel = hiltViewModel<ReservationViewModel, ReservationViewModel.ReservationViewModelFactory> { factory ->
+        composable<ScreenConfirmReservation> {
+            val args = it.toRoute<ScreenConfirmReservation>()
+            val viewModel = hiltViewModel<ConfirmReservationViewModel, ConfirmReservationViewModel.ReservationViewModelFactory> { factory ->
                 factory.create(args.hotelId, args.roomId, args.startDate, args.endDate)
             }
 
-            ReservationScreen(
+            ConfirmReservationScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable<ScreenReservationInfo> {
+            val args = it.toRoute<ScreenReservationInfo>()
+            val viewModel = hiltViewModel<ReservationInfoViewModel, ReservationInfoViewModel.ReservationInfoViewModelFactory> { factory ->
+                factory.create(args.reservationId)
+            }
+
+            ReservationInfoScreen(
                 viewModel = viewModel,
                 navController = navController
             )

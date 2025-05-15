@@ -7,19 +7,25 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -64,6 +70,7 @@ import com.zeni.R
 import com.zeni.core.domain.model.Reservation
 import com.zeni.core.domain.model.Trip
 import com.zeni.core.domain.utils.extensions.navigateBack
+import com.zeni.core.presentation.navigation.ScreenReservationInfo
 import com.zeni.core.presentation.navigation.ScreenUpsertActivity
 import com.zeni.core.presentation.navigation.ScreenUpsertTrip
 import com.zeni.itinerary.presentation.components.ActivityInformation
@@ -91,6 +98,8 @@ fun TripScreen(
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing
+            .exclude(WindowInsets.systemBars)
+            .exclude(WindowInsets.ime)
     ) { contentPadding ->
 
         LazyColumn(
@@ -98,6 +107,7 @@ fun TripScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 16.dp),
+            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
             verticalArrangement = Arrangement.spacedBy(
                 space = 16.dp,
                 alignment = Alignment.Top
@@ -113,6 +123,9 @@ fun TripScreen(
             item {
                 ReservationsData(
                     reservations = trip!!.reservations,
+                    onClick = { reservationId ->
+                        navController.navigate(ScreenReservationInfo(reservationId))
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -303,6 +316,7 @@ private fun TripData(
 @Composable
 private fun ReservationsData(
     reservations: List<Reservation>,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (reservations.isEmpty()) return
@@ -335,6 +349,7 @@ private fun ReservationsData(
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.large)
                     .clipToBounds()
+                    .clickable { onClick(reservation.id) }
                     .background(MaterialTheme.colorScheme.secondaryContainer)
                     .padding(16.dp)
             ) {
@@ -351,7 +366,7 @@ private fun ReservationsData(
                     Spacer(modifier = Modifier.weight(1f))
 
                     Text(
-                        text = stringResource(R.string.hotel_reservation_id, reservation.roomId),
+                        text = stringResource(R.string.hotel_reservation_id, reservation.id),
                         maxLines = 1,
                         style = MaterialTheme.typography.labelMedium
                     )
@@ -364,21 +379,33 @@ private fun ReservationsData(
                 )
 
                 Text(
-                    text = stringResource(R.string.hotel_check_in_date, reservation.startDate.format(dateFormatter)),
+                    text = stringResource(
+                        id = R.string.hotel_check_in_date,
+                        reservation.startDate.format(dateFormatter)
+                    ),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = stringResource(R.string.hotel_check_in_time, reservation.startDate.format(timeFormatter)),
+                    text = stringResource(
+                        id = R.string.hotel_check_in_time,
+                        reservation.startDate.format(timeFormatter)
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
 
                 Text(
-                    text = stringResource(R.string.hotel_check_out_date, reservation.endDate.format(dateFormatter)),
+                    text = stringResource(
+                        id = R.string.hotel_check_out_date,
+                        reservation.endDate.format(dateFormatter)
+                    ),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = stringResource(R.string.hotel_check_out_time, reservation.endDate.format(timeFormatter)),
+                    text = stringResource(
+                        id = R.string.hotel_check_out_time,
+                        reservation.endDate.format(timeFormatter)
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )

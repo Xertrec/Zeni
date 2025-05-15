@@ -44,11 +44,15 @@ data class ScreenTrip(
 )
 
 @Serializable
-data class ScreenReservation(
+data class ScreenConfirmReservation(
     val hotelId: String,
     val roomId: String,
     val startDate: String,
     val endDate: String
+)
+@Serializable
+data class ScreenReservationInfo(
+    val reservationId: String
 )
 
 @Serializable

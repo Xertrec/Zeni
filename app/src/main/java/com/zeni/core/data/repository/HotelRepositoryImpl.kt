@@ -16,6 +16,7 @@ import com.zeni.core.util.HotelApiLogger
 import dagger.Lazy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -273,6 +274,10 @@ class HotelRepositoryImpl @Inject constructor(
                 groupId = gid,
                 reservation = reservation.toDto()
             )
+            reservationDao.deleteReservation(
+                reservation = reservationDao.getReservationById(reservation.id).first()!!
+            )
+
             HotelApiLogger.apiOperation("Reservation cancelled successfully")
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error cancelling reservation: ${e.message}", e)
@@ -284,6 +289,9 @@ class HotelRepositoryImpl @Inject constructor(
         HotelApiLogger.apiOperation("Deleting reservation with id $reservationId")
         try {
             hotelApiService.deleteReservationById(reservationId)
+            reservationDao.deleteReservation(
+                reservation = reservationDao.getReservationById(reservationId).first()!!
+            )
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error deleting reservation by id: ${e.message}", e)
             throw e

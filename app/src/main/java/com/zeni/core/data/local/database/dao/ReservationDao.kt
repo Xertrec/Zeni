@@ -15,7 +15,7 @@ interface ReservationDao {
     fun getAllReservations(): Flow<List<ReservationEntity>>
 
     @Query("SELECT * FROM reservation_table WHERE id = :reservationId")
-    fun getReservationById(reservationId: Long): Flow<ReservationEntity?>
+    fun getReservationById(reservationId: String): Flow<ReservationEntity?>
 
     @Upsert
     suspend fun upsertReservation(reservation: ReservationEntity)

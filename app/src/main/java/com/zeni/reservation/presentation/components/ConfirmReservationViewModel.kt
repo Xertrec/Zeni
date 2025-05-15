@@ -19,8 +19,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-@HiltViewModel(assistedFactory = ReservationViewModel.ReservationViewModelFactory::class)
-class ReservationViewModel @AssistedInject constructor(
+@HiltViewModel(assistedFactory = ConfirmReservationViewModel.ReservationViewModelFactory::class)
+class ConfirmReservationViewModel @AssistedInject constructor(
     @Assisted("hotelId") private val hotelId: String,
     @Assisted("roomId") private val roomId: String,
     @Assisted("startDate") private val startDate: String,
@@ -99,6 +99,6 @@ class ReservationViewModel @AssistedInject constructor(
             @Assisted("roomId") roomId: String,
             @Assisted("startDate") startDate: String,
             @Assisted("endDate") endDate: String
-        ): ReservationViewModel
+        ): ConfirmReservationViewModel
     }
 }

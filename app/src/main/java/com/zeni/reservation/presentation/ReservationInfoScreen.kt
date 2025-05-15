@@ -1,10 +1,17 @@
 package com.zeni.reservation.presentation
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,9 +23,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
@@ -26,28 +33,27 @@ import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.AlertDialog
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -61,69 +67,51 @@ import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.zeni.R
 import com.zeni.core.domain.model.Hotel
+import com.zeni.core.domain.model.Reservation
 import com.zeni.core.domain.model.Room
-import com.zeni.core.domain.model.User
 import com.zeni.core.domain.utils.extensions.navigateBack
-import com.zeni.core.presentation.components.CheckmarkAnimation
 import com.zeni.core.presentation.components.shimmerEffect
-import com.zeni.core.presentation.navigation.ScreenHotels
-import com.zeni.core.presentation.navigation.ScreenInitial
-import com.zeni.core.presentation.navigation.ScreenSelectTrip
-import com.zeni.core.presentation.navigation.ScreenTrip
-import com.zeni.core.presentation.navigation.ScreenUpsertTrip
-import com.zeni.reservation.presentation.components.ReservationViewModel
+import com.zeni.reservation.presentation.components.ReservationInfoViewModel
 import kotlinx.coroutines.launch
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import me.saket.telephoto.zoomable.rememberZoomablePeekOverlayState
 import me.saket.telephoto.zoomable.zoomablePeekOverlay
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 @Composable
-fun ReservationScreen(
-    viewModel: ReservationViewModel,
+fun ReservationInfoScreen(
+    viewModel: ReservationInfoViewModel,
     navController: NavController
 ) {
     val scope = rememberCoroutineScope()
 
-    val user by viewModel.user.collectAsStateWithLifecycle()
+    val reservation by viewModel.reservation.collectAsStateWithLifecycle()
     val hotel by viewModel.hotel.collectAsStateWithLifecycle()
     val room by viewModel.room.collectAsStateWithLifecycle()
-    if (user == null || hotel == null || room == null) return
+    
+    if (reservation == null || hotel == null || room == null) return
+    val durationNights by remember {
+        derivedStateOf {
+            ChronoUnit.DAYS.between(
+                reservation!!.startDate.toLocalDate(),
+                reservation!!.endDate.toLocalDate()
+            ).toInt()
+        }
+    }
 
-    val isButtonEnabled by viewModel.isReservationValid.collectAsStateWithLifecycle()
-    val selectedTrip by viewModel.selectedTrip.collectAsStateWithLifecycle()
-    var showReservationConfirmation by remember { mutableStateOf(value = false) }
+    var showCancelDialog by remember { mutableStateOf(value = false) }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         topBar = {
-            TopBar(
-                title = stringResource(R.string.reservation_title),
-                navController = navController
-            )
-        },
-        bottomBar = {
-            BottomBar(
-                room = room!!,
-                onConfirmClick = {
-                    scope.launch {
-                        viewModel.confirmReservation()
-                        showReservationConfirmation = true
-                    }
-                },
-                enabled = isButtonEnabled,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                startDate = viewModel.reservationStartDateTime,
-                endDate = viewModel.reservationEndDateTime
-            )
+            TopBar(navController = navController)
         },
         contentWindowInsets = WindowInsets.safeDrawing
             .exclude(WindowInsets.systemBars)
             .exclude(WindowInsets.ime)
     ) { contentPadding ->
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -140,7 +128,7 @@ fun ReservationScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer,
+                            color = MaterialTheme.colorScheme.primaryContainer,
                             shape = MaterialTheme.shapes.extraLarge
                         )
                         .padding(all = 16.dp),
@@ -171,20 +159,9 @@ fun ReservationScreen(
             }
 
             item {
-                ReservationData(
-                    user = user!!,
-                    startDate = viewModel.reservationStartDateTime,
-                    endDate = viewModel.reservationEndDateTime,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
-                )
-            }
-
-            item {
-                TripAssigned(
-                    viewModel = viewModel,
-                    navController = navController,
+                ReservationDetailsSection(
+                    reservation = reservation!!,
+                    durationNights = durationNights,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
@@ -199,64 +176,87 @@ fun ReservationScreen(
                         .padding(horizontal = 8.dp)
                 )
             }
+
+            item {
+                Button(
+                    onClick = { showCancelDialog = true },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    Text(
+                        text = stringResource(R.string.cancel_reservation_button),
+                        modifier = Modifier
+                            .padding(vertical = 8.dp),
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
     }
-    
-    if (showReservationConfirmation) {
+
+    if (showCancelDialog) {
         AlertDialog(
-            onDismissRequest = { 
-                showReservationConfirmation = false
-                navController.navigate(ScreenHotels) {
-                    popUpTo<ScreenInitial> {
-                        inclusive = true
-                    }
-                }
-            },
+            onDismissRequest = { showCancelDialog = false },
             title = { 
                 Text(
-                    text = stringResource(R.string.reservation_success_title),
+                    text = stringResource(R.string.alert_title),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
-                ) 
+                )
             },
             text = { 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    CheckmarkAnimation(
+                    DeleteAnimation(
                         modifier = Modifier
                             .padding(vertical = 16.dp)
-                            .align(Alignment.CenterHorizontally),
-                        circleColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-                        checkmarkColor = Color(0xFF4CAF50)
+                            .align(Alignment.CenterHorizontally)
                     )
                     
                     Text(
-                        text = stringResource(R.string.reservation_success_message),
+                        text = stringResource(R.string.verify_reservation_cancelation_dialog),
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center
-                    ) 
+                    )
                 }
             },
             confirmButton = {
                 Button(
                     onClick = {
-                        showReservationConfirmation = false
-                        navController.navigate(ScreenTrip(tripName = selectedTrip!!.name)) {
-                            popUpTo<ScreenInitial> {
-                                inclusive = false
-                            }
+                        scope.launch {
+                            showCancelDialog = false
+                            viewModel.cancelReservation()
+                            navController.navigateBack()
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
+                        containerColor = MaterialTheme.colorScheme.error
                     ),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = stringResource(R.string.accept_button))
+                    Text(text = stringResource(R.string.confirm_button))
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showCancelDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(R.string.cancel_button))
                 }
             },
             modifier = Modifier
@@ -269,12 +269,11 @@ fun ReservationScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
-    title: String,
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        title = { Text(text = title) },
+        title = { Text(text = stringResource(R.string.hotel_reservation_title)) },
         navigationIcon = {
             IconButton(onClick = navController::navigateBack) {
                 Icon(
@@ -285,59 +284,6 @@ private fun TopBar(
         },
         modifier = modifier
     )
-}
-
-@Composable
-private fun BottomBar(
-    room: Room,
-    onConfirmClick: () -> Unit,
-    enabled: Boolean,
-    modifier: Modifier = Modifier,
-    startDate: ZonedDateTime? = null,
-    endDate: ZonedDateTime? = null
-) {
-    val daysCount = if (startDate != null && endDate != null) {
-        ChronoUnit.DAYS.between(startDate.toLocalDate(), endDate.toLocalDate()).toInt()
-    } else {
-        1
-    }
-    val totalPrice = room.price * daysCount
-
-    Row(
-        modifier = modifier
-            .background(color = MaterialTheme.colorScheme.background)
-            .navigationBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column {
-            Text(
-                text = pluralStringResource(
-                    id = R.plurals.room_price_prefix,
-                    count = daysCount,
-                    daysCount
-                ),
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = stringResource(id = R.string.room_price_value, totalPrice),
-                fontWeight = FontWeight.ExtraBold,
-                style = MaterialTheme.typography.titleLarge
-            )
-        }
-
-        Button(
-            onClick = onConfirmClick,
-            enabled = enabled,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondary
-            )
-        ) {
-            Text(text = stringResource(id = R.string.confirm_button))
-        }
-    }
 }
 
 @Composable
@@ -437,76 +383,21 @@ private fun HotelDetailsSection(
 }
 
 @Composable
-private fun TripAssigned(
-    viewModel: ReservationViewModel,
-    navController: NavController,
+private fun ReservationDetailsSection(
+    reservation: Reservation,
+    durationNights: Int,
     modifier: Modifier = Modifier
 ) {
-    val trips by viewModel.trips.collectAsStateWithLifecycle()
-    val selectedTrip by viewModel.selectedTrip.collectAsStateWithLifecycle()
+    val locale = LocalConfiguration.current.locale
+    val dateFormatter = remember {
+        DateTimeFormatter
+            .ofPattern("d MMMM yyyy", locale)
+            .withLocale(locale)
+    }
+    val timeFormatter = remember {
+        DateTimeFormatter.ofPattern("HH:mm")
+    }
     
-    Column(
-        modifier = modifier
-            .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = MaterialTheme.shapes.extraLarge
-            )
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.trip_assignment_title),
-            modifier = Modifier.padding(bottom = 8.dp),
-            fontWeight = FontWeight.SemiBold,
-            style = MaterialTheme.typography.titleLarge
-        )
-        
-        Button(
-            onClick = {
-                if (trips.isEmpty()) navController.navigate(ScreenUpsertTrip(toReserve = true))
-                else navController.navigate(ScreenSelectTrip)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.large,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(
-                text = when {
-                    trips.isEmpty() -> stringResource(R.string.no_trips_create_new)
-                    selectedTrip == null -> stringResource(R.string.no_trip_selected)
-                    else -> stringResource(R.string.trip_selected, selectedTrip?.destination!!)
-                },
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium
-            )
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        navController.currentBackStackEntry
-            ?.savedStateHandle
-            ?.get<String>("selected_trip")
-            ?.let { tripName ->
-                viewModel.selectTrip(tripName = tripName)
-            }
-
-        navController.currentBackStackEntry
-            ?.savedStateHandle
-            ?.remove<String>("selected_trip")
-    }
-}
-
-@Composable
-private fun ReservationData(
-    user: User,
-    startDate: ZonedDateTime,
-    endDate: ZonedDateTime,
-    modifier: Modifier = Modifier
-) {
-    val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-
     Column(
         modifier = modifier
             .background(
@@ -533,38 +424,99 @@ private fun ReservationData(
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = " " + user.username,
+                text = " " + reservation.guestName,
                 style = MaterialTheme.typography.bodyMedium
             )
         }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
+            Text(
+                text = stringResource(R.string.duration_label),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = " " + pluralStringResource(
+                    id = R.plurals.hotel_duration_nights_value,
+                    count = durationNights,
+                    durationNights
+                ),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 8.dp),
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+        )
+
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = stringResource(R.string.check_in_date_label),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodyMedium
                 )
+
                 Text(
-                    text = startDate.format(dateFormatter),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
+                    text = " " + reservation.startDate.format(dateFormatter),
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
 
-            Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.hotel_check_in_time, ""),
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    text = reservation.startDate.format(timeFormatter),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                )
+            }
+        }
+
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = stringResource(R.string.check_out_date_label),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = endDate.format(dateFormatter),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
+                    text = " " + reservation.endDate.format(dateFormatter),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.hotel_check_out_time, ""),
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    text = reservation.endDate.format(timeFormatter),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
                 )
             }
         }
@@ -720,7 +672,6 @@ private fun RoomImageSection(
                     }
                 }
             } else {
-                // Solo una imagen, sin pager ni contador
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -750,3 +701,81 @@ private fun RoomImageSection(
         }
     }
 }
+
+@Composable
+fun DeleteAnimation(
+    modifier: Modifier = Modifier,
+    circleColor: Color = MaterialTheme.colorScheme.errorContainer,
+    crossColor: Color = MaterialTheme.colorScheme.error
+) {
+    val animatedProgress = remember { Animatable(0f) }
+    val circleScale = remember { Animatable(0.95f) }
+
+    LaunchedEffect(key1 = Unit) {
+        // Animar la X
+        animatedProgress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = 1000,
+                easing = FastOutSlowInEasing
+            )
+        )
+
+        // Animar el círculo con una sola pulsación
+        circleScale.animateTo(
+            targetValue = 1.05f,
+            animationSpec = tween(
+                durationMillis = 800,
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
+
+    Canvas(
+        modifier = modifier
+            .size(100.dp)
+            .padding(8.dp)
+    ) {
+        // Dibujar círculo
+        drawCircle(
+            color = circleColor,
+            radius = size.minDimension / 2 * circleScale.value,
+            style = Stroke(width = 8f)
+        )
+
+        val progress = animatedProgress.value
+        val crossSize = size.minDimension * 0.5f * progress
+        val strokeWidth = 10f
+
+        // Dibujar X (línea diagonal 1)
+        drawLine(
+            color = crossColor,
+            start = Offset(
+                x = center.x - crossSize / 2,
+                y = center.y - crossSize / 2
+            ),
+            end = Offset(
+                x = center.x + crossSize / 2,
+                y = center.y + crossSize / 2
+            ),
+            strokeWidth = strokeWidth,
+            cap = StrokeCap.Round
+        )
+
+        // Dibujar X (línea diagonal 2)
+        drawLine(
+            color = crossColor,
+            start = Offset(
+                x = center.x + crossSize / 2,
+                y = center.y - crossSize / 2
+            ),
+            end = Offset(
+                x = center.x - crossSize / 2,
+                y = center.y + crossSize / 2
+            ),
+            strokeWidth = strokeWidth,
+            cap = StrokeCap.Round
+        )
+    }
+}
+

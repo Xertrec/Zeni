@@ -57,7 +57,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.zeni.core.domain.utils.ZonedDateTimeUtils
-import com.zeni.core.presentation.navigation.ScreenReservation
+import com.zeni.core.presentation.navigation.ScreenConfirmReservation
 import com.zeni.hotel.domain.utils.EndSelectableDate
 import com.zeni.hotel.domain.utils.StartSelectableDate
 import me.saket.telephoto.zoomable.rememberZoomablePeekOverlayState
@@ -96,7 +96,7 @@ fun RoomScreen(
                 room = room!!,
                 onReserveClick = {
                     navController.navigate(
-                        route = ScreenReservation(
+                        route = ScreenConfirmReservation(
                             hotelId = hotel!!.id,
                             roomId = room!!.id,
                             startDate = startDate?.let { ZonedDateTimeUtils.toString(it) }!!,
