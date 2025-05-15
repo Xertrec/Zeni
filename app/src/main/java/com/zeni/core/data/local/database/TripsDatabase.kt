@@ -28,7 +28,7 @@ import com.zeni.core.data.local.database.entities.UserEntity
         RoomImageEntity::class,
         ReservationEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = true
 )
 @TypeConverters(Converters::class)

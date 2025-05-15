@@ -3,9 +3,15 @@ package com.zeni.core.data.local.database.entities
 import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "hotel_table")
+@Entity(
+    tableName = "hotel_table",
+    indices = [
+        Index(value = ["name"])
+    ]
+)
 data class HotelEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

@@ -3,11 +3,16 @@ package com.zeni.core.data.local.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.time.ZonedDateTime
 
 @Entity(
     tableName = "trip_table",
+    indices = [
+        Index(value = ["cover_image_id"]),
+        Index(value = ["user_owner"])
+    ],
     foreignKeys = [
         ForeignKey(
             entity = TripImageEntity::class,
