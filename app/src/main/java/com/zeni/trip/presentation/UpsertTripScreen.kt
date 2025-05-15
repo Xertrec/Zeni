@@ -1,6 +1,7 @@
 package com.zeni.trip.presentation
 
 import android.R.attr.name
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -310,6 +311,8 @@ fun UpsertTripScreen(
                 Text(
                     text = if (reservations.isEmpty()) stringResource(R.string.advert_text_deleting_trip)
                     else stringResource(R.string.advert_text_deleting_trip_with_reservations),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
             }

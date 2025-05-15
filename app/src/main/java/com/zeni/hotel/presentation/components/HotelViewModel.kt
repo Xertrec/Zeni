@@ -3,6 +3,7 @@ package com.zeni.hotel.presentation.components
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zeni.core.data.repository.HotelRepositoryImpl
+import com.zeni.core.domain.model.Room
 import com.zeni.core.domain.utils.ZonedDateTimeUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -31,25 +33,32 @@ class HotelViewModel @AssistedInject constructor(
     val endDateTime: StateFlow<ZonedDateTime?>
         field = MutableStateFlow(value = endDate?.let { ZonedDateTimeUtils.fromString(it) })
 
+    val hotel = hotelRepository.getHotelById(hotelId)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
+            initialValue = null
+        )
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val hotel = startDateTime.combine(endDateTime) { start, end ->
+    val rooms = startDateTime.combine(endDateTime) { start, end ->
         Pair(start, end)
     }
         .flatMapLatest { (start, end) ->
             if (start != null && end != null) {
-                hotelRepository.getHotelAvailability(
+                hotelRepository.getRoomsAvailability(
                     startDate = ZonedDateTimeUtils.toString(start),
                     endDate = ZonedDateTimeUtils.toString(end),
                     hotelId = hotelId
                 )
             } else {
-                hotelRepository.getHotelById(hotelId)
+                emptyFlow()
             }
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
-            initialValue = null
+            initialValue = emptyList()
         )
 
     fun setStartDate(date: ZonedDateTime) {

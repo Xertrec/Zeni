@@ -83,6 +83,9 @@
     <string name="rooms_dates_required">
         Para ver las habitaciones disponibles, selecciona las fechas de reserva
     </string>
+    <string name="rooms_not_available_for_dates">
+        No hay habitaciones disponibles para las fechas seleccionadas
+    </string>
 
     <!-- RoomScreen -->
     <plurals name="room_price_prefix">

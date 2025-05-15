@@ -1,7 +1,6 @@
 package com.zeni.reservation.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -38,8 +36,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -66,7 +62,6 @@ import coil.compose.SubcomposeAsyncImage
 import com.zeni.R
 import com.zeni.core.domain.model.Hotel
 import com.zeni.core.domain.model.Room
-import com.zeni.core.domain.model.Trip
 import com.zeni.core.domain.model.User
 import com.zeni.core.domain.utils.extensions.navigateBack
 import com.zeni.core.presentation.components.CheckmarkAnimation
@@ -75,7 +70,6 @@ import com.zeni.core.presentation.navigation.ScreenHotels
 import com.zeni.core.presentation.navigation.ScreenInitial
 import com.zeni.core.presentation.navigation.ScreenSelectTrip
 import com.zeni.core.presentation.navigation.ScreenTrip
-import com.zeni.core.presentation.navigation.ScreenTrips
 import com.zeni.core.presentation.navigation.ScreenUpsertTrip
 import com.zeni.reservation.presentation.components.ReservationViewModel
 import kotlinx.coroutines.launch
@@ -469,7 +463,7 @@ private fun TripAssigned(
         
         Button(
             onClick = {
-                if (trips.isEmpty()) navController.navigate(ScreenUpsertTrip)
+                if (trips.isEmpty()) navController.navigate(ScreenUpsertTrip(toReserve = true))
                 else navController.navigate(ScreenSelectTrip)
             },
             modifier = Modifier.fillMaxWidth(),
@@ -495,7 +489,7 @@ private fun TripAssigned(
             ?.savedStateHandle
             ?.get<String>("selected_trip")
             ?.let { tripName ->
-                viewModel.selectTrip(trip = trips.first { it.name == tripName })
+                viewModel.selectTrip(tripName = tripName)
             }
 
         navController.currentBackStackEntry

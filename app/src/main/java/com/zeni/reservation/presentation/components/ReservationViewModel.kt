@@ -15,9 +15,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = ReservationViewModel.ReservationViewModelFactory::class)
 class ReservationViewModel @AssistedInject constructor(
@@ -26,7 +26,7 @@ class ReservationViewModel @AssistedInject constructor(
     @Assisted("startDate") private val startDate: String,
     @Assisted("endDate") private val endDate: String,
     userRepository: UserRepositoryImpl,
-    tripsRepository: TripRepositoryImpl,
+    private val tripsRepository: TripRepositoryImpl,
     private val hotelRepository: HotelRepositoryImpl
 ): ViewModel() {
 
@@ -61,10 +61,8 @@ class ReservationViewModel @AssistedInject constructor(
     val selectedTrip: StateFlow<Trip?>
         field = MutableStateFlow(null)
     
-    fun selectTrip(trip: Trip) {
-        viewModelScope.launch {
-            selectedTrip.emit(trip)
-        }
+    suspend fun selectTrip(tripName: String) {
+        selectedTrip.emit(tripsRepository.getTrip(tripName).first())
     }
 
     val isReservationValid = selectedTrip.map { trip ->

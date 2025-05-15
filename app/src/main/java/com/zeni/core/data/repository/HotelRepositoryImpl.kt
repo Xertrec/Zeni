@@ -109,6 +109,32 @@ class HotelRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getRoomsAvailability(
+        startDate: String,
+        endDate: String,
+        hotelId: String,
+        city: String?
+    ): Flow<List<Room>> {
+        HotelApiLogger.apiOperation("Getting rooms available from $startDate to $endDate")
+        return try {
+            flow {
+                val rooms = hotelApiService.getHotelAvailability(
+                    groupId = gid,
+                    startDate = startDate,
+                    endDate = endDate,
+                    hotelId = hotelId,
+                    city = city
+                ).availableHotels.firstOrNull()?.rooms ?: emptyList()
+                HotelApiLogger.apiOperation("Rooms available retrieved successfully")
+
+                emit(rooms.map { it.toDomain() })
+            }
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error getting rooms available: ${e.message}", e)
+            throw e
+        }
+    }
+
     override fun getRoomsByHotelId(hotelId: String): Flow<List<Room>> {
         HotelApiLogger.apiOperation("Getting rooms with hotelId $hotelId")
         return try {

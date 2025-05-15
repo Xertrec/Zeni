@@ -92,10 +92,16 @@ fun HotelScreen(
     navController: NavController
 ) {
     val hotel by viewModel.hotel.collectAsStateWithLifecycle()
+    val rooms by viewModel.rooms.collectAsStateWithLifecycle()
     if (hotel == null) return
 
     val startDate by viewModel.startDateTime.collectAsStateWithLifecycle()
     val endDate by viewModel.endDateTime.collectAsStateWithLifecycle()
+    val datesAreSelected by remember { 
+        derivedStateOf {
+            startDate != null && endDate != null
+        }
+    }
 
     val listState = rememberLazyListState()
     val isTitleVisible by remember {
@@ -160,7 +166,7 @@ fun HotelScreen(
                 )
             }
 
-            if (startDate != null && endDate != null) {
+            if (datesAreSelected && rooms.isNotEmpty()) {
                 stickyHeader {
                     RoomsHeader(
                         modifier = Modifier
@@ -172,7 +178,7 @@ fun HotelScreen(
                 }
 
                 items(
-                    items = hotel!!.rooms,
+                    items = rooms,
                     key = { room -> room.id },
                     contentType = { Room::class }
                 ) { room ->
@@ -222,7 +228,8 @@ fun HotelScreen(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = stringResource(id = R.string.rooms_dates_required),
+                            text = if (datesAreSelected) stringResource(id = R.string.rooms_not_available_for_dates)
+                            else stringResource(id = R.string.rooms_dates_required),
                             style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center,
                             color = MaterialTheme.colorScheme.onErrorContainer
