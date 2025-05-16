@@ -394,9 +394,6 @@ private fun ReservationDetailsSection(
             .ofPattern("d MMMM yyyy", locale)
             .withLocale(locale)
     }
-    val timeFormatter = remember {
-        DateTimeFormatter.ofPattern("HH:mm")
-    }
     
     Column(
         modifier = modifier
@@ -454,71 +451,35 @@ private fun ReservationDetailsSection(
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
         )
 
-        Column {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.check_in_date_label),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.check_in_date_label),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium
+            )
 
-                Text(
-                    text = " " + reservation.startDate.format(dateFormatter),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.hotel_check_in_time, ""),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Text(
-                    text = reservation.startDate.format(timeFormatter),
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                )
-            }
+            Text(
+                text = " " + reservation.startDate.format(dateFormatter),
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
 
-        Column {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.check_out_date_label),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = " " + reservation.endDate.format(dateFormatter),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.hotel_check_out_time, ""),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Text(
-                    text = reservation.endDate.format(timeFormatter),
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                )
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.check_out_date_label),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = " " + reservation.endDate.format(dateFormatter),
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }

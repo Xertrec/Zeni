@@ -50,6 +50,8 @@ interface HotelRepository {
 
     fun getReservationById(reservationId: String): Flow<Reservation>
 
+    fun getReservationByHotelId(hotelId: String): Flow<List<Reservation>>
+
     suspend fun cancelReservation(reservation: Reservation)
 
     suspend fun cancelReservationById(reservationId: String)

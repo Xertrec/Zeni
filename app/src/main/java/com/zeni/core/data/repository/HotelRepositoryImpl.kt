@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -263,6 +264,19 @@ class HotelRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
             HotelApiLogger.apiError("Error getting reservation by id: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override fun getReservationByHotelId(hotelId: String): Flow<List<Reservation>> {
+        HotelApiLogger.apiOperation("Getting reservation for hotel with id $hotelId")
+        return try {
+            val reservations = reservationDao.getReservationByHotelId(hotelId)
+            HotelApiLogger.apiOperation("Reservations retrieved successfully")
+
+            reservations.map { it.map { it.toDomain() } }
+        } catch (e: Exception) {
+            HotelApiLogger.apiError("Error getting reservations for hotel by id: ${e.message}", e)
             throw e
         }
     }

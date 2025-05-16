@@ -44,6 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.ExperimentalFoundationApi
 import coil.compose.SubcomposeAsyncImage
 import com.zeni.R
 import com.zeni.core.domain.model.Hotel
@@ -77,12 +78,16 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.zeni.core.domain.model.Reservation
 import com.zeni.core.domain.utils.ZonedDateTimeUtils
 import com.zeni.core.presentation.navigation.ScreenConfirmReservation
+import com.zeni.core.presentation.navigation.ScreenReservationInfo
 import com.zeni.hotel.domain.utils.EndSelectableDate
 import com.zeni.hotel.domain.utils.StartSelectableDate
+import com.zeni.trip.presentation.ReservationsData
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
@@ -93,6 +98,7 @@ fun HotelScreen(
 ) {
     val hotel by viewModel.hotel.collectAsStateWithLifecycle()
     val rooms by viewModel.rooms.collectAsStateWithLifecycle()
+    val reservations by viewModel.reservations.collectAsStateWithLifecycle()
     if (hotel == null) return
 
     val startDate by viewModel.startDateTime.collectAsStateWithLifecycle()
@@ -164,6 +170,28 @@ fun HotelScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                 )
+            }
+
+            if (reservations.isNotEmpty()) {
+                item {
+                    HotelReservationsHeader(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                    )
+                }
+
+                item {
+                    ReservationsData(
+                        reservations = reservations,
+                        onClick = { reservationId ->
+                            navController.navigate(ScreenReservationInfo(reservationId))
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                    )
+                }
             }
 
             if (datesAreSelected && rooms.isNotEmpty()) {
@@ -414,6 +442,36 @@ private fun HotelInfo(
                 Text(text = stringResource(id = R.string.see_in_maps_button))
             }
         }
+    }
+}
+
+@Composable
+private fun HotelReservationsHeader(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 16.dp,
+            alignment = Alignment.Start
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(id = R.string.hotel_with_reservation),
+            fontSize = MaterialTheme.typography.titleLarge.fontSize * 0.9,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge
+        )
+
+        HorizontalDivider(
+            modifier = Modifier
+                .weight(weight = 1f),
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
+        )
     }
 }
 

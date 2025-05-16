@@ -61,6 +61,13 @@ class HotelViewModel @AssistedInject constructor(
             initialValue = emptyList()
         )
 
+    val reservations = hotelRepository.getReservationByHotelId(hotelId)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
+            initialValue = emptyList()
+        )
+
     fun setStartDate(date: ZonedDateTime) {
         viewModelScope.launch {
             startDateTime.emit(date)

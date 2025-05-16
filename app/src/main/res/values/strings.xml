@@ -76,6 +76,7 @@
     <string name="select_end_date_button">Seleccionar fecha de fin</string>
     <string name="start_date_label">Fecha de inicio: %s</string>
     <string name="end_date_label">Fecha de fin: %s</string>
+    <string name="hotel_with_reservation">Ya tienes reservas en este hotel</string>
     <string name="hotel_rooms_title">Habitaciones</string>
     <string name="single_room_text">Individual</string>
     <string name="double_room_text">Doble</string>

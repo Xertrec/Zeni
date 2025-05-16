@@ -194,14 +194,16 @@ fun TripScreen(
                 )
             }
 
-            item {
-                ReservationsData(
-                    reservations = trip!!.reservations,
-                    onClick = { reservationId ->
-                        navController.navigate(ScreenReservationInfo(reservationId))
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
+            if (trip!!.reservations.isNotEmpty()) {
+                item {
+                    ReservationsData(
+                        reservations = trip!!.reservations,
+                        onClick = { reservationId ->
+                            navController.navigate(ScreenReservationInfo(reservationId))
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
 
             stickyHeader {
@@ -422,22 +424,15 @@ private fun TripData(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ReservationsData(
+fun ReservationsData(
     reservations: List<Reservation>,
     onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (reservations.isEmpty()) return
-
     val locale = LocalConfiguration.current.locale
     val dateFormatter = remember {
         DateTimeFormatter
             .ofPattern("d MMMM yyyy", locale)
-            .withLocale(locale)
-    }
-    val timeFormatter = remember {
-        DateTimeFormatter
-            .ofPattern("HH:mm", locale)
             .withLocale(locale)
     }
     val pagerState = rememberPagerState { reservations.size }
@@ -489,37 +484,36 @@ private fun ReservationsData(
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
                 )
 
-                Text(
-                    text = stringResource(
-                        id = R.string.hotel_check_in_date,
-                        reservation.startDate.format(dateFormatter)
-                    ),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = stringResource(
-                        id = R.string.hotel_check_in_time,
-                        reservation.startDate.format(timeFormatter)
-                    ),
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.check_in_date_label),
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
 
-                Text(
-                    text = stringResource(
-                        id = R.string.hotel_check_out_date,
-                        reservation.endDate.format(dateFormatter)
-                    ),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = stringResource(
-                        id = R.string.hotel_check_out_time,
-                        reservation.endDate.format(timeFormatter)
-                    ),
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
+                    Text(
+                        text = " " + reservation.startDate.format(dateFormatter),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.check_out_date_label),
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = " " + reservation.endDate.format(dateFormatter),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
 
                 val days = ChronoUnit.DAYS.between(
                     reservation.startDate.toLocalDate(),
