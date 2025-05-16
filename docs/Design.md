@@ -206,32 +206,26 @@ CREATE INDEX IF NOT EXISTS index_activity_table_trip_name ON activity_table (tri
 
   - Create a Trip
 ```
-INSERT INTO trip_table (name, destination, start_date, end_date, cover_image_id)
-VALUES ('Summer Vacation', 'Hawaii', 1672531200, 1672617600, NULL);
-```
-
-  - Adding an Image to a Trip
-```
-INSERT INTO trip_images_table (trip_name, url, description)
-VALUES ('Summer Vacation', 'https://example.com/image.jpg', 'Beach view');
+    @Upsert
+    suspend fun addTrip(trip: TripEntity)
 ```
 
   - Adding an Activity
 ```
-INSERT INTO activity_table (trip_name, title, description, date_time)
-VALUES ('Summer Vacation', 'Snorkeling', 'Snorkeling at the coral reef', 1672552800);
+    @Upsert
+    suspend fun addActivity(activity: ActivityEntity): Long
 ```
 
   - Retrieving Trips with Images and Activities
 ```
-SELECT trip_table.*, trip_images_table.url AS cover_image, activity_table.title AS activity_title
-FROM trip_table
-LEFT JOIN trip_images_table ON trip_table.name = trip_images_table.trip_name
-LEFT JOIN activity_table ON trip_table.name = activity_table.trip_name;
+    @Transaction
+    @Query("SELECT * FROM trip_table ORDER BY start_date ASC")
+    fun getTrips(): Flow<List<TripRelation>>
 ```
 
   - Deleting a Trip 
 ```
-DELETE FROM trip_table WHERE name = 'Summer Vacation';
+    @Delete
+    suspend fun deleteTrip(trip: TripEntity)
 ```
 (This will also remove associated images and activities due to ON DELETE CASCADE)

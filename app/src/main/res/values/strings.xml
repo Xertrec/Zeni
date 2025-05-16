@@ -260,13 +260,20 @@
 
     <!-- ActivityInformation -->
     <plurals name="time_remaining_hours">
-        <item quantity="one">Comienza en %d hora</item>
-        <item quantity="other">Comienza en %d horas</item>
+        <item quantity="one">Comienza en %d horas y %d minuto</item>
+        <item quantity="other">Comienza en %d horas y %d minutos</item>
     </plurals>
+
+    <plurals name="time_remaining_hour_one_minute">
+        <item quantity="one">Comienza en %d hora y %d minuto</item>
+        <item quantity="other">Comienza en %d hora y %d minutos</item>
+    </plurals>
+
     <plurals name="time_remaining_minutes">
         <item quantity="one">Comienza en %d minuto</item>
         <item quantity="other">Comienza en %d minutos</item>
     </plurals>
+
 
     <!-- MoreScreen -->
     <string name="more_title">Más</string>
