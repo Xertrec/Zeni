@@ -1,5 +1,9 @@
 package com.zeni.trip.presentation
 
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
@@ -11,6 +15,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -28,6 +34,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -37,6 +44,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -55,6 +65,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -66,9 +77,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.zeni.R
 import com.zeni.core.domain.model.Reservation
 import com.zeni.core.domain.model.Trip
+import com.zeni.core.domain.model.TripImage
 import com.zeni.core.domain.utils.extensions.navigateBack
 import com.zeni.core.presentation.navigation.ScreenReservationInfo
 import com.zeni.core.presentation.navigation.ScreenUpsertActivity
@@ -87,6 +101,11 @@ fun TripScreen(
     val trip by viewModel.trip.collectAsStateWithLifecycle()
     val activities by viewModel.activities.collectAsStateWithLifecycle()
     if (trip == null) return
+
+    val photosPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickMultipleVisualMedia(),
+        onResult = viewModel::addMedias
+    )
 
     Scaffold(
         modifier = Modifier
@@ -121,6 +140,25 @@ fun TripScreen(
             }
 
             item {
+                TripImagesGallery(
+                    images = trip!!.images,
+                    onAddImageClick = {
+                        photosPickerLauncher.launch(
+                            PickVisualMediaRequest(
+                                mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly,
+                                isOrderedSelection = true
+                            )
+                        )
+                    },
+                    onImageClick = { imageId ->
+                        // Aquí iría la navegación para ver la imagen en detalle
+                        // navController.navigate(ScreenTripImageDetail(trip!!.name, imageId))
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            item {
                 ReservationsData(
                     reservations = trip!!.reservations,
                     onClick = { reservationId ->
@@ -134,6 +172,7 @@ fun TripScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
                         .padding(
                             start = 4.dp,
                             top = 8.dp,
@@ -337,7 +376,10 @@ private fun ReservationsData(
     Column(modifier = modifier) {
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(MaterialTheme.shapes.large)
+                .clipToBounds(),
             pageSpacing = 16.dp,
             key = { page ->
                 reservations[page].hotelId + reservations[page].roomId
@@ -452,6 +494,82 @@ private fun ReservationsData(
     }
 }
 
+@Composable
+private fun TripImagesGallery(
+    images: List<TripImage>,
+    onAddImageClick: () -> Unit,
+    onImageClick: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clip(MaterialTheme.shapes.large)
+            .clipToBounds()
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .padding(top = 8.dp, bottom = 16.dp)
+            .padding(horizontal = 16.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.trip_images_header),
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+            )
+
+            IconButton(onClick = onAddImageClick) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = null
+                )
+            }
+        }
+
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+        )
+
+        if (images.isEmpty()) {
+            Text(
+                text = stringResource(R.string.trip_images_empty),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        } else {
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .clipToBounds(),
+                horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp)
+            ) {
+                items(items = images) { image ->
+                    SubcomposeAsyncImage(
+                        model = image.url,
+                        contentDescription = image.description,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(width = 120.dp, height = 90.dp)
+                            .clip(MaterialTheme.shapes.medium)
+                            .clickable { onImageClick(image.id) }
+                    )
+                }
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun PageIndicator(
@@ -548,3 +666,4 @@ private fun PageIndicator(
         )
     }
 }
+

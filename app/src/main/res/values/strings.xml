@@ -134,6 +134,8 @@
     <string name="empty_trips">No tienes viajes pendientes</string>
     <string name="trip_location">Viaje a %s</string>
     <string name="trip_date">del %1$s al %2$s</string>
+    <string name="trip_images_header">Fotos</string>
+    <string name="trip_images_empty">Añade fotos a tu viaje para verlas aquí</string>
     <!--  UpsertTripScreen  -->
     <string name="add_trip_title">Añadir viaje</string>
     <string name="editing_trip_title">Editando viaje</string>

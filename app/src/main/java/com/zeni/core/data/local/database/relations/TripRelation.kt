@@ -19,5 +19,11 @@ data class TripRelation(
         parentColumn = "cover_image_id",
         entityColumn = "id"
     )
-    val image: TripImageEntity?
+    val coverImage: TripImageEntity?,
+    @Relation(
+        entity = TripImageEntity::class,
+        parentColumn = "name",
+        entityColumn = "trip_name"
+    )
+    val images: List<TripImageEntity>
 )

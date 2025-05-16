@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.zeni.core.data.local.database.entities.TripEntity
+import com.zeni.core.data.local.database.entities.TripImageEntity
 import com.zeni.core.data.local.database.relations.TripRelation
 import kotlinx.coroutines.flow.Flow
 
@@ -34,6 +35,12 @@ interface TripDao {
 
     @Upsert
     suspend fun addTrip(trip: TripEntity)
+
+    @Upsert
+    suspend fun addTripImages(images: List<TripImageEntity>)
+
+    @Upsert
+    suspend fun addTripImage(image: TripImageEntity)
 
     @Delete
     suspend fun deleteTrip(trip: TripEntity)
