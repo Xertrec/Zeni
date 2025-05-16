@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_version_prefix">"Versão "</string>
 
     <string name="register_title">Criar uma conta</string>
@@ -191,4 +191,100 @@
     <string name="change_password_title">Alterar senha</string>
     <string name="change_password_email_not_match">O e-mail não corresponde ao da conta</string>
     <string name="change_password_current_password">"Senha "</string>
+
+    <string name="hotels_title">Hotéis</string>
+    <string name="hotel_address">Endereço:</string>
+    <string name="hotel_rating">Avaliação:</string>
+    <string name="room_min_price_prefix">Noite a partir de:</string>
+    <string name="start_date_default_text">Data de início</string>
+    <string name="end_date_default_text">Data de término</string>
+    <string name="select_city">Selecionar cidade</string>
+    <string name="city_barcelona">Barcelona</string>
+    <string name="city_paris">Paris</string>
+    <string name="city_londres">Londres</string>
+
+    <string name="hotel_info_title">Informações do hotel:</string>
+    <string name="see_in_maps_button">Ver no Google Maps</string>
+    <string name="reservation_dates_title">Datas da reserva:</string>
+    <string name="select_start_date_button">Selecionar data de início</string>
+    <string name="select_end_date_button">Selecionar data de término</string>
+    <string name="start_date_label">Data de início: %s</string>
+    <string name="end_date_label">Data de término: %s</string>
+    <string name="hotel_with_reservation">Você já tem reservas neste hotel</string>
+    <string name="hotel_rooms_title">Quartos</string>
+    <string name="single_room_text">Individual</string>
+    <string name="double_room_text">Duplo</string>
+    <string name="suite_room_text">Suíte</string>
+    <string name="rooms_dates_required">
+        Para ver os quartos disponíveis, selecione as datas da reserva
+    </string>
+    <string name="rooms_not_available_for_dates">
+        Não há quartos disponíveis para as datas selecionadas
+    </string>
+
+    <plurals name="room_price_prefix">
+        <item quantity="one" tools:ignore="ImpliedQuantity">1 noite por:</item>
+        <item quantity="many">%d noites por:</item>
+        <item quantity="other">%d noites por:</item>
+    </plurals>
+    <string name="room_price_value">%.2f €</string>
+    <string name="room_type">Quarto:</string>
+    <string name="room_hotel_name">Hotel:</string>
+    <string name="room_image_description">Imagem do quarto</string>
+    <string name="reserve_room_button">Reservar</string>
+    <string name="room_not_available">Quarto não disponível para as datas selecionadas</string>
+
+    <string name="reservation_title">Confirmar reserva</string>
+    <string name="hotel_information_title">Informações do hotel:</string>
+    <string name="hotel_address_label">Endereço: </string>
+    <string name="hotel_rating_label">Classificação:</string>
+    <string name="room_details_title">Detalhes do quarto:</string>
+    <string name="room_type_label">Tipo:</string>
+    <string name="room_price_label">Preço:</string>
+    <string name="room_price_value_format">%1$.2f€ por noite</string>
+    <string name="room_image_title">Imagens do quarto:</string>
+    <string name="reservation_data_title">Dados da reserva:</string>
+    <string name="check_in_date_label">Data de check-in:</string>
+    <string name="check_out_date_label">Data de check-out:</string>
+    <string name="check_in_at_name_of">Em nome de:</string>
+    <string name="reservation_success_title">Reserva confirmada</string>
+    <string name="reservation_success_message">
+        Sua reserva foi concluída com sucesso. Você pode ver os detalhes na seção de viagens.
+    </string>
+    <string name="trip_assignment_title">Atribuir viagem</string>
+    <string name="no_trips_create_new">Criar viagem</string>
+    <string name="no_trip_selected">Selecione uma viagem</string>
+    <string name="trip_selected">Viagem para %s</string>
+    <string name="select_trip_dialog_title">Selecione uma viagem</string>
+    <string name="trip_destination_format">Destino: %s</string>
+    <string name="trip_from_date_format">De: %s</string>
+    <string name="trip_to_date_format">Até: %s</string>
+    <string name="verify_reservation_cancelation_dialog">
+        Tem certeza de que deseja cancelar esta reserva?
+    </string><string name="trip_images_header">Fotos</string>
+    <string name="trip_images_empty">Adicione fotos à sua viagem para vê-las aqui</string>
+    <string name="advert_text_deleting_trip_with_reservations">
+        Uma vez excluído, você não poderá recuperá-lo e todas as suas reservas serão canceladas
+    </string>
+    <string name="select_trip_title">Selecionar viagem</string>
+    <plurals name="hotel_duration_nights">
+        <item quantity="one">Duração: %d noite</item>
+        <item quantity="many">Duração: %d noites</item>
+        <item quantity="other">Duração: %d noites</item>
+    </plurals>
+    <string name="cancel_reservation_button">Cancelar reserva</string>
+
+    <string name="hotel_reservation_title">Reserva de hotel</string>
+    <string name="hotel_reservation_id">ID: %s</string>
+    <string name="hotel_check_in_date">Data de check-in: %s</string>
+    <string name="hotel_check_in_time">Hora do check-in: %s</string>
+    <string name="hotel_check_out_date">Data de check-out: %s</string>
+    <string name="hotel_check_out_time">Hora do check-out: %s</string>
+    <string name="duration_label">Duração:</string>
+    <plurals name="hotel_duration_nights_value">
+        <item quantity="one">%d noite</item>
+        <item quantity="many">%d noites</item>
+        <item quantity="other">%d noites</item>
+    </plurals>
+    <string name="confirm_button">Confirmar</string>
 </resources>

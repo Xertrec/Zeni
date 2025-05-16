@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">Zeni</string>
     <string name="app_version_prefix">"Version "</string>
 
+    <string name="password_field_label">Password</string>
     <string name="register_title">Create an account</string>
     <string name="register_email_field_label">Email</string>
     <string name="register_email_empty_error">Email cannot be empty</string>
@@ -17,7 +19,7 @@
     <string name="register_birthdate_field_label">Date of birth</string>
     <string name="register_birthdate_field_text">Date of birth: %s</string>
     <string name="register_birthdate_empty_error">Date of birth cannot be empty</string>
-    <string name="register_birthdate_invalid_error">Date of birth cannot be later than today</string>
+    <string name="register_birthdate_invalid_error">Date of birth cannot be later than the current day</string>
     <string name="register_address_field_label">Address</string>
     <string name="register_address_empty_error">Address cannot be empty</string>
     <string name="register_country_field_label">Country</string>
@@ -26,126 +28,87 @@
     <string name="register_password_short_error">Password is too short, minimum characters is %d</string>
     <string name="register_password_insecure_error">Password is not secure</string>
     <string name="register_next_btn">Next</string>
-    <string name="register_btn">Register</string>
+    <string name="register_btn">Sign up</string>
     <string name="i_have_account">Already have an account?</string>
     <string name="i_have_not_account">Don\'t have an account?</string>
 
     <string name="verify_email_title">Verify your email</string>
-    <string name="verify_email_explanation">To access Zeni, verify your email in your email app</string>
+    <string name="verify_email_explanation">To access Zeni, please verify your email in your email application</string>
     <string name="open_email_btn">Open email</string>
 
-    <!--    Login Screen-->
-    <string name="login_title">Log In</string>
+    <string name="login_title">Log in</string>
     <string name="login_user_field_label">User</string>
     <string name="login_btn">Access</string>
 
-    <!--    Alert Dialog-->
     <string name="alert_title">Alert</string>
-    <string name="alert_message">Incorrect username or password</string>
+    <string name="alert_message">Incorrect user or password</string>
     <string name="alert_btn">OK</string>
 
-    <!-- Strings for the home screen -->
     <string name="home_title">Home</string>
 
-    <!--  TripsScreen  -->
     <string name="trips_title">Trips</string>
     <string name="empty_trips">You have no pending trips</string>
     <string name="trip_location">Trip to %s</string>
     <string name="trip_date">from %1$s to %2$s</string>
-    <!--  UpsertTripScreen  -->
-    <string name="add_trip_title">Add Trip</string>
-    <string name="editing_trip_title">Editing Trip</string>
+    <string name="add_trip_title">Add trip</string>
+    <string name="editing_trip_title">Editing trip</string>
     <string name="name_text_label">Name</string>
     <string name="destination_text_label">Destination</string>
-    <string name="select_start_date_text_label">Start Date</string>
-    <string name="select_start_date_text">Start Date: %s</string>
-    <string name="select_end_date_text_label">End Date</string>
-    <string name="select_end_date_text">End Date: %s</string>
-    <string name="add_trip_button">Create Trip</string>
-    <string name="save_trip_button">Update Trip</string>
-    <string name="delete_trip_button">Delete Trip</string>
-    <string name="error_creating_trip_name_empty">The name field cannot be empty</string>
-    <string name="error_creating_trip_destination_empty">
-        The destination field cannot be empty
-    </string>
-    <string name="error_creating_trip_start_empty">
-        The start date field cannot be empty
-    </string>
-    <string name="error_creating_trip_end_empty">
-        The end date field cannot be empty
-    </string>
-    <string name="error_creating_trip_name_already_exists">The trip name already exists</string>
-    <string name="error_creating_trip_start_and_end_empty">
-        Start and end dates are mandatory
-    </string>
-    <string name="error_creating_trip_fields_empty">
-        All fields are required
-    </string>
-    <string name="error_creating_trip_end_before_start">
-        The end date cannot be earlier than the start date
-    </string>
-    <string name="error_creating_trip_start_in_past">
-        Activities cannot be scheduled to start in the past
-    </string>
-    <string name="advert_title_deleting_trip">
-        Are you sure you want to delete this trip?
-    </string>
-    <string name="advert_text_deleting_trip">
-        Once deleted, you will not be able to recover it
-    </string>
-    <string name="confirm_delete">I am sure</string>
-    <!--  TripScreen  -->
+    <string name="select_start_date_text_label">Start date</string>
+    <string name="select_start_date_text">Start date: %s</string>
+    <string name="select_end_date_text_label">End date</string>
+    <string name="select_end_date_text">End date: %s</string>
+    <string name="add_trip_button">Create trip</string>
+    <string name="save_trip_button">Update trip</string>
+    <string name="delete_trip_button">Delete trip</string>
+    <string name="error_creating_trip_name_empty">Name field cannot be empty</string>
+    <string name="error_creating_trip_destination_empty">Destination field cannot be empty</string>
+    <string name="error_creating_trip_start_empty">Start date field cannot be empty</string>
+    <string name="error_creating_trip_end_empty">End date field cannot be empty</string>
+    <string name="error_creating_trip_name_already_exists">Trip name already exists</string>
+    <string name="error_creating_trip_start_and_end_empty">Start and end dates are mandatory</string>
+    <string name="error_creating_trip_fields_empty">All fields are mandatory</string>
+    <string name="error_creating_trip_end_before_start">End date cannot be before start date</string>
+    <string name="error_creating_trip_start_in_past">Activities cannot be scheduled to start in the past</string>
+    <string name="advert_title_deleting_trip">Are you sure you want to delete this trip?</string>
+    <string name="advert_text_deleting_trip">Once deleted you will not be able to recover it</string>
+    <string name="confirm_delete">I\'m sure</string>
     <string name="trip_title">Trip to %s</string>
-    <string name="edit_trip">Edit Trip</string>
-    <string name="add_activity">Add Activity</string>
+    <string name="edit_trip">Edit trip</string>
+    <string name="add_activity">Add activity</string>
     <string name="trip_name">Name: %s</string>
     <string name="trip_destiny">Destination: %s</string>
-    <string name="trip_start_date">Start Date: %s</string>
-    <string name="trip_end_date">End Date: %s</string>
+    <string name="trip_start_date">Start date: %s</string>
+    <string name="trip_end_date">End date: %s</string>
     <string name="trip_activities_header_text">Itinerary</string>
     <string name="trip_activities_empty_title">You have no activities for this trip</string>
-    <string name="trip_activities_empty_text">
-        Create an activity to do something during your trip to %s
-    </string>
+    <string name="trip_activities_empty_text">Create an activity to do something during your trip to %s</string>
     <string name="trip_activity_name">Name: %s</string>
     <string name="trip_activity_trip_name">Part of your trip: %s</string>
     <string name="trip_activity_description">Description: %s</string>
     <string name="trip_activity_date">Date: %s</string>
     <string name="trip_activity_time">Time: %s</string>
 
-    <!-- ItineraryScreen -->
-    <string name="itinerary_title">Today\'s Itinerary</string>
+    <string name="itinerary_title">Today\'s itinerary</string>
     <string name="itinerary_tab_text">Itinerary</string>
-    <string name="edit_itinerary">Edit Itinerary</string>
+    <string name="edit_itinerary">Edit itinerary</string>
     <string name="itinerary_activity_name">Name</string>
     <string name="itinerary_activity_description">Description</string>
     <string name="itinerary_activity_date">Date: %s</string>
     <string name="empty_itinerary">You have no activities for today</string>
 
-    <!-- UpsertActivityScreen -->
-    <string name="add_activity_title">Add Activity</string>
-    <string name="add_itinerary_select_start_date_text_label">Start Date</string>
-    <string name="add_itinerary_select_start_date_text">Start Date: %s</string>
-    <string name="add_itinerary_select_start_time_text_label">Start Time</string>
-    <string name="add_itinerary_select_start_time_text">Start Time: %s</string>
-    <string name="add_activity_button">Add Activity</string>
-    <string name="error_creating_title_itinerary_activity">
-        The activity name field is required
-    </string>
-    <string name="error_creating_description_itinerary_activity">
-        The description field is required
-    </string>
-    <string name="error_creating_datetime_itinerary_activity">
-        The date field is required
-    </string>
-    <string name="error_creating_date_not_in_trip_itinerary_activity_title">
-        The activity must occur during the trip
-    </string>
-    <string name="error_creating_date_not_in_trip_itinerary_activity_text">
-        The trip is from %1$s to %2$s
-    </string>
+    <string name="add_activity_title">Add activity</string>
+    <string name="add_itinerary_select_start_date_text_label">Start date</string>
+    <string name="add_itinerary_select_start_date_text">Start date: %s</string>
+    <string name="add_itinerary_select_start_time_text_label">Start time</string>
+    <string name="add_itinerary_select_start_time_text">Start time: %s</string>
+    <string name="add_activity_button">Add activity</string>
+    <string name="error_creating_title_itinerary_activity">Activity name field is mandatory</string>
+    <string name="error_creating_description_itinerary_activity">Description field is mandatory</string>
+    <string name="error_creating_datetime_itinerary_activity">Date field is mandatory</string>
+    <string name="error_creating_date_not_in_trip_itinerary_activity_title">Activity must occur during the trip</string>
+    <string name="error_creating_date_not_in_trip_itinerary_activity_text">The trip is from %1$s to %2$s</string>
 
-    <!-- ActivityInformation -->
     <plurals name="time_remaining_hours">
         <item quantity="one">Starts in %d hour</item>
         <item quantity="other">Starts in %d hours</item>
@@ -155,38 +118,134 @@
         <item quantity="other">Starts in %d minutes</item>
     </plurals>
 
-    <string name="change_password_current_password_not_match">The password does not match the account\\\'s password</string>
+    <string name="change_password_current_password">Current password</string>
+    <string name="change_password_current_password_not_match">Password does not match the account\'s password</string>
     <string name="change_password_new_password">New password</string>
+
     <string name="settings_title">Settings</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_selected">Language: %s</string>
-    <string name="select_language">Select language:</string>
+    <string name="select_language">Choose language:</string>
     <string name="spanish_language">Spanish</string>
     <string name="catalan_language">Catalan</string>
     <string name="english_language">English</string>
     <string name="french_language">French</string>
     <string name="portuguese_language">Portuguese</string>
-    <string name="auto_dark_mode">Automatic dark mode</string>
+    <string name="auto_dark_mode">Auto dark mode</string>
     <string name="dark_mode">Dark mode</string>
 
-    <!-- Strings for the more -->
     <string name="more_title">More</string>
-    <string name="profile_title">User</string>
+    <string name="profile_title">Profile</string>
     <string name="terms_title">Terms and Conditions</string>
     <string name="terms_txt_title">
         <![CDATA[
-        \nPrivacy Policy\nLast updated: February 28, 2025\n\nThis Privacy Policy describes our policies and procedures regarding the collection, use, and disclosure of your information when you use the Service and informs you about your privacy rights and how the law protects you.\n\nWe use your personal data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy was created with the help of the Privacy Policy Generator.\n\nInterpretation and Definitions\nInterpretation\nWords with capitalized initial letters have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or plural.\n\nDefinitions\nFor the purposes of this Privacy Policy:\n\nAccount means a unique account created for you to access our Service or parts of our Service.\n\nAffiliate means an entity that controls, is controlled by, or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest, or other securities entitled to vote for the election of directors or other managing authority.\n\nApplication refers to Zeni, the software program provided by the Company.\n\nCompany (referred to as "the Company", "We", "Us", or "Our" in this Agreement) refers to Zeni.\n\nCountry refers to Spain.\n\nDevice means any device that can access the Service, such as a computer, mobile phone, or digital tablet.\n\nPersonal Data is any information that relates to an identified or identifiable individual.\n\nService refers to the Application.\n\nService Provider means any natural or legal person who processes data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, provide the Service on behalf of the Company, perform services related to the Service, or assist the Company in analyzing how the Service is used.\n\nThird-party Social Media Service refers to any website or social media website through which a User can log in or create an account to use the Service.\n\nUsage Data refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself (e.g., the duration of a page visit).\n\nYou means the individual accessing or using the Service, or the company or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.\n\nCollecting and Using Your Personal Data\nTypes of Data Collected\nPersonal Data\nWhile using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to:\n\nEmail address\n\nFirst name and last name\n\nPhone number\n\nAddress, State, Province, ZIP/Postal code, City\n\nUsage Data\n\nUsage Data\nUsage Data is collected automatically when using the Service.\n\nUsage Data may include information such as your device\'s Internet Protocol address (e.g., IP address), browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages, unique device identifiers, and other diagnostic data.\n\nWhen you access the Service via a mobile device, we may collect certain information automatically, including, but not limited to, the type of mobile device you use, your mobile device unique ID, the IP address of your mobile device, your mobile operating system, the type of mobile Internet browser you use, unique device identifiers, and other diagnostic data.\n\nWe may also collect information that your browser sends whenever you visit our Service or when you access the Service via a mobile device.\n\nInformation from Third-Party Social Media Services\nThe Company allows you to create an account and log in to use the Service through the following Third-party Social Media Services:\n\nGoogle\n\nFacebook\n\nInstagram\n\nTwitter\n\nLinkedIn\n\nIf you decide to register through or otherwise grant us access to a Third-Party Social Media Service, we may collect Personal Data that is already associated with your Third-Party Social Media Service\'s account, such as your name, email address, activities, or contact list associated with that account.\n\nYou may also have the option to share additional information with the Company through your Third-Party Social Media Service\'s account. If you choose to provide such information and Personal Data during registration or otherwise, you are giving the Company permission to use, share, and store it in accordance with this Privacy Policy.\n\nInformation Collected while Using the Application\nWhile using our Application, to provide features of our Application, we may collect, with your prior permission:\n\nInformation regarding your location\n\nPictures and other data from your device\'s camera and photo library\n\nWe use this information to provide features of our Service, to improve and customize our Service. The information may be uploaded to the Company\'s servers and/or a Service Provider\'s server or simply stored on your device.\n\nYou can enable or disable access to this information at any time through your device settings.\n\nUse of Your Personal Data\nThe Company may use Personal Data for the following purposes:\n\nTo provide and maintain our Service, including monitoring the usage of our Service.\n\nTo manage Your Account: to manage your registration as a user of the Service. The Personal Data you provide may give you access to different functionalities of the Service that are available to you as a registered user.\n\nFor the performance of a contract: the development, compliance, and undertaking of the purchase contract for the products, items, or services you have purchased or of any other contract with Us through the Service.\n\nTo contact You: To contact you by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application\'s push notifications regarding updates or informative communications related to the functionalities, products, or contracted services, including security updates, when necessary or reasonable for their implementation.\n\nTo provide You with news, special offers, and general information about other goods, services, and events we offer that are similar to those you have already purchased or inquired about unless you have opted not to receive such information.\n\nTo manage Your requests: To attend to and manage your requests to Us.\n\nFor business transfers: We may use your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred.\n\nFor other purposes: We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns, and to evaluate and improve our Service, products, services, marketing, and your experience.\n\nRetention of Your Personal Data\nThe Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.\n\nThe Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer periods.\n\nTransfer of Your Personal Data\nYour information, including Personal Data, is processed at the Company\'s operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country, or other governmental jurisdiction where the data protection laws may differ from those from Your jurisdiction.\n\nYour consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that transfer.\n\nThe Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.\n\nDisclosure of Your Personal Data\nBusiness Transactions\nIf the Company is involved in a merger, acquisition, or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.\n\nLaw enforcement\nUnder certain circumstances, the Company may be required to disclose Your Personal Data if required to do so by law or in response to valid requests by public authorities (e.g., a court or a government agency).\n\nOther legal requirements\nThe Company may disclose Your Personal Data in the good faith belief that such action is necessary to:\n\nComply with a legal obligation\n\nProtect and defend the rights or property of the Company\n\nPrevent or investigate possible wrongdoing in connection with the Service\n\nProtect the personal safety of Users of the Service or the public\n\nProtect against legal liability\n\nSecurity of Your Personal Data\nThe security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.\n\nDetailed Information on the Processing of Your Personal Data\nService Providers we use may have access to Your Personal Data. These third-party vendors collect, store, use, process, and transfer information about Your activity on Our Service in accordance with their Privacy Policies.\n\nAnalytics\nWe may use third-party Service providers to monitor and analyze the use of our Service.\n\nGoogle Analytics\nGoogle Analytics is a web analytics service offered by Google that tracks and reports website traffic. Google uses the data collected to track and monitor the use of our Service. This data is shared with other Google services. Google may use the collected data to contextualize and personalize the ads of its own advertising network.\n\nYou can opt-out of having made your activity on the Service available to Google Analytics by installing the Google Analytics opt-out browser add-on. The add-on prevents the Google Analytics JavaScript (ga.js, analytics.js, and dc.js) from sharing information with Google Analytics about visits activity.\n\nFor more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: https://policies.google.com/privacy\n\nBehavioral Remarketing\nThe Company uses remarketing services to advertise to You on third-party websites after You have visited our Service. We and Our third-party vendors use cookies to inform, optimize, and serve ads based on Your past visits to our Service.\n\nGoogle Ads (AdWords)\nGoogle Ads (AdWords) is a remarketing service provided by Google Inc.\n\nYou can opt-out of Google Analytics for Display Advertising and customize the Google Display Network ads by visiting the Google Ads Settings page: https://adssettings.google.com/authenticated\n\nGoogle also recommends installing the Google Analytics Opt-out Browser Add-on: https://tools.google.com/dlpage/gaoptout. This add-on provides visitors with the ability to prevent their data from being collected and used by Google Analytics.\n\nFor more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: https://policies.google.com/privacy\n\nFacebook\nFacebook remarketing service is provided by Facebook Inc.\n\nYou can learn more about interest-based advertising from Facebook by visiting this page: https://www.facebook.com/help/164968693837950\n\nTo opt-out from Facebook\'s interest-based ads, follow these instructions from Facebook: https://www.facebook.com/help/568137493302217\n\nFacebook adheres to the Self-Regulatory Principles for Online Behavioral Advertising established by the Digital Advertising Alliance. You can also opt-out from Facebook and other participating companies through the Digital Advertising Alliance in the USA https://www.aboutads.info/choices/, the Digital Advertising Alliance of Canada in Canada https://youradchoices.ca/ or the European Interactive Digital Advertising Alliance in Europe https://www.youronlinechoices.eu/, or opt-out using your mobile device settings.\n\nFor more information on the privacy practices of Facebook, please visit Facebook\'s Data Policy: https://www.facebook.com/privacy/explanation\n\nUsage, Performance, and Miscellaneous\nWe may use third-party Service Providers to improve our Service.\n\nInvisible reCAPTCHA\nWe use an invisible captcha service called reCAPTCHA. reCAPTCHA is operated by Google.\n\nThe reCAPTCHA service may collect information from You and from Your device for security purposes.\n\nThe information gathered by reCAPTCHA is held in accordance with the Privacy Policy of Google: https://policies.google.com/privacy\n\nChildren\'s Privacy\nOur Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 13 without verification of parental consent, We take steps to remove that information from Our servers.\n\nIf We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent\'s consent before We collect and use that information.\n\nLinks to Other Websites\nOur Service may contain links to other websites that are not operated by Us. If You click on a third-party link, You will be directed to that third party\'s site. We strongly advise You to review the Privacy Policy of every site You visit.\n\nWe have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.\n\nChanges to this Privacy Policy\nWe may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.\n\nWe will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the "Last updated" date at the top of this Privacy Policy.\n\nYou are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.\n\nContact Us\nIf you have any questions about this Privacy Policy, You can contact us:\n\nBy email: help@zeni.com\n\n\n
+        \nPrivacy Policy\nLast updated: February 28, 2025\n\nThis Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.\n\nWe use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the help of the Privacy Policy Generator.\n\nInterpretation and Definitions\nInterpretation\nThe words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.\n\nDefinitions\nFor the purposes of this Privacy Policy:\n\nAccount means a unique account created for You to access our Service or parts of our Service.\n\nAffiliate means an entity that controls, is controlled by or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.\n\nApplication refers to Zeni, the software program provided by the Company.\n\nCompany (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to Zeni.\n\nCountry refers to: Spain\n\nDevice means any device that can access the Service such as a computer, a cellphone or a digital tablet.\n\nPersonal Data is any information that relates to an identified or identifiable individual.\n\nService refers to the Application.\n\nService Provider means any natural or legal person who processes the data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used.\n\nThird-party Social Media Service refers to any website or any social network website through which a User can log in or create an account to use the Service.\n\nUsage Data refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself (for example, the duration of a page visit).\n\nYou means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.\n\nCollecting and Using Your Personal Data\nTypes of Data Collected\nPersonal Data\nWhile using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:\n\nEmail address\n\nFirst name and last name\n\nPhone number\n\nAddress, State, Province, ZIP/Postal code, City\n\nUsage Data\n\nUsage Data\nUsage Data is collected automatically when using the Service.\n\nUsage Data may include information such as Your Device\'s Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.\n\nWhen You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.\n\nWe may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.\n\nInformation from Third-Party Social Media Services\nThe Company allows You to create an account and log in to use the Service through the following Third-party Social Media Services:\n\nGoogle\n\nFacebook\n\nInstagram\n\nTwitter\n\nLinkedIn\n\nIf You decide to register through or otherwise grant us access to a Third-Party Social Media Service, We may collect Personal data that is already associated with Your Third-Party Social Media Service\'s account, such as Your name, Your email address, Your activities or Your contact list associated with that account.\n\nYou may also have the option of sharing additional information with the Company through Your Third-Party Social Media Service\'s account. If You choose to provide such information and Personal Data, during registration or otherwise, You are giving the Company permission to use, share, and store it in a manner consistent with this Privacy Policy.\n\nInformation Collected while Using the Application\nWhile using Our Application, in order to provide features of Our Application, We may collect, with Your prior permission:\n\nInformation regarding your location\n\nPictures and other information from your Device\'s camera and photo library\n\nWe use this information to provide features of Our Service, to improve and customize Our Service. The information may be uploaded to the Company\'s servers and/or a Service Provider\'s server or it may be simply stored on Your device.\n\nYou can enable or disable access to this information at any time, through Your Device settings.\n\nUse of Your Personal Data\nThe Company may use Personal Data for the following purposes:\n\nTo provide and maintain our Service, including to monitor the usage of our Service.\n\nTo manage Your Account: to manage Your registration as a user of the Service. The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user.\n\nFor the performance of a contract: the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased or of any other contract with Us through the Service.\n\nTo contact You: To contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application\'s push notifications regarding updates or informative communications related to the functionalities, products or contracted services, including the security updates, when necessary or reasonable for their implementation.\n\nTo provide You with news, special offers and general information about other goods, services and events which we offer that are similar to those that you have already purchased or enquired about unless You have opted not to receive such information.\n\nTo manage Your requests: To attend and manage Your requests to Us.\n\nFor business transfers: We may use Your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred.\n\nFor other purposes: We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.\n\nRetention of Your Personal Data\nThe Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.\n\nThe Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.\n\nTransfer of Your Personal Data\nYour information, including Personal Data, is processed at the Company\'s operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from Your jurisdiction.\n\nYour consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that transfer.\n\nThe Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.\n\nDisclosure of Your Personal Data\nBusiness Transactions\nIf the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.\n\nLaw enforcement\nUnder certain circumstances, the Company may be required to disclose Your Personal Data if required to do so by law or in response to valid requests by public authorities (e.g. a court or a government agency).\n\nOther legal requirements\nThe Company may disclose Your Personal Data in the good faith belief that such action is necessary to:\n\nComply with a legal obligation\n\nProtect and defend the rights or property of the Company\n\nPrevent or investigate possible wrongdoing in connection with the Service\n\nProtect the personal safety of Users of the Service or the public\n\nProtect against legal liability\n\nSecurity of Your Personal Data\nThe security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.\n\nDetailed Information on the Processing of Your Personal Data\nThe Service Providers We use may have access to Your Personal Data. These third-party vendors collect, store, use, process and transfer information about Your activity on Our Service in accordance with their Privacy Policies.\n\nAnalytics\nWe may use third-party Service providers to monitor and analyze the use of our Service.\n\nGoogle Analytics\nGoogle Analytics is a web analytics service offered by Google that tracks and reports website traffic. Google uses the data collected to track and monitor the use of our Service. This data is shared with other Google services. Google may use the collected data to contextualize and personalize the ads of its own advertising network.\n\nYou can opt-out of having made Your activity on the Service available to Google Analytics by installing the Google Analytics opt-out browser add-on. The add-on prevents the Google Analytics JavaScript (ga.js, analytics.js and dc.js) from sharing information with Google Analytics about visits activity.\n\nFor more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: https://policies.google.com/privacy\n\nBehavioral Remarketing\nThe Company uses remarketing services to advertise on third party websites to You after You visited our Service. We and Our third-party vendors use cookies to inform, optimize and serve ads based on Your past visits to our Service.\n\nGoogle Ads (AdWords)\nGoogle Ads (AdWords) remarketing service is provided by Google Inc.\n\nYou can opt-out of Google Analytics for Display Advertising and customize the Google Display Network ads by visiting the Google Ads Settings page: https://adssettings.google.com/authenticated\n\nGoogle also recommends installing the Google Analytics Opt-out Browser Add-on - https://tools.google.com/dlpage/gaoptout - for your web browser. Google Analytics Opt-out Browser Add-on provides visitors with the ability to prevent their data from being collected and used by Google Analytics.\n\nFor more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: https://policies.google.com/privacy\n\nFacebook\nFacebook remarketing service is provided by Facebook Inc.\n\nYou can learn more about interest-based advertising from Facebook by visiting this page: https://www.facebook.com/help/164968693837950\n\nTo opt-out from Facebook\'s interest-based ads, follow these instructions from Facebook: https://www.facebook.com/help/568137493302217\n\nFacebook adheres to the Self-Regulatory Principles for Online Behavioral Advertising established by the Digital Advertising Alliance. You can also opt-out from Facebook and other participating companies through the Digital Advertising Alliance in the USA https://www.aboutads.info/choices/, the Digital Advertising Alliance of Canada in Canada https://youradchoices.ca/ or the European Interactive Digital Advertising Alliance in Europe https://www.youronlinechoices.eu/, or opt-out using your mobile device settings.\n\nFor more information on the privacy practices of Facebook, please visit Facebook\'s Data Policy: https://www.facebook.com/privacy/explanation\n\nUsage, Performance and Miscellaneous\nWe may use third-party Service Providers to provide better improvement of our Service.\n\nInvisible reCAPTCHA\nWe use an invisible captcha service named reCAPTCHA. reCAPTCHA is operated by Google.\n\nThe reCAPTCHA service may collect information from You and from Your Device for security purposes.\n\nThe information collected by reCAPTCHA is held in accordance with the Privacy Policy of Google: https://policies.google.com/privacy\n\nChildren\'s Privacy\nOur Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 13 without verification of parental consent, We take steps to remove that information from Our servers.\n\nIf We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent\'s consent before We collect and use that information.\n\nLinks to Other Websites\nOur Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party\'s site. We strongly advise You to review the Privacy Policy of every site You visit.\n\nWe have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.\n\nChanges to this Privacy Policy\nWe may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.\n\nWe will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the "Last updated" date at the top of this Privacy Policy.\n\nYou are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.\n\nContact Us\nIf you have any questions about this Privacy Policy, You can contact us:\n\nBy email: help@zeni.com\n\n\n
         ]]>
     </string>
     <string name="about_zeni">About Zeni</string>
     <string name="log_out_btn">Log out</string>
-    <string name="developers_title">Developers:</string>
 
-    <!--  Others  -->
+    <string name="developers_title">Developers:</string>
+    <string name="developer1_name" translatable="false">Alberto Martino</string>
+    <string name="developer1_github" translatable="false">https://github.com/xBlanco</string>
+    <string name="developer2_name" translatable="false">Alex Lillo</string>
+    <string name="developer2_github" translatable="false">https://github.com/AlexLillo</string>
+
     <string name="accept_button">Accept</string>
     <string name="cancel_button">Cancel</string>
-    <string name="password_field_label">Password</string>
     <string name="change_password_title">Change password</string>
-    <string name="change_password_email_not_match">The email does not match the account\\\'s email</string>
-    <string name="change_password_current_password">Password</string>
+    <string name="change_password_email_not_match">The email does not match the account\'s email</string>
+
+    <string name="hotels_title">Hotels</string>
+    <string name="hotel_address">Address:</string>
+    <string name="hotel_rating">Rating:</string>
+    <string name="room_min_price_prefix">Night from:</string>
+    <string name="start_date_default_text">Start date</string>
+    <string name="end_date_default_text">End date</string>
+    <string name="select_city">Select city</string>
+    <string name="city_barcelona">Barcelona</string>
+    <string name="city_paris">Paris</string>
+    <string name="city_londres">London</string>
+
+    <string name="hotel_info_title">Hotel information:</string>
+    <string name="see_in_maps_button">See on Google Maps</string>
+    <string name="reservation_dates_title">Reservation dates:</string>
+    <string name="select_start_date_button">Select start date</string>
+    <string name="select_end_date_button">Select end date</string>
+    <string name="start_date_label">Start date: %s</string>
+    <string name="end_date_label">End date: %s</string>
+    <string name="hotel_with_reservation">You already have reservations at this hotel</string>
+    <string name="hotel_rooms_title">Rooms</string>
+    <string name="single_room_text">Single</string>
+    <string name="double_room_text">Double</string>
+    <string name="suite_room_text">Suite</string>
+    <string name="rooms_dates_required">
+        To see available rooms, select reservation dates
+    </string>
+    <string name="rooms_not_available_for_dates">
+        No rooms available for the selected dates
+    </string>
+
+    <plurals name="room_price_prefix">
+        <item quantity="one">1 night for:</item>
+        <item quantity="other">%d nights for:</item>
+    </plurals>
+    <string name="room_price_value">%.2f €</string>
+    <string name="room_type">Room:</string>
+    <string name="room_hotel_name">Hotel:</string>
+    <string name="room_image_description">Room image</string>
+    <string name="reserve_room_button">Reserve</string>
+    <string name="room_not_available">Room not available for the selected dates</string>
+
+    <string name="reservation_title">Confirm reservation</string>
+    <string name="hotel_information_title">Hotel information:</string>
+    <string name="hotel_address_label">Address: </string>
+    <string name="hotel_rating_label">Rating:</string>
+    <string name="room_details_title">Room details:</string>
+    <string name="room_type_label">Type:</string>
+    <string name="room_price_label">Price:</string>
+    <string name="room_price_value_format">%1$.2f€ per night</string>
+    <string name="room_image_title">Room images:</string>
+    <string name="reservation_data_title">Reservation data:</string>
+    <string name="check_in_date_label">Check-in date:</string>
+    <string name="check_out_date_label">Check-out date:</string>
+    <string name="check_in_at_name_of">In the name of:</string>
+    <string name="reservation_success_title">Reservation confirmed</string>
+    <string name="reservation_success_message">
+        Your reservation has been successfully completed. You can see the details in the trips section.
+    </string>
+    <string name="trip_assignment_title">Assign trip</string>
+    <string name="no_trips_create_new">Create trip</string>
+    <string name="no_trip_selected">Select a trip</string>
+    <string name="trip_selected">Trip to %s</string>
+    <string name="select_trip_dialog_title">Select a trip</string>
+    <string name="trip_destination_format">Destination: %s</string>
+    <string name="trip_from_date_format">From: %s</string>
+    <string name="trip_to_date_format">To: %s</string>
+    <string name="verify_reservation_cancelation_dialog">
+        Are you sure you want to cancel this reservation?
+    </string><string name="trip_images_header">Photos</string>
+    <string name="trip_images_empty">Add photos to your trip to see them here</string>
+    <string name="advert_text_deleting_trip_with_reservations">
+        Once deleted, you will not be able to recover it and all its reservations will be canceled
+    </string>
+    <string name="select_trip_title">Select trip</string>
+    <plurals name="hotel_duration_nights">
+        <item quantity="one">Duration: %d night</item>
+        <item quantity="other">Duration: %d nights</item>
+    </plurals>
+    <string name="cancel_reservation_button">Cancel reservation</string>
+
+    <string name="hotel_reservation_title">Hotel reservation</string>
+    <string name="hotel_reservation_id">ID: %s</string>
+    <string name="hotel_check_in_date">Check-in date: %s</string>
+    <string name="hotel_check_in_time">Check-in time: %s</string>
+    <string name="hotel_check_out_date">Check-out date: %s</string>
+    <string name="hotel_check_out_time">Check-out time: %s</string>
+    <string name="duration_label">Duration:</string>
+    <plurals name="hotel_duration_nights_value">
+        <item quantity="one">%d night</item>
+        <item quantity="other">%d nights</item>
+    </plurals>
+    <string name="confirm_button">Confirm</string>
 </resources>

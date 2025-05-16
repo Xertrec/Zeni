@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">Zeni</string>
     <string name="app_version_prefix">"Versió "</string>
 
+    <string name="password_field_label">Contrasenya</string>
     <string name="register_title">Crear un compte</string>
     <string name="register_email_field_label">Correu electrònic</string>
     <string name="register_email_empty_error">El correu electrònic no pot estar buit</string>
@@ -17,7 +19,7 @@
     <string name="register_birthdate_field_label">Data de naixement</string>
     <string name="register_birthdate_field_text">Data de naixement: %s</string>
     <string name="register_birthdate_empty_error">La data de naixement no pot estar buida</string>
-    <string name="register_birthdate_invalid_error">La data de naixement no pot ser superior al dia actual</string>
+    <string name="register_birthdate_invalid_error">La data de naixement no pot ser posterior al dia actual</string>
     <string name="register_address_field_label">Adreça</string>
     <string name="register_address_empty_error">L\'adreça no pot estar buida</string>
     <string name="register_country_field_label">País</string>
@@ -31,31 +33,23 @@
     <string name="i_have_not_account">No tens un compte?</string>
 
     <string name="verify_email_title">Verifica el teu correu electrònic</string>
-    <string name="verify_email_explanation">
-        Per accedir a Zeni, verifica el teu correu electrònic a la teva app de correu
-    </string>
-    <string name="open_email_btn">Obre el correu</string>
+    <string name="verify_email_explanation">Per accedir a Zeni, verifica el teu correu electrònic a la teva aplicació de correu</string>
+    <string name="open_email_btn">Obrir correu</string>
 
-    <!--    Pantalla d\'inici de sessió -->
     <string name="login_title">Iniciar sessió</string>
     <string name="login_user_field_label">Usuari</string>
     <string name="login_btn">Accedir</string>
 
-    <!--    Diàleg d\'alerta -->
     <string name="alert_title">Alerta</string>
     <string name="alert_message">Usuari o contrasenya incorrectes</string>
-    <string name="alert_btn">D\'acord</string>
+    <string name="alert_btn">Acceptar</string>
 
-    <!-- Textos per a la pantalla d\'inici -->
     <string name="home_title">Inici</string>
 
-    <!--  Pantalla de viatges  -->
     <string name="trips_title">Viatges</string>
     <string name="empty_trips">No tens viatges pendents</string>
     <string name="trip_location">Viatge a %s</string>
     <string name="trip_date">del %1$s al %2$s</string>
-
-    <!--  Pantalla d\'edició/creació de viatge  -->
     <string name="add_trip_title">Afegir viatge</string>
     <string name="editing_trip_title">Editant viatge</string>
     <string name="name_text_label">Nom</string>
@@ -66,39 +60,19 @@
     <string name="select_end_date_text">Data de fi: %s</string>
     <string name="add_trip_button">Crear viatge</string>
     <string name="save_trip_button">Actualitzar viatge</string>
-    <string name="delete_trip_button">Esborrar viatge</string>
-    <string name="error_creating_trip_name_empty">El camp de nom no pot estar buit</string>
-    <string name="error_creating_trip_destination_empty">
-        El camp de destinació no pot estar buit
-    </string>
-    <string name="error_creating_trip_start_empty">
-        El camp de data d\'inici no pot estar buit
-    </string>
-    <string name="error_creating_trip_end_empty">
-        El camp de data de fi no pot estar buit
-    </string>
+    <string name="delete_trip_button">Eliminar viatge</string>
+    <string name="error_creating_trip_name_empty">El camp nom no pot estar buit</string>
+    <string name="error_creating_trip_destination_empty">El camp destinació no pot estar buit</string>
+    <string name="error_creating_trip_start_empty">El camp data d\'inici no pot estar buit</string>
+    <string name="error_creating_trip_end_empty">El camp data de fi no pot estar buit</string>
     <string name="error_creating_trip_name_already_exists">El nom del viatge ja existeix</string>
-    <string name="error_creating_trip_start_and_end_empty">
-        Les dates d\'inici i fi son obligatories
-    </string>
-    <string name="error_creating_trip_fields_empty">
-        Tots els camps són obligatoris
-    </string>
-    <string name="error_creating_trip_end_before_start">
-        La data de fi no pot ser anterior a la data d\'inici
-    </string>
-    <string name="error_creating_trip_start_in_past">
-        No es poden programar activitats perquè comencin en el passat
-    </string>
-    <string name="advert_title_deleting_trip">
-        Estàs segur que vols esborrar aquest viatge?
-    </string>
-    <string name="advert_text_deleting_trip">
-        Un cop esborrat, no podràs recuperar-lo
-    </string>
-    <string name="confirm_delete">Estic segur</string>
-
-    <!--  Pantalla de viatge  -->
+    <string name="error_creating_trip_start_and_end_empty">Les dates d\'inici i fi són obligatòries</string>
+    <string name="error_creating_trip_fields_empty">Tots els camps són obligatoris</string>
+    <string name="error_creating_trip_end_before_start">La data de fi no pot ser anterior a la data d\'inici</string>
+    <string name="error_creating_trip_start_in_past">Les activitats no es poden programar per començar en el passat</string>
+    <string name="advert_title_deleting_trip">Estàs segur que vols eliminar aquest viatge?</string>
+    <string name="advert_text_deleting_trip">Un cop eliminat no podràs recuperar-lo</string>
+    <string name="confirm_delete">N\'estic segur</string>
     <string name="trip_title">Viatge a %s</string>
     <string name="edit_trip">Editar viatge</string>
     <string name="add_activity">Afegir activitat</string>
@@ -108,48 +82,33 @@
     <string name="trip_end_date">Data de fi: %s</string>
     <string name="trip_activities_header_text">Itinerari</string>
     <string name="trip_activities_empty_title">No tens activitats per a aquest viatge</string>
-    <string name="trip_activities_empty_text">
-        Crea una activitat per fer alguna cosa durant el teu viatge a %s
-    </string>
+    <string name="trip_activities_empty_text">Crea una activitat per fer alguna cosa durant el teu viatge a %s</string>
     <string name="trip_activity_name">Nom: %s</string>
     <string name="trip_activity_trip_name">Part del teu viatge: %s</string>
     <string name="trip_activity_description">Descripció: %s</string>
     <string name="trip_activity_date">Data: %s</string>
     <string name="trip_activity_time">Hora: %s</string>
 
-    <!-- Pantalla d\'itinerari -->
     <string name="itinerary_title">Itinerari d\'avui</string>
     <string name="itinerary_tab_text">Itinerari</string>
     <string name="edit_itinerary">Editar itinerari</string>
     <string name="itinerary_activity_name">Nom</string>
     <string name="itinerary_activity_description">Descripció</string>
     <string name="itinerary_activity_date">Data: %s</string>
-    <string name="empty_itinerary">No tens cap activitat per al dia d\'avui</string>
+    <string name="empty_itinerary">No tens cap activitat per avui</string>
 
-    <!-- Pantalla d\'edició/creació d\'activitat -->
     <string name="add_activity_title">Afegir activitat</string>
     <string name="add_itinerary_select_start_date_text_label">Data d\'inici</string>
     <string name="add_itinerary_select_start_date_text">Data d\'inici: %s</string>
     <string name="add_itinerary_select_start_time_text_label">Hora d\'inici</string>
     <string name="add_itinerary_select_start_time_text">Hora d\'inici: %s</string>
     <string name="add_activity_button">Afegir activitat</string>
-    <string name="error_creating_title_itinerary_activity">
-        El camp del nom de l\'activitat és obligatori
-    </string>
-    <string name="error_creating_description_itinerary_activity">
-        El camp de la descripció és obligatori
-    </string>
-    <string name="error_creating_datetime_itinerary_activity">
-        El camp de la data és obligatori
-    </string>
-    <string name="error_creating_date_not_in_trip_itinerary_activity_title">
-        L\'activitat ha de tenir lloc durant el viatge
-    </string>
-    <string name="error_creating_date_not_in_trip_itinerary_activity_text">
-        El viatge és del %1$s al %2$s
-    </string>
+    <string name="error_creating_title_itinerary_activity">El camp nom de l\'activitat és obligatori</string>
+    <string name="error_creating_description_itinerary_activity">El camp descripció és obligatori</string>
+    <string name="error_creating_datetime_itinerary_activity">El camp data és obligatori</string>
+    <string name="error_creating_date_not_in_trip_itinerary_activity_title">L\'activitat ha de tenir lloc durant el viatge</string>
+    <string name="error_creating_date_not_in_trip_itinerary_activity_text">El viatge és del %1$s al %2$s</string>
 
-    <!-- Informació d\'activitat -->
     <plurals name="time_remaining_hours">
         <item quantity="one">Comença en %d hora</item>
         <item quantity="many">Comença en %d hores</item>
@@ -161,19 +120,10 @@
         <item quantity="other">Comença en %d minuts</item>
     </plurals>
 
-    <!-- Pantalla de més opcions -->
-    <string name="more_title">Més</string>
-    <string name="profile_title">Usuari</string>
-    <string name="terms_title">Termes i Condicions</string>
-    <string name="about_zeni">Sobre Zeni</string>
-    <string name="terms_txt_title">
-        <![CDATA[
-        \nPolítica de Privacitat\nDarrera actualització: 28 de febrer de 2025\n\nAquesta Política de Privacitat descriu les nostres polítiques i procediments sobre la recopilació, ús i divulgació de la vostra informació quan utilitzeu el Servei i us informa sobre els vostres drets de privacitat i com la llei us protegeix.\n\nUtilitzem les vostres dades personals per proporcionar i millorar el Servei. En utilitzar el Servei, accepteu la recopilació i ús de la informació d\'acord amb aquesta Política de Privacitat. Aquesta Política de Privacitat s\'ha creat amb l\'ajuda del Generador de Polítiques de Privacitat.\n\nInterpretació i Definicions\nInterpretació\nLes paraules amb la lletra inicial en majúscula tenen significats definits sota les següents condicions. Les definicions següents tindran el mateix significat tant si apareixen en singular com en plural.\n\nDefinicions\nPer als propòsits d\'aquesta Política de Privacitat:\n\nCompte significa un compte únic creat perquè pugueu accedir al nostre Servei o parts del nostre Servei.\n\nAfiliat significa una entitat que controla, és controlada per o està sota control comú amb una part, on "control" significa la propietat del 50% o més de les accions, participacions o altres valors amb dret a vot per a l\'elecció de directors o altra autoritat de gestió.\n\nAplicació es refereix a Zeni, el programa de programari proporcionat per l\'Empresa.\n\nEmpresa (anomenada "l\'Empresa", "Nosaltres", "Ens" o "El Nostre" en aquest Acord) es refereix a Zeni.\n\nPaís es refereix a Espanya.\n\nDispositiu significa qualsevol dispositiu que pugui accedir al Servei, com ara un ordinador, un telèfon mòbil o una tauleta digital.\n\nDades Personals són qualsevol informació que es relaciona amb una persona identificada o identificable.\n\nServei es refereix a l\'Aplicació.\n\nProveïdor de Serveis significa qualsevol persona física o jurídica que processa les dades en nom de l\'Empresa. Es refereix a empreses o persones terceres contractades per l\'Empresa per facilitar el Servei, proporcionar el Servei en nom de l\'Empresa, realitzar serveis relacionats amb el Servei o ajudar l\'Empresa a analitzar com s\'utilitza el Servei.\n\nServei de Xarxes Socials de Tercers es refereix a qualsevol lloc web o xarxa social a través del qual un Usuari pot iniciar sessió o crear un compte per utilitzar el Servei.\n\nDades d\'Ús es refereixen a les dades recopilades automàticament, generades per l\'ús del Servei o per la pròpia infraestructura del Servei (per exemple, la durada d\'una visita a una pàgina).\n\nVós significa la persona que accedeix o utilitza el Servei, o l\'empresa o altra entitat legal en nom de la qual aquesta persona accedeix o utilitza el Servei, segons correspongui.\n\nRecopilació i Ús de les Vostres Dades Personals\nTipus de Dades Recopilades\nDades Personals\nMentre utilitzeu el nostre Servei, podem demanar-vos que ens proporcioneu certa informació d\'identificació personal que es pot utilitzar per contactar-vos o identificar-vos. La informació d\'identificació personal pot incloure, entre d\'altres:\n\nAdreça de correu electrònic\n\nNom i cognoms\n\nNúmero de telèfon\n\nAdreça, Estat, Província, Codi Postal, Ciutat\n\nDades d\'Ús\n\nDades d\'Ús\nLes Dades d\'Ús es recopilen automàticament en utilitzar el Servei.\n\nLes Dades d\'Ús poden incloure informació com l\'adreça de Protocol d\'Internet del vostre dispositiu (per exemple, adreça IP), tipus de navegador, versió del navegador, les pàgines del nostre Servei que visiteu, l\'hora i data de la vostra visita, el temps dedicat a aquestes pàgines, identificadors únics de dispositius i altres dades de diagnòstic.\n\nQuan accediu al Servei mitjançant un dispositiu mòbil, podem recopilar certa informació automàticament, incloent, entre d\'altres, el tipus de dispositiu mòbil que utilitzeu, l\'ID únic del vostre dispositiu mòbil, l\'adreça IP del vostre dispositiu mòbil, el sistema operatiu mòbil que utilitzeu, el tipus de navegador d\'Internet mòbil que utilitzeu, identificadors únics de dispositius i altres dades de diagnòstic.\n\nTambé podem recopilar informació que el vostre navegador envïa cada vegada que visiteu el nostre Servei o quan accediu al Servei mitjançant un dispositiu mòbil.\n\nInformació de Serveis de Xarxes Socials de Tercers\nL\'Empresa us permet crear un compte i iniciar sessió per utilitzar el Servei a través dels següents Serveis de Xarxes Socials de Tercers:\n\nGoogle\n\nFacebook\n\nInstagram\n\nTwitter\n\nLinkedIn\n\nSi decidiu registrar-vos a través d\'un Servei de Xarxes Socials de Tercers o ens concedeixeu accés, podem recopilar Dades Personals ja associades amb el compte d\'aquest Servei, com ara el vostre nom, adreça de correu electrònic, activitats o llista de contactes associada amb aquest compte.\n\nTambé podeu tenir l\'opció de compartir informació addicional amb l\'Empresa a través del compte del Servei de Xarxes Socials de Tercers. Si trieu proporcionar aquesta informació i Dades Personals durant el registre o d\'altra manera, esteu donant permís a l\'Empresa per utilitzar, compartir i emmagatzemar-la d\'acord amb aquesta Política de Privacitat.\n\nInformació Recopilada durant l\'Ús de l\'Aplicació\nMentre utilitzeu la nostra Aplicació, per proporcionar funcionalitats de la nostra Aplicació, podem recopilar, amb el vostre permís previ:\n\nInformació sobre la vostra ubicació\n\nFotos i altres dades de la càmera i la biblioteca de fotos del vostre dispositiu\n\nUtilitzem aquesta informació per proporcionar funcionalitats del nostre Servei, millorar i personalitzar el nostre Servei. La informació pot ser pujada als servidors de l\'Empresa i/o a un servidor d\'un Proveïdor de Serveis o simplement emmagatzemada al vostre dispositiu.\n\nPodeu activar o desactivar l\'accés a aquesta informació en qualsevol moment a través de la configuració del vostre dispositiu.\n\nÚs de les Vostres Dades Personals\nL\'Empresa pot utilitzar les Dades Personals per als següents propòsits:\n\nProporcionar i mantenir el nostre Servei, incloent el monitoratge de l\'ús del Servei.\n\nGestionar el Vostre Compte: gestionar el vostre registre com a usuari del Servei. Les Dades Personals que proporcioneu poden donar-vos accés a diferents funcionalitats del Servei disponibles per a vosaltres com a usuari registrat.\n\nPer al compliment d\'un contracte: el desenvolupament, compliment i realització del contracte de compra de productes, articles o serveis que heu adquirit o de qualsevol altre contracte amb Nosaltres a través del Servei.\n\nPer contactar amb Vós: Per correu electrònic, trucades telefòniques, SMS o altres formes equivalents de comunicació electrònica, com notificacions push d\'una aplicació mòbil, sobre actualitzacions o comunicacions informatives relacionades amb les funcionalitats, productes o serveis contractats, incloent actualitzacions de seguretat, quan sigui necessari o raonable per a la seva implementació.\n\nProporcionar-vos notícies, ofertes especials i informació general sobre altres béns, serveis i esdeveniments que oferim i que són similars als que ja heu comprat o consultat, llevat que hàgiu optat per no rebre aquesta informació.\n\nGestionar les Vostres Sol·licituds: Atendre i gestionar les vostres sol·licituds cap a Nosaltres.\n\nPer a transferències comercials: Podem utilitzar la vostra informació per avaluar o dur a terme una fusió, desinversió, reestructuració, reorganització, dissolució o altra venda o transferència d\'alguns o tots els nostres actius, ja sigui com a empresa en funcionament o com a part d\'una fallida, liquidació o procediment similar, en què les Dades Personals que tenim sobre els usuaris del nostre Servei estiguin entre els actius transferits.\n\nPer a altres finalitats: Podem utilitzar la vostra informació per a altres finalitats, com ara anàlisi de dades, identificació de tendències d\'ús, determinació de l\'efectivitat de les nostres campanyes promocionals i per avaluar i millorar el nostre Servei, productes, serveis, màrqueting i la vostra experiència.\n\nRetenció de les Vostres Dades Personals\nL\'Empresa retindrà les Vostres Dades Personals només durant el temps necessari per als propòsits establerts en aquesta Política de Privacitat. Retindrem i utilitzarem les Vostres Dades Personals en la mesura necessària per complir amb les nostres obligacions legals (per exemple, si estem obligats a retenir les vostres dades per complir amb les lleis aplicables), resoldre disputes i fer complir els nostres acords i polítiques legals.\n\nL\'Empresa també retindrà les Dades d\'Ús per a finalitats d\'anàlisi interna. Les Dades d\'Ús generalment es retenen durant un període més curt, excepte quan aquestes dades s\'utilitzen per reforçar la seguretat o millorar la funcionalitat del nostre Servei, o estem legalment obligats a retenir aquestes dades durant períodes més llargs.\n\nTransferència de les Vostres Dades Personals\nLa vostra informació, incloent Dades Personals, es processa als despatços operatius de l\'Empresa i en qualsevol altre lloc on es trobin les parts implicades en el processament. Això significa que aquesta informació pot ser transferida a — i mantinguda en — ordinadors situats fora del vostre estat, província, país o altra jurisdicció governamental on les lleis de protecció de dades poden diferir de les de la vostra jurisdicció.\n\nEl vostre consentiment a aquesta Política de Privacitat seguit de l\'enviament d\'aquesta informació representa el vostre acord amb aquesta transferència.\n\nL\'Empresa prendrà totes les mesures raonablement necessàries per garantir que les vostres dades es tractin de manera segura i d\'acord amb aquesta Política de Privacitat, i no es durà a cap transferència de les vostres Dades Personals a una organització o país sense que hi hagi controls adequats establerts, inclosa la seguretat de les vostres dades i altra informació personal.\n\nDivulgació de les Vostres Dades Personals\nTransaccions comercials\nSi l\'Empresa participa en una fusió, adquisició o venda d\'actius, les vostres Dades Personals poden ser transferides. Us notificarem abans que les vostres Dades Personals siguin transferides i estiguin subjectes a una Política de Privacitat diferent.\n\nCumpliment de la llei\nEn determinades circumstàncies, l\'Empresa pot estar obligada a divulgar les vostres Dades Personals si així ho requereix la llei o en resposta a sol·licituds vàlides de les autoritats públiques (per exemple, un tribunal o una agència governamental).\n\nAltres requisits legals\nL\'Empresa pot divulgar les vostres Dades Personals de bona fe quan consideri que aquesta acció és necessària per:\n\nComplir amb una obligació legal\n\nProtegir i defensar els drets o propietat de l\'Empresa\n\nPrevenir o investigar possibles irregularitats en relació amb el Servei\n\nProtegir la seguretat personal dels Usuaris del Servei o del públic\n\nProtegir-se contra la responsabilitat legal\n\nSeguretat de les Vostres Dades Personals\nLa seguretat de les vostres Dades Personals és important per a Nosaltres, però recordeu que cap mètode de transmissió per Internet o mètode d\'emmagatzematge electrònic és 100% segur. Tot i que ens esforcem per utilitzar mitjans comercialment acceptables per protegir les vostres Dades Personals, no en podem garantir la seguretat absoluta.\n\nInformació Detallada sobre el Processament de les Vostres Dades Personals\nEls Proveïdors de Serveis que utilitzem poden tenir accés a les vostres Dades Personals. Aquests proveïdors tercers recopilen, emmagatzemen, utilitzen, processen i transfereixen informació sobre la vostra activitat al nostre Servei d\'acord amb les seves Polítiques de Privacitat.\n\nAnalítica\nPodem utilitzar proveïdors de serveis tercers per monitorar i analitzar l\'ús del nostre Servei.\n\nGoogle Analytics\nGoogle Analytics és un servei d\'anàlisi web ofert per Google que rastreja i informa sobre el trànsit del lloc web. Google utilitza les dades recopilades per rastrejar i monitorar l\'ús del nostre Servei. Aquestes dades es comparteixen amb altres serveis de Google. Google pot utilitzar les dades recopilades per contextualitzar i personalitzar els anuncis de la seva pròpia xarxa publicitària.\n\nPodeu optar per no tenir la vostra activitat al Servei disponible per a Google Analytics instal·lant el complement de desactivació de Google Analytics. El complement impedeix que el JavaScript de Google Analytics (ga.js, analytics.js i dc.js) comparteixi informació amb Google Analytics sobre l\'activitat de visites.\n\nPer a més informació sobre les pràctiques de privacitat de Google, visiteu la pàgina de Privacitat i Condicions de Google: https://policies.google.com/privacy\n\nRemarketing Conductual\nL\'Empresa utilitza serveis de remarketing per mostrar-vos anuncis a llocs web de tercers després que hàgiu visitat el nostre Servei. Nosaltres i els nostres proveïdors tercers utilitzem cookies per informar, optimitzar i mostrar anuncis basats en les vostres visites passades al nostre Servei.\n\nGoogle Ads (AdWords)\nGoogle Ads (AdWords) és un servei de remarketing proporcionat per Google Inc.\n\nPodeu desactivar Google Analytics per a la publicitat display i personalitzar els anuncis de la Xarxa de Display de Google visitant la pàgina de Configuració d\'anuncis de Google: https://adssettings.google.com/authenticated\n\nGoogle també recomana instal·lar el complement de desactivació de Google Analytics: https://tools.google.com/dlpage/gaoptout. Aquest complement ofereix als visitants la possibilitat d\'evitar que les seves dades siguin recopilades i utilitzades per Google Analytics.\n\nPer a més informació sobre les pràctiques de privacitat de Google, visiteu la pàgina de Privacitat i Condicions de Google: https://policies.google.com/privacy\n\nFacebook\nEl servei de remarketing de Facebook és proporcionat per Facebook Inc.\n\nPodeu obtenir més informació sobre la publicitat basada en interessos de Facebook visitant aquesta pàgina: https://www.facebook.com/help/164968693837950\n\nPer desactivar els anuncis basats en interessos de Facebook, seguiu aquestes instruccions de Facebook: https://www.facebook.com/help/568137493302217\n\nFacebook s\'adhereix als Principis d\'Auto-regulació per a la Publicitat Conductual En Línia establerts per la Digital Advertising Alliance. També podeu desactivar Facebook i altres empreses participants a través de la Digital Advertising Alliance als EUA https://www.aboutads.info/choices/, la Digital Advertising Alliance del Canadà al Canadà https://youradchoices.ca/ o la European Interactive Digital Advertising Alliance a Europa https://www.youronlinechoices.eu/, o mitjançant la configuració del vostre dispositiu mòbil.\n\nPer a més informació sobre les pràctiques de privacitat de Facebook, visiteu la Política de Dades de Facebook: https://www.facebook.com/privacy/explanation\n\nÚs, Rendiment i Diversos\nPodem utilitzar proveïdors de serveis tercers per millorar el nostre Servei.\n\nreCAPTCHA invisible\nUtilitzem un servei de captcha invisible anomenat reCAPTCHA. reCAPTCHA és operat per Google.\n\nEl servei reCAPTCHA pot recopilar informació sobre vosaltres i el vostre dispositiu per motius de seguretat.\n\nLa informació recopilada per reCAPTCHA es manté d\'acord amb la Política de Privacitat de Google: https://policies.google.com/privacy\n\nPrivacitat dels Infants\nEl nostre Servei no està dirigit a persones menors de 13 anys. No recopilem intencionadament informació d\'identificació personal de persones menors de 13 anys. Si sou pare/tutor i sabeu que el vostre fill ens ha proporcionat Dades Personals, contacteu-nos. Si ens adonem que hem recopilat Dades Personals de persones menors de 13 anys sense verificació del consentiment parental, prendrem mesures per eliminar aquesta informació dels nostres servidors.\n\nSi necessitem basar-nos en el consentiment com a base legal per processar la vostra informació i el vostre país requereix el consentiment d\'un pare/tutor, podem demanar el consentiment del pare/tutor abans de recopilar i utilitzar aquesta informació.\n\nEnllaços a Altres Llocs Web\nEl nostre Servei pot contenir enllaços a altres llocs web que no són operats per nosaltres. Si feu clic en un enllaç de tercers, sereu redirigit al lloc d\'aquest tercer. Us recomanem que reviseu la Política de Privacitat de cada lloc que visiteu.\n\nNo tenim cap control ni assumim cap responsabilitat pel contingut, les polítiques de privacitat o les pràctiques de llocs o serveis de tercers.\n\nCanvis a Aquesta Política de Privacitat\nPodem actualitzar la nostra Política de Privacitat periòdicament. Us notificarem qualsevol canvi publicant la nova Política de Privacitat en aquesta pàgina.\n\nUs informarem per correu electrònic i/o un avís destacat al nostre Servei abans que el canvi sigui efectiu i actualitzarem la data de "Darrera actualització" a la part superior d\'aquesta Política de Privacitat.\n\nUs recomanem que reviseu aquesta Política de Privacitat periòdicament per qualsevol canvi. Els canvis a aquesta Política de Privacitat són efectius quan es publiquen en aquesta pàgina.\n\nContacteu-nos\nSi teniu qualsevol pregunta sobre aquesta Política de Privacitat, podeu contactar-nos:\n\nPer correu electrònic: help@zeni.com\n\n\n
-        ]]>
-    </string>
-
-    <!-- Pantalla de configuració -->
+    <string name="change_password_current_password">Contrasenya actual</string>
+    <string name="change_password_current_password_not_match">La contrasenya no coincideix amb la del compte</string>
     <string name="change_password_new_password">Nova contrasenya</string>
+
     <string name="settings_title">Configuració</string>
     <string name="settings_language">Idioma</string>
     <string name="settings_language_selected">Idioma: %s</string>
@@ -186,16 +136,122 @@
     <string name="auto_dark_mode">Mode fosc automàtic</string>
     <string name="dark_mode">Mode fosc</string>
 
-    <!-- Informació de desenvolupadors -->
+    <string name="more_title">Més</string>
+    <string name="profile_title">Perfil</string>
+    <string name="terms_title">Termes i Condicions</string>
+    <string name="terms_txt_title">
+        <![CDATA[
+        \nPolítica de Privacitat\nÚltima actualització: 28 de febrer de 2025\n\nAquesta Política de Privacitat descriu les nostres polítiques i procediments sobre la recollida, ús i divulgació de la vostra informació quan utilitzeu el Servei i us informa sobre els vostres drets de privacitat i com la llei us protegeix.\n\nUtilitzem les vostres dades personals per proporcionar i millorar el Servei. En utilitzar el Servei, accepteu la recollida i ús d\'informació d\'acord amb aquesta Política de Privacitat. Aquesta Política de Privacitat ha estat creada amb l\'ajuda del Generador de Polítiques de Privacitat.\n\nInterpretació i Definicions\nInterpretació\nLes paraules amb la lletra inicial en majúscula tenen significats definits sota les següents condicions. Les següents definicions tindran el mateix significat independentment de si apareixen en singular o en plural.\n\nDefinicions\nAls efectes d\'aquesta Política de Privacitat:\n\nCompte significa un compte únic creat per a Vostè per accedir al nostre Servei o parts del nostre Servei.\n\nAfiliada significa una entitat que controla, és controlada per o està sota control comú amb una part, on "control" significa la propietat del 50% o més de les accions, participació accionarial o altres valors amb dret a vot per a l\'elecció de directors o una altra autoritat de gestió.\n\nAplicació es refereix a Zeni, el programa de programari proporcionat per la Companyia.\n\nCompanyia (referida com "la Companyia", "Nosaltres", "Ens" o "Nostre" en aquest Acord) es refereix a Zeni.\n\nPaís es refereix a: Espanya\n\nDispositiu significa qualsevol dispositiu que pugui accedir al Servei, com un ordinador, un telèfon mòbil o una tauleta digital.\n\nDades Personals és qualsevol informació que es relacioni amb un individu identificat o identificable.\n\nServei es refereix a l\'Aplicació.\n\nProveïdor de Serveis significa qualsevol persona física o jurídica que processi les dades en nom de la Companyia. Es refereix a companyies de tercers o individus empleats per la Companyia per facilitar el Servei, per proporcionar el Servei en nom de la Companyia, per realitzar serveis relacionats amb el Servei o per assistir la Companyia en l\'anàlisi de com s\'utilitza el Servei.\n\nServei de Xarxes Socials de Tercers es refereix a qualsevol lloc web o qualsevol lloc web de xarxa social a través del qual un Usuari pot iniciar sessió o crear un compte per utilitzar el Servei.\n\nDades d\'Ús es refereix a les dades recollides automàticament, ja sigui generades per l\'ús del Servei o des de la pròpia infraestructura del Servei (per exemple, la durada d\'una visita a la pàgina).\n\nVostè significa l\'individu que accedeix o utilitza el Servei, o la companyia o una altra entitat legal en nom de la qual aquest individu està accedint o utilitzant el Servei, segons correspongui.\n\nRecollida i Ús de les Seves Dades Personals\nTipus de Dades Recollides\nDades Personals\nMentre utilitzeu el Nostre Servei, podem demanar-vos que Ens proporcioneu certa informació d\'identificació personal que es pot utilitzar per contactar-vos o identificar-vos. La informació d\'identificació personal pot incloure, però no es limita a:\n\nAdreça de correu electrònic\n\nNom i cognom\n\nNúmero de telèfon\n\nAdreça, Estat, Província, Codi Postal, Ciutat\n\nDades d\'Ús\n\nDades d\'Ús\nLes Dades d\'Ús es recullen automàticament quan s\'utilitza el Servei.\n\nLes Dades d\'Ús poden incloure informació com l\'adreça del Protocol d\'Internet del Vostre Dispositiu (p. ex., adreça IP), tipus de navegador, versió del navegador, les pàgines del nostre Servei que Vostè visita, l\'hora i data de la Vostra visita, el temps dedicat a aquestes pàgines, identificadors únics de dispositiu i altres dades de diagnòstic.\n\nQuan Vostè accedeix al Servei per o a través d\'un dispositiu mòbil, podem recollir certa informació automàticament, incloent, però no limitat a, el tipus de dispositiu mòbil que Vostè utilitza, el Seu ID únic de dispositiu mòbil, l\'adreça IP del Seu dispositiu mòbil, el Seu sistema operatiu mòbil, el tipus de navegador d\'Internet mòbil que Vostè utilitza, identificadors únics de dispositiu i altres dades de diagnòstic.\n\nTambé podem recollir informació que el Seu navegador envia cada vegada que Vostè visita el nostre Servei o quan Vostè accedeix al Servei per o a través d\'un dispositiu mòbil.\n\nInformació de Serveis de Xarxes Socials de Tercers\nLa Companyia us permet crear un compte i iniciar sessió per utilitzar el Servei a través dels següents Serveis de Xarxes Socials de Tercers:\n\nGoogle\n\nFacebook\n\nInstagram\n\nTwitter\n\nLinkedIn\n\nSi Vostè decideix registrar-se a través d\'un Servei de Xarxes Socials de Tercers o concedir-nos accés a aquest, podem recollir Dades Personals que ja estan associades amb el compte del Seu Servei de Xarxes Socials de Tercers, com el Seu nom, la Seva adreça de correu electrònic, les Seves activitats o la Seva llista de contactes associada amb aquest compte.\n\nTambé podeu tenir l\'opció de compartir informació addicional amb la Companyia a través del compte del Seu Servei de Xarxes Socials de Tercers. Si Vostè tria proporcionar aquesta informació i Dades Personals, durant el registre o d\'una altra manera, Vostè està donant permís a la Companyia per utilitzar-la, compartir-la i emmagatzemar-la de manera consistent amb aquesta Política de Privacitat.\n\nInformació Recollida Mentre s\'Usa l\'Aplicació\nMentre utilitzeu la Nostra Aplicació, per proporcionar funcionalitats de la Nostra Aplicació, podem recollir, amb el Seu permís previ:\n\nInformació sobre la vostra ubicació\n\nImatges i altra informació de la càmera i la biblioteca de fotos del Seu Dispositiu\n\nUtilitzem aquesta informació per proporcionar funcionalitats del Nostre Servei, per millorar i personalitzar el Nostre Servei. La informació pot ser carregada als servidors de la Companyia i/o al servidor d\'un Proveïdor de Serveis o simplement emmagatzemada al Seu dispositiu.\n\nPodeu activar o desactivar l\'accés a aquesta informació en qualsevol moment, a través de la configuració del Seu Dispositiu.\n\nÚs de les Seves Dades Personals\nLa Companyia pot utilitzar Dades Personals per als següents propòsits:\n\nPer proporcionar i mantenir el nostre Servei, inclòs el monitoratge de l\'ús del nostre Servei.\n\nPer gestionar el Seu Compte: per gestionar el Seu registre com a usuari del Servei. Les Dades Personals que Vostè proporciona poden donar-li accés a diferents funcionalitats del Servei que estan disponibles per a Vostè com a usuari registrat.\n\nPer a l\'execució d\'un contracte: el desenvolupament, compliment i execució del contracte de compra dels productes, articles o serveis que Vostè ha comprat o de qualsevol altre contracte amb Nosaltres a través del Servei.\n\nPer contactar-lo: Per contactar-lo per correu electrònic, trucades telefòniques, SMS o altres formes equivalents de comunicació electrònica, com les notificacions push d\'una aplicació mòbil sobre actualitzacions o comunicacions informatives relacionades amb les funcionalitats, productes o serveis contractats, incloses les actualitzacions de seguretat, quan sigui necessari o raonable per a la seva implementació.\n\nPer proporcionar-li notícies, ofertas especials i informació general sobre altres béns, serveis i esdeveniments que oferim que són similars als que ja ha comprat o sobre els quals ha preguntat, tret que hagi optat per no rebre aquesta informació.\n\nPer gestionar les Seves sol·licituds: Per atendre i gestionar les Seves sol·licituds cap a Nosaltres.\n\nPer a transferències comercials: Podem utilitzar la Seva informació per avaluar o dur a terme una fusió, desinversió, reestructuració, reorganització, dissolució o una altra venda o transferència d\'alguns o tots els Nostres actius, ja sigui com una empresa en funcionament o com a part d\'una fallida, liquidació o procediment similar, en què les Dades Personals que tenim sobre els usuaris del nostre Servei es trobin entre els actius transferits.\n\nPer a altres propòsits: Podem utilitzar la Seva informació per a altres propòsits, com anàlisi de dades, identificació de tendències d\'ús, determinació de l\'efectivitat de les nostres campanyes promocionals i per avaluar i millorar el nostre Servei, productes, serveis, màrqueting i la seva experiència.\n\nRetenció de les Seves Dades Personals\nLa Companyia retindrà les Seves Dades Personals només durant el temps que sigui necessari per als fins establerts en aquesta Política de Privacitat. Retindrem i utilitzarem les Seves Dades Personals en la mesura necessària per complir amb les nostres obligacions legals (per exemple, si se\'ns exigeix retenir les seves dades per complir amb les lleis aplicables), resoldre disputes i fer complir els nostres acords i polítiques legals.\n\nLa Companyia també retindrà Dades d\'Ús per a fins d\'anàlisi interna. Les Dades d\'Ús generalment es retenen per un període de temps més curt, excepte quan aquestes dades s\'utilitzen per enfortir la seguretat o per millorar la funcionalitat del Nostre Servei, o estem legalment obligats a retenir aquestes dades per períodes de temps més llargs.\n\nTransferència de les Seves Dades Personals\nLa seva informació, incloses les Dades Personals, es processa a les oficines operatives de la Companyia i en qualsevol altre lloc on es trobin les parts involucrades en el processament. Significa que aquesta informació pot transferir-se a — i mantenir-se en — ordinadors ubicats fora del Seu estat, província, país o una altra jurisdicció governamental on les lleis de protecció de dades poden diferir de les de la Seva jurisdicció.\n\nEl seu consentiment a aquesta Política de Privacitat seguit de la Seva tramesa d\'aquesta informació representa el Seu acord amb aquesta transferència.\n\nLa Companyia prendrà totes les mesures raonablement necessàries per garantir que les Seves dades es tractin de forma segura i d\'acord amb aquesta Política de Privacitat i no es realitzarà cap transferència de les Seves Dades Personals a una organització o país tret que hi hagi controls adequats, inclosa la seguretat de les Seves dades i altra informació personal.\n\nDivulgació de les Seves Dades Personals\nTransaccions Comercials\nSi la Companyia està involucrada en una fusió, adquisició o venda d\'actius, les Seves Dades Personals poden ser transferides. Us proporcionarem un avís abans que les Seves Dades Personals es transfereixin i quedin subjectes a una Política de Privacitat diferent.\n\nCompliment de la llei\nEn determinades circumstàncies, és possible que se li exigeixi a la Companyia que divulgui les Seves Dades Personals si així ho exigeix la llei o en resposta a sol·licituds vàlides de les autoritats públiques (p. ex., un tribunal o una agència governamental).\n\nAltres requisits legals\nLa Companyia pot divulgar les Seves Dades Personals de bona fe quan consideri que aquesta acció és necessària per:\n\nComplir amb una obligació legal\n\nProtegir i defensar els drets o la propietat de la Companyia\n\nPrevenir o investigar possibles irregularitats en relació amb el Servei\n\nProtegir la seguretat personal dels Usuaris del Servei o del públic\n\nProtegir-se contra la responsabilitat legal\n\nSeguretat de les Seves Dades Personals\nLa seguretat de les Seves Dades Personals és important per a Nosaltres, però recordeu que cap mètode de transmissió per Internet o mètode d\'emmagatzematge electrònic és 100% segur. Si bé Ens esforcem per utilitzar mitjans comercialment acceptables per protegir les Seves Dades Personals, no podem garantir la seva seguretat absoluta.\n\nInformació Detallada sobre el Processament de les Seves Dades Personals\nEls Proveïdors de Serveis que utilitzem poden tenir accés a les Seves Dades Personals. Aquests proveïdors externs recullen, emmagatzemen, utilitzen, processen i transfereixen informació sobre la Seva activitat al Nostre Servei d\'acord amb les seves Polítiques de Privacitat.\n\nAnàlisi\nPodem utilitzar Proveïdors de Serveis de tercers per monitorar i analitzar l\'ús del nostre Servei.\n\nGoogle Analytics\nGoogle Analytics és un servei d\'anàlisi web ofert per Google que rastreja i informa el trànsit del lloc web. Google utilitza les dades recollides per rastrejar i monitorar l\'ús del nostre Servei. Aquestes dades es comparteixen amb altres serveis de Google. Google pot utilitzar les dades recollides per contextualitzar i personalitzar els anuncis de la seva pròpia xarxa publicitària.\n\nPodeu optar per no posar la Seva activitat al Servei a disposició de Google Analytics instal·lant el complement d\'exclusió voluntària del navegador de Google Analytics. El complement evita que el JavaScript de Google Analytics (ga.js, analytics.js i dc.js) comparteixi informació amb Google Analytics sobre l\'activitat de les visites.\n\nPer a més informació sobre les pràctiques de privacitat de Google, visiteu la pàgina web de Privacitat i Termes de Google: https://policies.google.com/privacy\n\nRemarketing Conductual\nLa Companyia utilitza serveis de remarketing per anunciar-se en llocs web de tercers després que Vostè hagi visitat el nostre Servei. Nosaltres i els nostres proveïdors externs utilitzem galetes per informar, optimitzar i publicar anuncis basats en les Seves visites anteriors al nostre Servei.\n\nGoogle Ads (AdWords)\nEl servei de remarketing de Google Ads (AdWords) és proporcionat per Google Inc.\n\nPodeu optar per no participar a Google Analytics per a la Publicitat de Display i personalitzar els anuncis de la Xarxa de Display de Google visitant la pàgina de Configuració d\'Anuncis de Google: https://adssettings.google.com/authenticated\n\nGoogle también recomana instal·lar el complement d\'exclusió voluntària del navegador de Google Analytics - https://tools.google.com/dlpage/gaoptout - per al seu navegador web. El complement d\'exclusió voluntària del navegador de Google Analytics ofereix als visitants la possibilitat d\'evitar que les seves dades siguin recollides i utilitzades per Google Analytics.\n\nPer a més informació sobre les pràctiques de privacitat de Google, visiteu la pàgina web de Privacitat i Termes de Google: https://policies.google.com/privacy\n\nFacebook\nEl servei de remarketing de Facebook és proporcionat per Facebook Inc.\n\nPodeu obtenir més informació sobre la publicitat basada en interessos de Facebook visitant aquesta pàgina: https://www.facebook.com/help/164968693837950\n\nPer optar per no participar en els anuncis basats en interessos de Facebook, seguiu aquestes instruccions de Facebook: https://www.facebook.com/help/568137493302217\n\nFacebook s\'adhereix als Principis d\'Autoregulació per a la Publicitat Conductual en Línia establerts per l\'Aliança de Publicitat Digital. També podeu optar per no participar a Facebook i altres companyies participants a través de l\'Aliança de Publicitat Digital als EUA https://www.aboutads.info/choices/, l\'Aliança de Publicitat Digital del Canadà al Canadà https://youradchoices.ca/ o l\'Aliança Europea de Publicitat Digital Interactiva a Europa https://www.youronlinechoices.eu/, o optar per no participar utilitzant la configuració del vostre dispositiu mòbil.\n\nPer a més informació sobre les pràctiques de privacitat de Facebook, visiteu la Política de Dades de Facebook: https://www.facebook.com/privacy/explanation\n\nÚs, Rendiment i Diversos\nPodem utilitzar Proveïdors de Serveis de tercers per proporcionar una millor millora del nostre Servei.\n\nreCAPTCHA invisible\nUtilitzem un servei de captcha invisible anomenat reCAPTCHA. reCAPTCHA és operat per Google.\n\nEl servei reCAPTCHA pot recollir informació Seva i del Seu Dispositiu amb finalitats de seguretat.\n\nLa informació recollida per reCAPTCHA es conserva d\'acord amb la Política de Privacitat de Google: https://policies.google.com/privacy\n\nPrivacitat dels Infants\nEl Nostre Servei no es dirigeix a cap persona menor de 13 anys. No recollim deliberadament informació d\'identificació personal de cap persona menor de 13 anys. Si Vostè és pare o tutor i sap que el Seu fill Ens ha proporcionat Dades Personals, contacti amb nosaltres. Si Ens adonem que hem recollit Dades Personals de qualsevol persona menor de 13 anys sense verificació del consentiment parental, prenem mesures per eliminar aquesta informació dels Nostres servidors.\n\nSi necessitem confiar en el consentiment com a base legal per processar la Seva informació i el Seu país requereix el consentiment d\'un pare, podem requerir el consentiment del Seu pare abans de recollir i utilitzar aquesta informació.\n\nEnllaços a Altres Llocs Web\nEl Nostre Servei pot contenir enllaços a altres llocs web que no són operats per Nosaltres. Si Vostè fa clic en un enllaç d\'un tercer, serà dirigit al lloc d\'aquest tercer. Us recomanem encaridament que reviseu la Política de Privacitat de cada lloc que visiteu.\n\nNo tenim control ni assumim cap responsabilitat pel contingut, les polítiques de privacitat o les pràctiques dels llocs o serveis de tercers.\n\nCanvis a Aquesta Política de Privacitat\nPodem actualitzar la Nostra Política de Privacitat de tant en tant. Us notificarem qualsevol canvi publicant la nova Política de Privacitat en aquesta pàgina.\n\nUs informarem per correu electrònic i/o un avís destacat al Nostre Servei, abans que el canvi entri en vigor i actualitzarem la data d\'"Última actualització" a la part superior d\'aquesta Política de Privacitat.\n\nSe us aconsella que reviseu aquesta Política de Privacitat periòdicament per detectar qualsevol canvi. Els canvis a aquesta Política de Privacitat són efectius quan es publiquen en aquesta pàgina.\n\nContacteu-nos\nSi teniu alguna pregunta sobre aquesta Política de Privacitat, podeu contactar-nos:\n\nPer correu electrònic: help@zeni.com\n\n\n
+        ]]>
+    </string>
+    <string name="about_zeni">Sobre Zeni</string>
     <string name="log_out_btn">Tanca la sessió</string>
-    <string name="developers_title">Desenvolupadors:</string>
 
-    <!-- Altres -->
+    <string name="developers_title">Desenvolupadors:</string>
+    <string name="developer1_name" translatable="false">Alberto Martino</string>
+    <string name="developer1_github" translatable="false">https://github.com/xBlanco</string>
+    <string name="developer2_name" translatable="false">Alex Lillo</string>
+    <string name="developer2_github" translatable="false">https://github.com/AlexLillo</string>
+
     <string name="accept_button">Acceptar</string>
     <string name="cancel_button">Cancel·lar</string>
-    <string name="password_field_label">Contrasenya</string>
     <string name="change_password_title">Canviar contrasenya</string>
     <string name="change_password_email_not_match">El correu electrònic no coincideix amb el del compte</string>
-    <string name="change_password_current_password">Contrasenya</string>
-    <string name="change_password_current_password_not_match">La contrasenya no coincideix amb la del compte</string>
+
+    <string name="hotels_title">Hotels</string>
+    <string name="hotel_address">Adreça:</string>
+    <string name="hotel_rating">Valoració:</string>
+    <string name="room_min_price_prefix">Nit des de:</string>
+    <string name="start_date_default_text">Data d\'inici</string>
+    <string name="end_date_default_text">Data de fi</string>
+    <string name="select_city">Selecciona ciutat</string>
+    <string name="city_barcelona">Barcelona</string>
+    <string name="city_paris">París</string>
+    <string name="city_londres">Londres</string>
+
+    <string name="hotel_info_title">Informació de l\'hotel:</string>
+    <string name="see_in_maps_button">Veure a Google Maps</string>
+    <string name="reservation_dates_title">Dates de la reserva:</string>
+    <string name="select_start_date_button">Selecciona data d\'inici</string>
+    <string name="select_end_date_button">Selecciona data de fi</string>
+    <string name="start_date_label">Data d\'inici: %s</string>
+    <string name="end_date_label">Data de fi: %s</string>
+    <string name="hotel_with_reservation">Ja tens reserves en aquest hotel</string>
+    <string name="hotel_rooms_title">Habitacions</string>
+    <string name="single_room_text">Individual</string>
+    <string name="double_room_text">Doble</string>
+    <string name="suite_room_text">Suite</string>
+    <string name="rooms_dates_required">
+        Per veure les habitacions disponibles, selecciona les dates de reserva
+    </string>
+    <string name="rooms_not_available_for_dates">
+        No hi ha habitacions disponibles per a les dates seleccionades
+    </string>
+
+    <plurals name="room_price_prefix">
+        <item quantity="one">1 nit per:</item>
+        <item quantity="many">%d nits per:</item>
+        <item quantity="other">%d nits per:</item>
+    </plurals>
+    <string name="room_price_value">%.2f €</string>
+    <string name="room_type">Habitació:</string>
+    <string name="room_hotel_name">Hotel:</string>
+    <string name="room_image_description">Imatge de l\'habitació</string>
+    <string name="reserve_room_button">Reserva</string>
+    <string name="room_not_available">Habitació no disponible per a les dates seleccionades</string>
+
+    <string name="reservation_title">Confirma reserva</string>
+    <string name="hotel_information_title">Informació de l\'hotel:</string>
+    <string name="hotel_address_label">Adreça: </string>
+    <string name="hotel_rating_label">Qualificació:</string>
+    <string name="room_details_title">Detalls de l\'habitació:</string>
+    <string name="room_type_label">Tipus:</string>
+    <string name="room_price_label">Preu:</string>
+    <string name="room_price_value_format">%1$.2f€ per nit</string>
+    <string name="room_image_title">Imatges de l\'habitació:</string>
+    <string name="reservation_data_title">Dades de la reserva:</string>
+    <string name="check_in_date_label">Data d\'entrada:</string>
+    <string name="check_out_date_label">Data de sortida:</string>
+    <string name="check_in_at_name_of">A nom de:</string>
+    <string name="reservation_success_title">Reserva confirmada</string>
+    <string name="reservation_success_message">
+        La teva reserva s\'ha completat amb èxit. Pots veure els detalls a la secció de viatges.
+    </string>
+    <string name="trip_assignment_title">Assigna viatge</string>
+    <string name="no_trips_create_new">Crea viatge</string>
+    <string name="no_trip_selected">Selecciona un viatge</string>
+    <string name="trip_selected">Viatge a %s</string>
+    <string name="select_trip_dialog_title">Selecciona un viatge</string>
+    <string name="trip_destination_format">Destí: %s</string>
+    <string name="trip_from_date_format">Des de: %s</string>
+    <string name="trip_to_date_format">Fins a: %s</string>
+    <string name="verify_reservation_cancelation_dialog">
+        Estàs segur que vols cancel·lar aquesta reserva?
+    </string>
+    <string name="trip_images_header">Fotos</string>
+    <string name="trip_images_empty">Afegeix fotos al teu viatge per veure-les aquí</string>
+    <string name="advert_text_deleting_trip_with_reservations">
+        Un cop esborrat, no podràs recuperar-lo i totes les seves reserves es cancel·laran
+    </string>
+    <string name="select_trip_title">Selecciona viatge</string>
+    <plurals name="hotel_duration_nights">
+        <item quantity="one">Durada: %d nit</item>
+        <item quantity="many">Durada: %d nits</item>
+        <item quantity="other">Durada: %d nits</item>
+    </plurals>
+    <string name="cancel_reservation_button">Cancel·la reserva</string>
+
+    <string name="hotel_reservation_title">Reserva d\'hotel</string>
+    <string name="hotel_reservation_id">ID: %s</string>
+    <string name="hotel_check_in_date">Data d\'entrada: %s</string>
+    <string name="hotel_check_in_time">Hora d\'entrada: %s</string>
+    <string name="hotel_check_out_date">Data de sortida: %s</string>
+    <string name="hotel_check_out_time">Hora de sortida: %s</string>
+    <string name="duration_label">Durada:</string>
+    <plurals name="hotel_duration_nights_value">
+        <item quantity="one">%d nit</item>
+        <item quantity="many">%d nits</item>
+        <item quantity="other">%d nits</item>
+    </plurals>
+    <string name="confirm_button">Confirmar</string>
 </resources>
