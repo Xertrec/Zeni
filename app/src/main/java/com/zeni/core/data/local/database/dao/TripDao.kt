@@ -25,6 +25,12 @@ interface TripDao {
     @Query("SELECT * FROM trip_table WHERE name = :tripName")
     fun getTrip(tripName: String): Flow<TripRelation>
 
+    @Query("SELECT * FROM trip_images_table WHERE trip_name = :tripName")
+    fun getTripImages(tripName: String): Flow<List<TripImageEntity>>
+
+    @Query("SELECT * FROM trip_images_table WHERE id = :imageId")
+    fun getTripImage(imageId: Long): Flow<TripImageEntity>
+
     @Query("""
         SELECT EXISTS(
             SELECT 1 FROM trip_table 
@@ -39,9 +45,9 @@ interface TripDao {
     @Upsert
     suspend fun addTripImages(images: List<TripImageEntity>)
 
-    @Upsert
-    suspend fun addTripImage(image: TripImageEntity)
-
     @Delete
     suspend fun deleteTrip(trip: TripEntity)
+    
+    @Delete
+    suspend fun deleteTripImage(image: TripImageEntity)
 }

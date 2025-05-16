@@ -49,6 +49,34 @@ class TripRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getTripImages(tripName: String): Flow<List<TripImage>> {
+        DatabaseLogger.dbOperation("Getting images for trip $tripName")
+        return try {
+            val imagesFlow = tripDao.getTripImages(tripName)
+                .map { images -> images.map { it.toDomain(localStorage) } }
+            DatabaseLogger.dbOperation("Trip images retrieved successfully")
+
+            imagesFlow
+        } catch (e: Exception) {
+            DatabaseLogger.dbError("Error getting trip images: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override fun getTripImage(imageId: Long): Flow<TripImage> {
+        DatabaseLogger.dbOperation("Getting image with ID $imageId")
+        return try {
+            val imageFlow = tripDao.getTripImage(imageId)
+                .map { it.toDomain(localStorage) }
+            DatabaseLogger.dbOperation("Trip image retrieved successfully")
+
+            imageFlow
+        } catch (e: Exception) {
+            DatabaseLogger.dbError("Error getting trip image: ${e.message}", e)
+            throw e
+        }
+    }
+
     override suspend fun addTrip(trip: Trip) {
         DatabaseLogger.dbOperation("Adding trip to ${trip.destination}")
         return try {
@@ -88,6 +116,16 @@ class TripRepositoryImpl @Inject constructor(
             DatabaseLogger.dbOperation("Trip deleted successfully")
         } catch (e: Exception) {
             DatabaseLogger.dbError("Error deleting trip: ${e.message}", e)
+        }
+    }
+
+    override suspend fun deleteTripImage(image: TripImage) {
+        DatabaseLogger.dbOperation("Deleting trip image: ${image.id}")
+        try {
+            tripDao.deleteTripImage(image.toEntity())
+            DatabaseLogger.dbOperation("Trip image deleted successfully")
+        } catch (e: Exception) {
+            DatabaseLogger.dbError("Error deleting trip image: ${e.message}", e)
         }
     }
 }

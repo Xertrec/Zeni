@@ -4,33 +4,45 @@ import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.exclude
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsIgnoringVisibility
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsIgnoringVisibility
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -43,10 +55,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -58,20 +76,29 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -85,6 +112,7 @@ import com.zeni.core.domain.model.Trip
 import com.zeni.core.domain.model.TripImage
 import com.zeni.core.domain.utils.extensions.navigateBack
 import com.zeni.core.presentation.navigation.ScreenReservationInfo
+import com.zeni.core.presentation.navigation.ScreenTripImageViewer
 import com.zeni.core.presentation.navigation.ScreenUpsertActivity
 import com.zeni.core.presentation.navigation.ScreenUpsertTrip
 import com.zeni.itinerary.presentation.components.ActivityInformation
@@ -93,6 +121,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.time.Duration.Companion.days
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TripScreen(
     viewModel: TripViewModel,
@@ -126,7 +155,7 @@ fun TripScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 16.dp),
-            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+            contentPadding = WindowInsets.navigationBarsIgnoringVisibility.asPaddingValues(),
             verticalArrangement = Arrangement.spacedBy(
                 space = 16.dp,
                 alignment = Alignment.Top
@@ -142,6 +171,7 @@ fun TripScreen(
             item {
                 TripImagesGallery(
                     images = trip!!.images,
+                    coverImage = trip!!.coverImage,
                     onAddImageClick = {
                         photosPickerLauncher.launch(
                             PickVisualMediaRequest(
@@ -150,10 +180,16 @@ fun TripScreen(
                             )
                         )
                     },
-                    onImageClick = { imageId ->
-                        // Aquí iría la navegación para ver la imagen en detalle
-                        // navController.navigate(ScreenTripImageDetail(trip!!.name, imageId))
+                    onImageClick = { imageUri ->
+                        navController.navigate(
+                            ScreenTripImageViewer(
+                                tripName = trip!!.name,
+                                initialImageUri = imageUri.toString()
+                            )
+                        )
                     },
+                    onFavoriteImage = viewModel::setCoverImage,
+                    onDeleteImage = viewModel::deleteTripImage,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -259,7 +295,7 @@ fun TripScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 private fun TopBar(
     navController: NavController,
@@ -290,7 +326,8 @@ private fun TopBar(
                     contentDescription = null
                 )
             }
-        }
+        },
+        windowInsets = WindowInsets.statusBarsIgnoringVisibility
     )
 }
 
@@ -306,7 +343,7 @@ private fun TripData(
             .withLocale(locale)
     }
 
-    Column(
+    Row(
         modifier = modifier
             .clip(MaterialTheme.shapes.large)
             .clipToBounds()
@@ -316,38 +353,70 @@ private fun TripData(
                 horizontal = 16.dp
             )
     ) {
-        Text(
-            text = stringResource(
-                id = R.string.trip_name,
-                trip.name
-            ),
+        Column(
             modifier = Modifier
-                .padding(bottom = 4.dp),
-            fontWeight = FontWeight.Bold
-        )
+                .weight(weight = 1f)
+        ) {
+            Text(
+                text = stringResource(
+                    id = R.string.trip_name,
+                    trip.name
+                ),
+                modifier = Modifier
+                    .padding(bottom = 4.dp),
+                fontWeight = FontWeight.Bold
+            )
 
-        Text(
-            text = stringResource(
-                id = R.string.trip_destiny,
-                trip.destination
-            ),
-            fontSize = 12.sp
-        )
+            Text(
+                text = stringResource(
+                    id = R.string.trip_destiny,
+                    trip.destination
+                ),
+                fontSize = 12.sp
+            )
 
-        Text(
-            text = stringResource(
-                id = R.string.trip_start_date,
-                trip.startDate.format(formatter)
-            ),
-            fontSize = 12.sp
-        )
-        Text(
-            text = stringResource(
-                id = R.string.trip_end_date,
-                trip.endDate.format(formatter)
-            ),
-            fontSize = 12.sp
-        )
+            Text(
+                text = stringResource(
+                    id = R.string.trip_start_date,
+                    trip.startDate.format(formatter)
+                ),
+                fontSize = 12.sp
+            )
+            Text(
+                text = stringResource(
+                    id = R.string.trip_end_date,
+                    trip.endDate.format(formatter)
+                ),
+                fontSize = 12.sp
+            )
+        }
+
+        AnimatedVisibility(
+            visible = trip.coverImage != null,
+            enter = fadeIn() + slideInHorizontally { it },
+            exit = fadeOut() + slideOutHorizontally { it }
+        ) {
+            var imageUrl by remember { mutableStateOf(value = trip.coverImage?.url) }
+
+            SubcomposeAsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(MaterialTheme.shapes.large),
+                contentScale = ContentScale.Crop
+            )
+
+            LaunchedEffect(trip.coverImage?.id) {
+                trip.coverImage?.url?.let { imageUrl = it }
+            }
+
+            DisposableEffect(Unit) {
+                onDispose {
+                    imageUrl = null
+                }
+            }
+        }
     }
 }
 
@@ -497,10 +566,15 @@ private fun ReservationsData(
 @Composable
 private fun TripImagesGallery(
     images: List<TripImage>,
+    coverImage: TripImage?,
     onAddImageClick: () -> Unit,
-    onImageClick: (Long) -> Unit,
+    onImageClick: (String) -> Unit,
+    onFavoriteImage: (Long?) -> Unit,
+    onDeleteImage: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var selectedImageId by remember { mutableStateOf<Long?>(null) }
+
     Column(
         modifier = modifier
             .clip(MaterialTheme.shapes.large)
@@ -554,16 +628,85 @@ private fun TripImagesGallery(
                 horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
                 contentPadding = PaddingValues(horizontal = 8.dp)
             ) {
-                items(items = images) { image ->
-                    SubcomposeAsyncImage(
-                        model = image.url,
-                        contentDescription = image.description,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(width = 120.dp, height = 90.dp)
-                            .clip(MaterialTheme.shapes.medium)
-                            .clickable { onImageClick(image.id) }
-                    )
+                items(
+                    items = images,
+                    key = { it.id },
+                ) { image ->
+                    Box(contentAlignment = Alignment.Center) {
+                        SubcomposeAsyncImage(
+                            model = image.url,
+                            contentDescription = image.description,
+                            modifier = Modifier
+                                .size(width = 120.dp, height = 90.dp)
+                                .clip(MaterialTheme.shapes.medium)
+                                .then(
+                                    if (selectedImageId == image.id) Modifier.blur(4.dp)
+                                    else Modifier
+                                )
+                                .combinedClickable(
+                                    onLongClick = {
+                                        selectedImageId = if (selectedImageId == image.id) null
+                                        else image.id
+                                    },
+                                    onClick = { onImageClick(image.url.toString()) }
+                                ),
+                            contentScale = ContentScale.Crop,
+                        )
+
+                        if (selectedImageId == image.id) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    space = 8.dp,
+                                    alignment = Alignment.CenterHorizontally
+                                ),
+                            ) {
+                                IconButton(
+                                    onClick = {
+                                        selectedImageId = null
+
+                                        if (image.id != coverImage?.id) onFavoriteImage(image.id)
+                                        else onFavoriteImage(null)
+                                    },
+                                    colors = IconButtonDefaults.iconButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                        contentColor = MaterialTheme.colorScheme.primary
+                                    ),
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = if (image.id == coverImage?.id) Icons.Rounded.Favorite
+                                        else Icons.Rounded.FavoriteBorder,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .padding(all = 4.dp)
+                                    )
+                                }
+
+                                IconButton(
+                                    onClick = {
+                                        selectedImageId = null
+                                        onDeleteImage(image.id)
+                                    },
+                                    colors = IconButtonDefaults.iconButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                                        contentColor = MaterialTheme.colorScheme.error
+                                    ),
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .padding(all = 4.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -586,12 +729,12 @@ private fun PageIndicator(
             pagerState.currentPage + pagerState.currentPageOffsetFraction
         }
     }
-    
+
     val transition = updateTransition(
         targetState = pagerState.currentPage,
         label = "pageTransition"
     )
-    
+
     val indicatorStart by transition.animateDp(
         transitionSpec = {
             spring(
@@ -609,7 +752,7 @@ private fun PageIndicator(
             position
         }
     }
-    
+
     val indicatorEnd by transition.animateDp(
         transitionSpec = {
             spring(
@@ -627,7 +770,7 @@ private fun PageIndicator(
             position
         }
     }
-    
+
     Box(
         modifier = modifier
             .width(totalWidth)
@@ -646,16 +789,16 @@ private fun PageIndicator(
                 )
             }
         }
-        
+
         val dotPositionOffset = (indicatorWidth + dotSpacing)
         val currentPosition = dotPositionOffset * currentPageOffset
-        
+
         val left = minOf(indicatorStart, currentPosition).coerceAtLeast(0.dp)
         val right = maxOf(
-            indicatorEnd + indicatorWidth, 
+            indicatorEnd + indicatorWidth,
             currentPosition + indicatorWidth
         ).coerceAtMost(totalWidth)
-        
+
         Box(
             modifier = Modifier
                 .offset(x = left)

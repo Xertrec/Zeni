@@ -42,6 +42,11 @@ object ScreenSelectTrip
 data class ScreenTrip(
     val tripName: String
 )
+@Serializable
+data class ScreenTripImageViewer(
+    val tripName: String,
+    val initialImageUri: String
+)
 
 @Serializable
 data class ScreenConfirmReservation(

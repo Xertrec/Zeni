@@ -2,6 +2,7 @@ package com.zeni.core.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -34,9 +35,11 @@ import com.zeni.settings.presentation.components.ChangePasswordViewModel
 import com.zeni.settings.presentation.components.ProfileViewModel
 import com.zeni.settings.presentation.components.SettingsViewModel
 import com.zeni.trip.presentation.SelectTripScreen
+import com.zeni.trip.presentation.TripImageViewerScreen
 import com.zeni.trip.presentation.UpsertTripScreen
 import com.zeni.trip.presentation.TripScreen
 import com.zeni.trip.presentation.components.SelectTripViewModel
+import com.zeni.trip.presentation.components.TripImageViewerViewModel
 import com.zeni.trip.presentation.components.UpsertTripViewModel
 import com.zeni.trip.presentation.components.TripViewModel
 import kotlin.reflect.KClass
@@ -144,6 +147,17 @@ fun NavGraph(
             }
 
             TripScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable<ScreenTripImageViewer> {
+            val args = it.toRoute<ScreenTripImageViewer>()
+            val viewModel = hiltViewModel<TripImageViewerViewModel, TripImageViewerViewModel.TripImageViewerViewModelFactory> { factory ->
+                factory.create(args.tripName, args.initialImageUri.toUri())
+            }
+
+            TripImageViewerScreen(
                 viewModel = viewModel,
                 navController = navController
             )

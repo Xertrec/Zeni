@@ -10,6 +10,10 @@ interface TripRepository {
 
     fun getTrip(tripName: String): Flow<Trip>
 
+    fun getTripImages(tripName: String): Flow<List<TripImage>>
+
+    fun getTripImage(imageId: Long): Flow<TripImage>
+
     suspend fun addTrip(trip: Trip)
 
     suspend fun addTripImages(images: List<TripImage>)
@@ -17,4 +21,6 @@ interface TripRepository {
     suspend fun existsTrip(tripName: String): Boolean
 
     suspend fun deleteTrip(trip: Trip)
+
+    suspend fun deleteTripImage(image: TripImage)
 }

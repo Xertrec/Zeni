@@ -9,20 +9,24 @@ import com.zeni.core.data.repository.ItineraryRepositoryImpl
 import com.zeni.core.data.repository.TripRepositoryImpl
 import com.zeni.core.domain.model.TripImage
 import com.zeni.core.domain.utils.LocalStorage
+import com.zeni.trip.domain.use_cases.DeleteTripImageUseCase
+import com.zeni.trip.domain.use_cases.UpsertTripImageUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = TripViewModel.TripViewModelFactory::class)
 class TripViewModel @AssistedInject constructor(
     @Assisted private val tripName: String,
+    private val upsertTripImageUseCase: UpsertTripImageUseCase,
+    private val deleteTripImageUseCase: DeleteTripImageUseCase,
     private val tripRepository: TripRepositoryImpl,
-    itineraryRepository: ItineraryRepositoryImpl,
-    private val localStorage: LocalStorage
+    itineraryRepository: ItineraryRepositoryImpl
 ) : ViewModel() {
 
     val trip = tripRepository.getTrip(tripName)
@@ -41,15 +45,25 @@ class TripViewModel @AssistedInject constructor(
 
     fun addMedias(uris: List<Uri>) {
         viewModelScope.launch {
-            val tripImages = uris.map { uri ->
-                TripImage(
-                    id = 0,
-                    tripName = tripName,
-                    url = localStorage.copyImageToLocalStorage(uri),
-                    description = ""
-                )
-            }
-            tripRepository.addTripImages(tripImages)
+            upsertTripImageUseCase(uris, tripName)
+        }
+    }
+
+    fun setCoverImage(tripImageId: Long?) {
+        viewModelScope.launch {
+            tripRepository.addTrip(
+                trip.value?.copy(
+                    coverImage = tripImageId?.let { id ->
+                        tripRepository.getTripImage(id).first()
+                    }
+                ) ?: return@launch
+            )
+        }
+    }
+
+    fun deleteTripImage(tripImageId: Long) {
+        viewModelScope.launch {
+            deleteTripImageUseCase(tripImageId)
         }
     }
 

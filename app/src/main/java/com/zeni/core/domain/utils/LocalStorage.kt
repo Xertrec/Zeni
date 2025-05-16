@@ -38,4 +38,11 @@ class LocalStorage @Inject constructor(
             Uri.EMPTY
         }
     }
+
+    fun removeImageFromLocalStorage(imageName: String) {
+        val file = File(appContext.filesDir, imageName)
+        if (file.exists()) {
+            file.delete()
+        }
+    }
 }
