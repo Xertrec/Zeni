@@ -1,5 +1,7 @@
 package com.zeni.trip.presentation
 
+import android.R.attr.name
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material.icons.Icons
@@ -38,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.zeni.R
 import com.zeni.core.domain.utils.SelectableDatesNotPast
@@ -76,6 +80,7 @@ fun UpsertTripScreen(
     val endDate by viewModel.endDate.collectAsStateWithLifecycle()
     val isEndDateCorrect by viewModel.isEndDateCorrect.collectAsStateWithLifecycle()
 
+    val reservations by viewModel.reservations.collectAsStateWithLifecycle()
     val addingError by viewModel.addingError.collectAsStateWithLifecycle()
 
     var validationToDelete by remember { mutableStateOf(value = false) }
@@ -87,6 +92,16 @@ fun UpsertTripScreen(
             TopBar(
                 navController = navController,
                 isEditing = viewModel.isEditing
+            )
+        },
+        bottomBar = {
+            BottomBar(
+                viewModel = viewModel,
+                navController = navController,
+                onDeleteClick = { validationToDelete = true },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing
@@ -185,56 +200,6 @@ fun UpsertTripScreen(
                     )
                 } else {
                     Text(text = stringResource(R.string.select_end_date_text_label))
-                }
-            }
-
-            Spacer(modifier = Modifier.weight(weight = 1f))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 8.dp,
-                    alignment = Alignment.CenterHorizontally
-                )
-            ) {
-                if (viewModel.isEditing) {
-                    FilledIconButton(
-                        onClick = { validationToDelete = true },
-                        colors = IconButtonDefaults.iconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            contentColor = MaterialTheme.colorScheme.error
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Delete,
-                            contentDescription = null
-                        )
-                    }
-                }
-
-                Button(
-                    onClick = {
-                        scope.launch {
-                            if (viewModel.addTrip()) {
-                                navController.popBackStack()
-                                navController.navigate(ScreenTrip(tripName = name)) {
-                                    popUpTo<ScreenTrip> {
-                                        inclusive = true
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    modifier = Modifier
-                        .weight(weight = 1f),
-                    enabled = name.isNotBlank() && destinationName.isNotBlank() &&
-                            startDate != null && endDate != null
-                ) {
-                    Text(
-                        text = if (viewModel.isEditing) stringResource(R.string.save_trip_button)
-                        else stringResource(R.string.add_trip_button)
-                    )
                 }
             }
         }
@@ -344,7 +309,10 @@ fun UpsertTripScreen(
             },
             text = {
                 Text(
-                    text = stringResource(R.string.advert_text_deleting_trip),
+                    text = if (reservations.isEmpty()) stringResource(R.string.advert_text_deleting_trip)
+                    else stringResource(R.string.advert_text_deleting_trip_with_reservations),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
             }
@@ -374,6 +342,75 @@ private fun TopBar(
             }
         }
     )
+}
+
+@Composable
+private fun BottomBar(
+    viewModel: UpsertTripViewModel,
+    navController: NavController,
+    onDeleteClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val scope = rememberCoroutineScope()
+
+    val tripName by viewModel.name.collectAsStateWithLifecycle()
+    val isFormValid by viewModel.isFormValid.collectAsStateWithLifecycle()
+
+    Row(
+        modifier = modifier
+            .navigationBarsPadding(),
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 8.dp,
+            alignment = Alignment.CenterHorizontally
+        )
+    ) {
+        // Delete button
+        if (viewModel.isEditing) {
+            FilledIconButton(
+                onClick = onDeleteClick,
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.error
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Delete,
+                    contentDescription = null
+                )
+            }
+        }
+
+        Button(
+            onClick = {
+                scope.launch {
+                    if (viewModel.addTrip()) {
+                        if (viewModel.toReserve) {
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set<String>("selected_trip", tripName)
+                            navController.navigateBack()
+                        } else {
+                            navController.popBackStack()
+                            navController.navigate(ScreenTrip(tripName = tripName)) {
+                                popUpTo<ScreenTrip> {
+                                    inclusive = true
+                                }
+                            }
+                        }
+
+                    }
+                }
+            },
+            modifier = Modifier
+                .weight(weight = 1f),
+            enabled = isFormValid
+        ) {
+            Text(
+                text = if (viewModel.isEditing) stringResource(R.string.save_trip_button)
+                else stringResource(R.string.add_trip_button)
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

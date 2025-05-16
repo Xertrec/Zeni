@@ -17,7 +17,7 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
     val username: StateFlow<String>
-        field = MutableStateFlow(value = DefaultCredentials.USERNAME)
+        field = MutableStateFlow(value = "")
     fun setUsername(value: String) {
         viewModelScope.launch {
             username.emit(value)
@@ -26,7 +26,7 @@ class LoginViewModel @Inject constructor(
     }
 
     val password: StateFlow<String>
-        field = MutableStateFlow(value = DefaultCredentials.PASSWORD)
+        field = MutableStateFlow(value = "")
     fun setPassword(value: String) {
         viewModelScope.launch {
             password.emit(value)
@@ -47,10 +47,5 @@ class LoginViewModel @Inject constructor(
         }
 
         return isLogged
-    }
-
-    private object DefaultCredentials {
-        const val USERNAME = "user"
-        const val PASSWORD = "1234"
     }
 }

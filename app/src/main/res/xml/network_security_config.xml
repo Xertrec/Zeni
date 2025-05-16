@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">ec2-13-39-162-212.eu-west-3.compute.amazonaws.com</domain>
+        <domain includeSubdomains="true">13.39.162.212</domain>
+    </domain-config>
+</network-security-config>

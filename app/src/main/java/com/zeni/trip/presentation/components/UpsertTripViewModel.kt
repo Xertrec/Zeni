@@ -3,6 +3,7 @@ package com.zeni.trip.presentation.components
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zeni.core.data.repository.TripRepositoryImpl
+import com.zeni.core.domain.model.Reservation
 import com.zeni.core.domain.model.Trip
 import com.zeni.trip.domain.use_cases.DeleteTripUseCase
 import com.zeni.trip.domain.use_cases.UpsertTripUseCase
@@ -13,7 +14,10 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 import java.time.ZonedDateTime
@@ -22,6 +26,7 @@ import java.time.temporal.ChronoUnit
 @HiltViewModel(assistedFactory = UpsertTripViewModel.UpsertTripViewModelFactory::class)
 class UpsertTripViewModel @AssistedInject constructor(
     @Assisted private val tripName: String? = null,
+    @Assisted val toReserve: Boolean,
     private val tripRepository: TripRepositoryImpl,
     private val upsertTripUseCase: UpsertTripUseCase,
     private val deleteTripUseCase: DeleteTripUseCase
@@ -122,6 +127,18 @@ class UpsertTripViewModel @AssistedInject constructor(
 
         return isCorrect
     }
+    val isFormValid: StateFlow<Boolean> =
+        combine(name, destination, startDate, endDate) { name, dest, start, end ->
+            name.isNotBlank() && dest.isNotBlank() && start != null && end != null
+        }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = false
+            )
+
+    val reservations: StateFlow<List<Reservation>>
+        field = MutableStateFlow(emptyList())
 
     init {
         if (isEditing) {
@@ -131,6 +148,8 @@ class UpsertTripViewModel @AssistedInject constructor(
                 destination.emit(editingTrip.destination)
                 startDate.emit(editingTrip.startDate)
                 endDate.emit(editingTrip.endDate)
+
+                reservations.emit(editingTrip.reservations)
             }
         }
     }
@@ -182,6 +201,6 @@ class UpsertTripViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface UpsertTripViewModelFactory {
-        fun create(tripName: String?): UpsertTripViewModel
+        fun create(tripName: String?, toReserve: Boolean): UpsertTripViewModel
     }
 }

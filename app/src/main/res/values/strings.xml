@@ -51,15 +51,92 @@
     <string name="alert_message">Usuario o contraseña incorrectos</string>
     <string name="alert_btn">Vale</string>
 
-    <!-- Strings for the home screen -->
+    <!-- HomeScreen -->
     <string name="home_title">Inicio</string>
     <string name="home_sample" translatable="false">Home Screen</string>
+
+    <!-- HotelsListScreen -->
+    <string name="hotels_title">Hoteles</string>
+    <string name="hotel_address">Dirección:</string>
+    <string name="hotel_rating">Valoración:</string>
+    <string name="room_min_price_prefix">Noche desde:</string>
+    <!-- Search -->
+    <string name="start_date_default_text">Fecha inicial</string>
+    <string name="end_date_default_text">Fecha final</string>
+    <string name="select_city">Seleccionar ciudad</string>
+    <string name="city_barcelona">Barcelona</string>
+    <string name="city_paris">Paris</string>
+    <string name="city_londres">Londres</string>
+
+    <!-- HotelScreen -->
+    <string name="hotel_info_title">Información del hotel:</string>
+    <string name="see_in_maps_button">Ver en Google Maps</string>
+    <string name="reservation_dates_title">Fechas de la reserva:</string>
+    <string name="select_start_date_button">Seleccionar fecha de inicio</string>
+    <string name="select_end_date_button">Seleccionar fecha de fin</string>
+    <string name="start_date_label">Fecha de inicio: %s</string>
+    <string name="end_date_label">Fecha de fin: %s</string>
+    <string name="hotel_with_reservation">Ya tienes reservas en este hotel</string>
+    <string name="hotel_rooms_title">Habitaciones</string>
+    <string name="single_room_text">Individual</string>
+    <string name="double_room_text">Doble</string>
+    <string name="suite_room_text">Suite</string>
+    <string name="rooms_dates_required">
+        Para ver las habitaciones disponibles, selecciona las fechas de reserva
+    </string>
+    <string name="rooms_not_available_for_dates">
+        No hay habitaciones disponibles para las fechas seleccionadas
+    </string>
+
+    <!-- RoomScreen -->
+    <plurals name="room_price_prefix">
+        <item quantity="one">1 noche por:</item>
+        <item quantity="other">%d noches por:</item>
+    </plurals>
+    <string name="room_price_value">%.2f €</string>
+    <string name="room_type">Habitación:</string>
+    <string name="room_hotel_name">Hotel:</string>
+    <string name="room_image_description">Imagen de la habitación</string>
+    <string name="reserve_room_button">Reservar</string>
+    <string name="room_not_available">Habitación no disponible para las fechas seleccionadas</string>
+
+    <!-- ReservationScreen-->
+    <string name="reservation_title">Confirma reserva</string>
+    <string name="hotel_information_title">Información del hotel:</string>
+    <string name="hotel_address_label">Dirección: </string>
+    <string name="hotel_rating_label">Calificación:</string>
+    <string name="room_details_title">Detalles de la habitación:</string>
+    <string name="room_type_label">Tipo:</string>
+    <string name="room_price_label">Precio:</string>
+    <string name="room_price_value_format">%1$.2f€ por noche</string>
+    <string name="room_image_title">Imágenes de la habitación:</string>
+    <string name="reservation_data_title">Datos de la reserva:</string>
+    <string name="check_in_date_label">Fecha de entrada:</string>
+    <string name="check_out_date_label">Fecha de salida:</string>
+    <string name="check_in_at_name_of">A nombre de:</string>
+    <string name="reservation_success_title">Reserva confirmada</string>
+    <string name="reservation_success_message">
+        Tu reserva se ha completado con éxito. Puedes ver los detalles en la sección de viajes.
+    </string>
+    <string name="trip_assignment_title">Asignar viaje</string>
+    <string name="no_trips_create_new">Crear viaje</string>
+    <string name="no_trip_selected">Selecciona un viaje</string>
+    <string name="trip_selected">Viaje a %s</string>
+    <string name="select_trip_dialog_title">Selecciona un viaje</string>
+    <string name="trip_destination_format">Destino: %s</string>
+    <string name="trip_from_date_format">Desde: %s</string>
+    <string name="trip_to_date_format">Hasta: %s</string>
+    <string name="verify_reservation_cancelation_dialog">
+        ¿Estás seguro de que quieres cancelar esta reserva?
+    </string>
 
     <!--  TripsScreen  -->
     <string name="trips_title">Viajes</string>
     <string name="empty_trips">No tienes viajes pendientes</string>
     <string name="trip_location">Viaje a %s</string>
     <string name="trip_date">del %1$s al %2$s</string>
+    <string name="trip_images_header">Fotos</string>
+    <string name="trip_images_empty">Añade fotos a tu viaje para verlas aquí</string>
     <!--  UpsertTripScreen  -->
     <string name="add_trip_title">Añadir viaje</string>
     <string name="editing_trip_title">Editando viaje</string>
@@ -105,7 +182,12 @@
     <string name="advert_text_deleting_trip">
         Una vez borrado, no podrás recuperarlo
     </string>
+    <string name="advert_text_deleting_trip_with_reservations">
+        Una vez borrado, no podrás recuperarlo y todas sus reservas se cancelarán
+    </string>
     <string name="confirm_delete">Estoy seguro</string>
+    <!-- SelectTripScreen -->
+    <string name="select_trip_title">Seleccionar viaje</string>
     <!--  TripScreen  -->
     <string name="trip_title">Viaje a %s</string>
     <string name="edit_trip">Editar viaje</string>
@@ -124,7 +206,24 @@
     <string name="trip_activity_description">Descripción: %s</string>
     <string name="trip_activity_date">Fecha: %s</string>
     <string name="trip_activity_time">Hora: %s</string>
-    <string name="trip_sample" translatable="false">Trip %s</string>
+    <plurals name="hotel_duration_nights">
+        <item quantity="one">Duración: %d noche</item>
+        <item quantity="other">Duración: %d noches</item>
+    </plurals>
+    <string name="cancel_reservation_button">Cancelar reserva</string>
+
+    <!-- ReservationInfoScreen -->
+    <string name="hotel_reservation_title">Reserva de hotel</string>
+    <string name="hotel_reservation_id">ID: %s</string>
+    <string name="hotel_check_in_date">Fecha de entrada: %s</string>
+    <string name="hotel_check_in_time">Hora de entrada: %s</string>
+    <string name="hotel_check_out_date">Fecha de salida: %s</string>
+    <string name="hotel_check_out_time">Hora de salida: %s</string>
+    <string name="duration_label">Duración:</string>
+    <plurals name="hotel_duration_nights_value">
+        <item quantity="one">%d noche</item>
+        <item quantity="other">%d noches</item>
+    </plurals>
 
     <!-- ItineraryScreen -->
     <string name="itinerary_title">Itinerario de hoy</string>
@@ -223,5 +322,6 @@
 
     <!--  Others  -->
     <string name="accept_button">Aceptar</string>
+    <string name="confirm_button">Confirmar</string>
     <string name="cancel_button">Cancelar</string>
 </resources>

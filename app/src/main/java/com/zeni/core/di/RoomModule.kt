@@ -2,9 +2,8 @@ package com.zeni.core.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.migration.Migration
-import com.zeni.core.data.database.Migrations
-import com.zeni.core.data.database.TripsDatabase
+import com.zeni.core.data.local.database.Migrations
+import com.zeni.core.data.local.database.TripsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,4 +36,12 @@ object RoomModule {
     @Provides
     @Singleton
     fun provideItineraryDao(db: TripsDatabase) = db.itineraryDao()
+
+    @Provides
+    @Singleton
+    fun provideHotelDao(db: TripsDatabase) = db.hotelDao()
+
+    @Provides
+    @Singleton
+    fun provideReservationDao(db: TripsDatabase) = db.reservationDao()
 }

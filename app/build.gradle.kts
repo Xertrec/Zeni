@@ -23,13 +23,9 @@ android {
         minSdk = 27
         targetSdk = 36
         versionCode = 1
-        versionName = "0.4.0"
+        versionName = "0.5.0"
 
         testInstrumentationRunner = "com.zeni.HiltTestRunner"
-
-        room {
-            schemaDirectory("$projectDir/schemas")
-        }
     }
 
     buildTypes {
@@ -70,6 +66,10 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
 
     // Kotlin dependencies
@@ -77,16 +77,11 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
 
-    implementation(libs.coil.compose)
-    implementation (libs.androidx.datastore.preferences)
-
+    // Android dependencies
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
@@ -95,10 +90,15 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Compose dependencies
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.navigation.compose)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
 
     // Hilt dependencies
     implementation(libs.hilt.android)
@@ -119,4 +119,16 @@ dependencies {
     // Firebase dependencies
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+
+    // Retrofit dependencies
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.datastore.preferences)
+
+    // Telephoto dependencies
+    implementation(libs.telephoto.zoomable)
+    implementation(libs.telephoto.zoomable.peek.overlay)
 }

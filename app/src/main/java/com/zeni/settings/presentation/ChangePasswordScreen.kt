@@ -31,8 +31,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.zeni.R
-import com.zeni.core.presentation.navigation.ScreenHome
-import com.zeni.core.presentation.navigation.ScreenLogin
+import com.zeni.core.presentation.navigation.ScreenInitial
 import com.zeni.settings.presentation.components.ChangePasswordViewModel
 import kotlinx.coroutines.launch
 
@@ -105,8 +104,8 @@ fun ChangePasswordScreen(
                 onClick = {
                     scope.launch {
                         if (viewModel.changePassword()) {
-                            navController.navigate(ScreenHome) {
-                                popUpTo<ScreenHome> {
+                            navController.navigate(ScreenInitial) {
+                                popUpTo<ScreenInitial> {
                                     inclusive = true
                                 }
                             }

@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
 
+    fun getCurrentUser(): Flow<User>
+
     fun getUserByUsername(username: String): Flow<User>
 
     suspend fun existsUser(): Boolean

@@ -14,17 +14,50 @@ object ScreenVerifyEmail
 object ScreenInitial
 
 @Serializable
-object ScreenHome
+object ScreenHotels
+@Serializable
+data class ScreenHotel(
+    val hotelId: String,
+    val startDate: String?,
+    val endDate: String?
+)
+@Serializable
+data class ScreenRoom(
+    val hotelId: String,
+    val roomId: String,
+    val startDate: String?,
+    val endDate: String?
+)
 
 @Serializable
 object ScreenTrips
 @Serializable
 data class ScreenUpsertTrip(
-    val tripName: String? = null
+    val tripName: String? = null,
+    val toReserve: Boolean = false
 )
+@Serializable
+object ScreenSelectTrip
 @Serializable
 data class ScreenTrip(
     val tripName: String
+)
+@Serializable
+data class ScreenTripImageViewer(
+    val tripName: String,
+    val initialImageUri: String
+)
+
+@Serializable
+data class ScreenConfirmReservation(
+    val hotelId: String,
+    val roomId: String,
+    val startDate: String,
+    val endDate: String
+)
+@Serializable
+data class ScreenReservationInfo(
+    val reservationId: String
 )
 
 @Serializable

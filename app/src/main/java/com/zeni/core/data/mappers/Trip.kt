@@ -1,8 +1,9 @@
 package com.zeni.core.data.mappers
 
-import com.zeni.core.data.database.entities.TripEntity
-import com.zeni.core.data.database.relations.TripRelation
+import com.zeni.core.data.local.database.entities.TripEntity
+import com.zeni.core.data.local.database.relations.TripRelation
 import com.zeni.core.domain.model.Trip
+import com.zeni.core.domain.utils.LocalStorage
 
 fun Trip.toEntity() = TripEntity(
     name = name,
@@ -13,11 +14,13 @@ fun Trip.toEntity() = TripEntity(
     userOwner = userOwner
 )
 
-fun TripRelation.toDomain() = Trip(
+fun TripRelation.toDomain(localStorage: LocalStorage) = Trip(
     name = trip.name,
     destination = trip.destination,
     startDate = trip.startDate,
     endDate = trip.endDate,
-    coverImage = image?.toDomain(),
-    userOwner = trip.userOwner
+    coverImage = coverImage?.toDomain(localStorage),
+    userOwner = trip.userOwner,
+    images = images.map { it.toDomain(localStorage) },
+    reservations = reservations.map { it.toDomain() }
 )
