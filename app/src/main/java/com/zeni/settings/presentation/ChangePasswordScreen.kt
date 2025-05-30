@@ -10,11 +10,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,10 +33,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.zeni.R
+import com.zeni.core.domain.utils.extensions.navigateBack
 import com.zeni.core.presentation.navigation.ScreenInitial
 import com.zeni.settings.presentation.components.ChangePasswordViewModel
 import kotlinx.coroutines.launch
@@ -54,12 +63,14 @@ fun ChangePasswordScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
+        topBar = { TopBar(navController) },
         containerColor = MaterialTheme.colorScheme.background
     ) { contentPadding ->
 
         Column(
             modifier = Modifier
-                .padding(contentPadding),
+                .padding(contentPadding)
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(
                 space = 16.dp,
                 alignment = Alignment.Top
@@ -80,7 +91,8 @@ fun ChangePasswordScreen(
                 label = stringResource(R.string.change_password_current_password),
                 errorText = if (oldPasswordError == null) null
                 else stringResource(R.string.change_password_current_password_not_match),
-                isError = oldPasswordError != null
+                isError = oldPasswordError != null,
+                visualTransformation = PasswordVisualTransformation()
             )
 
             TextField(
@@ -89,7 +101,8 @@ fun ChangePasswordScreen(
                 label = stringResource(R.string.change_password_new_password),
                 errorText = if (newPasswordError == null) null
                 else stringResource(newPasswordError!!.errorRes),
-                isError = newPasswordError != null
+                isError = newPasswordError != null,
+                visualTransformation = PasswordVisualTransformation()
             )
 
             VerticalDivider(
@@ -117,10 +130,30 @@ fun ChangePasswordScreen(
                     .padding(16.dp),
                 shape = RoundedCornerShape(25)
             ) {
-                Text(text = stringResource(R.string.log_out_btn))
+                Text(text = stringResource(R.string.change_password_btn))
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TopBar(navController: NavController) {
+    TopAppBar(
+        title = {
+            Text(text = stringResource(R.string.change_password_title))
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = navController::navigateBack
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = null
+                )
+            }
+        }
+    )
 }
 
 @Composable

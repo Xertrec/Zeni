@@ -66,19 +66,19 @@ class ChangePasswordViewModel @Inject constructor(
         field = MutableStateFlow(value = null)
     fun setNewPassword(value: String) {
         viewModelScope.launch {
-            oldPassword.emit(value)
+            newPassword.emit(value)
         }
     }
     private fun verifyNewPassword(): Boolean {
-        if (oldPassword.value.isEmpty()) {
-            oldPasswordError.value = RegisterErrors.RegisterPasswordErrors.EMPTY
-        } else if (oldPassword.value.length < 6) {
-            oldPasswordError.value = RegisterErrors.RegisterPasswordErrors.SHORT
+        if (newPassword.value.isEmpty()) {
+            newPasswordError.value = RegisterErrors.RegisterPasswordErrors.EMPTY
+        } else if (newPassword.value.length < 6) {
+            newPasswordError.value = RegisterErrors.RegisterPasswordErrors.SHORT
         } else {
-            oldPasswordError.value = null
+            newPasswordError.value = null
         }
 
-        return oldPasswordError.value == null
+        return newPasswordError.value == null
     }
     
     suspend fun changePassword(): Boolean {

@@ -296,6 +296,7 @@
         La contraseña no coincide con la de la cuenta
     </string>
     <string name="change_password_new_password">Nueva contraseña</string>
+    <string name="change_password_btn">Confirmar cambio de contraseña</string>
 
     <!-- SettingsScreen -->
     <string name="settings_title">Configuración</string>
