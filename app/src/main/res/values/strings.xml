@@ -37,6 +37,7 @@
     <string name="login_title">Iniciar sesión</string>
     <string name="login_user_field_label">Usuario</string>
     <string name="login_btn">Acceder</string>
+    <string name="forget_password_btn">¿Olvidaste la contraseña?</string>
     <string name="i_have_not_account">¿No tienes una cuenta?</string>
 
     <!-- VerifyEmailScreen -->
@@ -45,6 +46,16 @@
         Para acceder a Zeni, verifica tu correo electrónico en tu app de correo
     </string>
     <string name="open_email_btn">Abrir correo</string>
+
+    <!-- RecoverPasswordScreen -->
+    <string name="recover_password_title">Recuperar contraseña</string>
+    <string name="recover_password_email_field_label">Correo electrónico</string>
+    <string name="send_recover_email_btn">Enviar correo de recuperación</string>
+    <string name="recovery_mail_sent_title">Correo de recuperación enviado</string>
+    <string name="recovery_mail_sent_message">
+        Cambie su contraseña desde el correo que le hemos enviado, e inicie sesión con la nueva contraseña
+    </string>
+    <string name="email_dont_exists">El correo electrónico no está registrado</string>
 
     <!-- Alert Dialog-->
     <string name="alert_title">Alerta</string>

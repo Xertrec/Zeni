@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 object ScreenRegister
 @Serializable
 object ScreenLogin
+@Serializable
+object ScreenRecoverPassword
 
 @Serializable
 object ScreenVerifyEmail

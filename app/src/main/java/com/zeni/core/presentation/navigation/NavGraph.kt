@@ -12,6 +12,8 @@ import com.zeni.InitialScreen
 import com.zeni.Screen
 import com.zeni.auth.presentation.login.LoginScreen
 import com.zeni.auth.presentation.login.components.LoginViewModel
+import com.zeni.auth.presentation.recoverPassword.RecoverPasswordScreen
+import com.zeni.auth.presentation.recoverPassword.components.RecoverPasswordViewModel
 import com.zeni.auth.presentation.register.RegisterScreen
 import com.zeni.auth.presentation.register.components.RegisterViewModel
 import com.zeni.auth.presentation.verifyEmail.VerifyEmailScreen
@@ -67,6 +69,14 @@ fun NavGraph(
             val viewModel = hiltViewModel<LoginViewModel>()
 
             LoginScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable<ScreenRecoverPassword> {
+            val viewModel = hiltViewModel<RecoverPasswordViewModel>()
+
+            RecoverPasswordScreen(
                 viewModel = viewModel,
                 navController = navController
             )

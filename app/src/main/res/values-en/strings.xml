@@ -30,6 +30,7 @@
     <string name="register_next_btn">Next</string>
     <string name="register_btn">Sign up</string>
     <string name="i_have_account">Already have an account?</string>
+    <string name="forget_password_btn">Did you forget your password?</string>
     <string name="i_have_not_account">Don\'t have an account?</string>
 
     <string name="verify_email_title">Verify your email</string>

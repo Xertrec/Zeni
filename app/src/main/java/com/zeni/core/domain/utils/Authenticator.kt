@@ -122,6 +122,15 @@ class Authenticator @Inject constructor() {
         }
     }
 
+    suspend fun sendPasswordResetEmail(email: String): Boolean {
+        return try {
+            auth.sendPasswordResetEmail(email).await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     fun logOut() {
         auth.signOut()
     }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zeni.auth.domain.use_cases.LoginUseCase
 import com.zeni.auth.domain.utils.LoginErrors
+import com.zeni.core.domain.utils.Authenticator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,7 +38,6 @@ class LoginViewModel @Inject constructor(
     val loginError: StateFlow<LoginErrors?>
         field = MutableStateFlow(value = null)
     suspend fun login(): Boolean {
-        // TODO: Move to a use case
         Log.i(LoginViewModel::class.java.simpleName, "Login attempt with username: ${username.value}")
         val isLogged = loginUseCase(username.value, password.value)
         if (!isLogged) {

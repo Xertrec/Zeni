@@ -25,6 +25,7 @@ import com.zeni.core.presentation.navigation.ScreenInitial
 import com.zeni.auth.domain.utils.LoginErrors
 import com.zeni.auth.presentation.login.components.LoginViewModel
 import com.zeni.core.presentation.navigation.ScreenLogin
+import com.zeni.core.presentation.navigation.ScreenRecoverPassword
 import com.zeni.core.presentation.navigation.ScreenRegister
 import kotlinx.coroutines.launch
 
@@ -118,30 +119,61 @@ fun LoginScreen(
                     shape = MaterialTheme.shapes.extraLarge
                 )
 
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = viewModel::setPassword,
-                    label = { Text(text = stringResource(R.string.password_field_label)) },
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    isError = loginError == LoginErrors.INVALID_PASSWORD || loginError == LoginErrors.INVALID_CREDENTIALS,
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(
+                        space = 4.dp,
+                        alignment = Alignment.CenterVertically
                     ),
-                    keyboardActions = KeyboardActions {
-                        scope.launch {
-                            if (viewModel.login()) {
-                                navController.navigate(ScreenInitial)
-                            } else {
-                                showAlert = true
+                ) {
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = viewModel::setPassword,
+                        label = { Text(text = stringResource(R.string.password_field_label)) },
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        isError = loginError == LoginErrors.INVALID_PASSWORD || loginError == LoginErrors.INVALID_CREDENTIALS,
+                        visualTransformation = PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions {
+                            scope.launch {
+                                if (viewModel.login()) {
+                                    navController.navigate(ScreenInitial)
+                                } else {
+                                    showAlert = true
+                                }
                             }
-                        }
-                    },
-                    singleLine = true,
-                    shape = MaterialTheme.shapes.extraLarge
-                )
+                        },
+                        singleLine = true,
+                        shape = MaterialTheme.shapes.extraLarge
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .clip(shape = MaterialTheme.shapes.large)
+                            .clipToBounds()
+                            .clickable {
+                                navController.navigate(ScreenRecoverPassword) {
+                                    popUpTo(ScreenLogin) {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.forget_password_btn),
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp),
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1
+                        )
+                    }
+                }
             }
         }
     }
